@@ -1,0 +1,24 @@
+{
+    "workbench.iconTheme": "material-icon-theme",
+    "cmake.configureOnOpen": false,
+    "cmake.configureArgs": [
+        "--graphviz=${workspaceFolder}/build/${buildType}/target_graph.dot",
+    ],
+    "cmake.buildDirectory": "${workspaceFolder}/build/${buildType}",
+    "cmake.copyCompileCommands": "${workspaceFolder}/compile_commands.json",
+    "cmake.configureSettings": {
+        "CMAKE_EXPORT_COMPILE_COMMANDS": true,
+    },
+    "cmake.preferredGenerators": [
+        "Ninja",
+        "Unix Makefiles",
+    ],
+    "debug.allowBreakpointsEverywhere": true,
+    "debug.inlineValues": true,
+    "debug.showBreakpointsInOverviewRuler": true,
+    "[cpp]": {
+        "editor.defaultFormatter": "xaver.clang-format",
+        "editor.semanticHighlighting.enabled": true
+    },
+    "editor.formatOnSave": true
+}
