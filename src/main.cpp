@@ -1,6 +1,10 @@
+#include <assert.h>
+
 #include <iostream>
 
+#include "./library/def.hpp"
 #include "./library/functions.hpp"
+#include "./library/string.hpp"
 
 int main(int argc, char *argv[]) {
     std::cout << millis() << std::endl;
@@ -11,13 +15,14 @@ int main(int argc, char *argv[]) {
     std::cout << micros() << std::endl;
     std::cout << millis() << std::endl;
 
-    /* String k = String(54, HEX);
+    // TODO Replace with testing framework probably google test
+    String k = String(255, HEX);
     auto value = k.length();
     std::cout << value << std::endl;
     k.concat(30);
     value = k.length();
     std::cout << value << std::endl;
-    std::cout << k.toDouble() << std::endl; */
+    std::cout << k.toDouble() << std::endl;
 
     return 0;
 }
