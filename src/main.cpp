@@ -1,7 +1,9 @@
 #include <assert.h>
 
+#include <cstddef>
 #include <iostream>
 
+#include "./library/binary.hpp"
 #include "./library/character.hpp"
 #include "./library/def.hpp"
 #include "./library/math.hpp"
@@ -29,6 +31,11 @@ int main(int argc, char *argv[]) {
     std::cout << constrain(10, 5, 20) << std::endl;
 
     std::cout << isGraph('c') << std::endl;
+
+    uint8_t test_number = 47;
+    std::cout << test_number << std::endl;
+    bitWrite(test_number, 0, 0);
+    std::cout << test_number << std::endl;
 
     return 0;
 }

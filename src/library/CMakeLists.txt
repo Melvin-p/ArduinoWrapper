@@ -8,4 +8,6 @@ math.cpp
 math.hpp
 character.cpp
 character.hpp
+binary.cpp
+binary.hpp
 )
