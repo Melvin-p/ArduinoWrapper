@@ -6,4 +6,6 @@ string.cpp
 string.hpp
 math.cpp
 math.hpp
+character.cpp
+character.hpp
 )

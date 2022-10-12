@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include "./library/character.hpp"
 #include "./library/def.hpp"
 #include "./library/math.hpp"
 #include "./library/string.hpp"
@@ -26,6 +27,8 @@ int main(int argc, char *argv[]) {
     std::cout << k.toDouble() << std::endl;
 
     std::cout << constrain(10, 5, 20) << std::endl;
+
+    std::cout << isGraph('c') << std::endl;
 
     return 0;
 }
