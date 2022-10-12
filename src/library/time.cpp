@@ -1,10 +1,10 @@
-#include "functions.hpp"
+#include "time.hpp"
 
 #include <chrono>
 #include <thread>
 
 // GLOBAL
-const std::chrono::steady_clock::time_point start = std::chrono::high_resolution_clock::now();
+const auto start = std::chrono::high_resolution_clock::now();
 // END GLOBAL
 
 unsigned long millis() {
