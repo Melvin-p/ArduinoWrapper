@@ -14,7 +14,6 @@ Change x.ino to x.cpp then add the include headers to the file, finally compile 
 - GPIO Pins are not supported
 
 ## Plans
-- Output a shared library that can linked to (Windows DLL Issues)
 - Support Adafruit RGB LCD Shield Library
 - automate the x.ino to x.exe process
 - support EEPROM
@@ -30,7 +29,7 @@ Change x.ino to x.cpp then add the include headers to the file, finally compile 
 Change directory into the project root
 
 ```
-cmake --no-warn-unused-cli -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE -DCMAKE_BUILD_TYPE:STRING=Release -G Ninja -B ./build
+cmake --no-warn-unused-cli -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS:BOOL=TRUE -DBUILD_SHARED_LIBS:BOOL=TRUE -DCMAKE_BUILD_TYPE:STRING=Release -G Ninja -B ./build
 ```
 ```
 cmake --build build
