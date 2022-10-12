@@ -3,8 +3,9 @@
 #include <iostream>
 
 #include "./library/def.hpp"
-#include "./library/functions.hpp"
+#include "./library/math.hpp"
 #include "./library/string.hpp"
+#include "./library/time.hpp"
 
 int main(int argc, char *argv[]) {
     std::cout << millis() << std::endl;
@@ -23,6 +24,8 @@ int main(int argc, char *argv[]) {
     value = k.length();
     std::cout << value << std::endl;
     std::cout << k.toDouble() << std::endl;
+
+    std::cout << constrain(10, 5, 20) << std::endl;
 
     return 0;
 }

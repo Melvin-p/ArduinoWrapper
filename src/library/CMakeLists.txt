@@ -1,8 +1,9 @@
 add_library(
     ArduinoWrapper
-    STATIC
-functions.cpp
-functions.hpp
+time.cpp
+time.hpp
 string.cpp
 string.hpp
+math.cpp
+math.hpp
 )
