@@ -1,12 +1,18 @@
-#include <type_traits>
 
 #include "def.hpp"
 
+#define min(a, b) ((a) < (b) ? (a) : (b))
+#define max(a, b) ((a) > (b) ? (a) : (b))
+// abs is global
+#define constrain(amt, low, high) ((amt) < (low) ? (low) : ((amt) > (high) ? (high) : (amt)))
+// round is global
+#define radians(deg) ((deg)*DEG_TO_RAD)
+#define degrees(rad) ((rad)*RAD_TO_DEG)
+#define sq(x) ((x) * (x))
+
 /*
-in cmath the following can be found so cmath can be included for these functions
+in math.h the following can be found so math.h can be included for these functions
 abs
-max
-min
 pow
 sqrt
 sin
@@ -15,30 +21,8 @@ tan
 round
 */
 
-template <typename T, typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type>
-T constrain(T x, T a, T b) {
-    if (x >= a && x <= b) {
-        return x;
-    } else if (x < a) {
-        return a;
-    } else {
-        return b;
-    }
-}
-
-template <typename T, typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type>
-T radians(T deg) {
-    return deg * DEG_TO_RAD;
-}
-
-template <typename T, typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type>
-T degrees(T deg) {
-    return deg * RAD_TO_DEG;
-}
-
-template <typename T, typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type>
-T sq(T x) {
-    return x * x;
-}
-
 long map(long x, long in_min, long in_max, long out_min, long out_max);
+
+long random(long howbig);
+long random(long howsmall, long howbig);
+void randomSeed(unsigned long seed);
