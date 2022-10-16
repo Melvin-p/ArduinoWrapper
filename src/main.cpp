@@ -1,5 +1,3 @@
-#include <assert.h>
-
 #include <cstddef>
 #include <iostream>
 
@@ -7,8 +5,15 @@
 #include "./library/character.hpp"
 #include "./library/def.hpp"
 #include "./library/math.hpp"
-#include "./library/string.hpp"
+#include "./library/serial.hpp"
 #include "./library/time.hpp"
+
+#ifndef __custom__string__
+#define __custom__string__
+#include "./library/string.hpp"
+#endif
+
+Serial serial = Serial(64);
 
 int main(int argc, char *argv[]) {
     std::cout << millis() << std::endl;
@@ -36,6 +41,16 @@ int main(int argc, char *argv[]) {
     std::cout << test_number << std::endl;
     bitWrite(test_number, 0, 0);
     std::cout << test_number << std::endl;
+
+    serial.begin(1000);
+    serial.begin(1000, 0x10);
+    serial.print("Hello");
+    serial.print("World");
+    serial.print("\n");
+    serial.println("New Line");
+    serial.println("New Line 2");
+    auto sdf = serial.peek();
+    serial.println(sdf);
 
     return 0;
 }

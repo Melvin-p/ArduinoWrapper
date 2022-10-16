@@ -1,4 +1,7 @@
+#ifndef __custom__string__
+#define __custom__string__
 #include "string.hpp"
+#endif
 
 #include <ctype.h>
 #include <stdio.h>
@@ -7,10 +10,6 @@
 #include <cstring>
 
 #include "def.hpp"
-
-
-// needed to use unsafe code
-#define _CRT_SECURE_NO_WARNINGS
 
 /*
 This is a port of WString.cpp - String library for Wiring & Arduino
@@ -621,5 +620,3 @@ double String::toDouble(void) const {
     if (buffer) return atof(buffer);
     return 0;
 }
-
-#undef _CRT_SECURE_NO_WARNINGS

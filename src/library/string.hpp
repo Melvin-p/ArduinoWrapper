@@ -2,6 +2,8 @@
 This is a port of WString.cpp - String library for Wiring & Arduino
 */
 
+#define __custom__string__
+
 class StringSumHelper;
 
 class String {
