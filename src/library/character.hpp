@@ -1,5 +1,7 @@
 #include <ctype.h>
-typedef bool boolean;
+
+#include "def.hpp"
+
 
 inline boolean isAlphaNumeric(int c) {
     return (isalnum(c) == 0 ? false : true);
