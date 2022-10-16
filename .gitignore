@@ -1,3 +1,6 @@
+#visual studio code
 .cache/
 build/
 compile_commands.json
+
+.vs/
