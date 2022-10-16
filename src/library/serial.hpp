@@ -1,8 +1,13 @@
+#include <stdint.h>
+
 #include "stream.hpp"
 
 class Serial : public Stream {
    public:
-    Serial();
+    Serial(uint8_t out);
+    void begin(unsigned long baud) {
+        begin(baud, 0xff);
+    }
     void begin(unsigned long, uint8_t);
     void end();
     virtual int available(void);

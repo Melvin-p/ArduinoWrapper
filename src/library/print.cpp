@@ -1,6 +1,6 @@
 #include "print.hpp"
 
-#include <corecrt_math.h>
+#include <math.h>
 
 size_t Print::write(const uint8_t *buffer, size_t size) {
     size_t n = 0;

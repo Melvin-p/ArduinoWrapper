@@ -1,8 +1,6 @@
-
 #include "serial.hpp"
 
-#include <corecrt_wstdio.h>
-#include <stdio.h>
+#include <stdint.h>
 
 #include <cstdio>
 
@@ -14,6 +12,8 @@ size of stdin and stdout buffer on windows is limited to the max allowed to the 
 however there limits in the terminal buffer and some other buffers.
 there are differences for file redirection, command line text redirection and parent program
 handles for stdin and stdout
+
+Will wait for input from console
 */
 
 // this function compiles to NOP as it is not required on OS
@@ -28,12 +28,19 @@ void Serial::end() {
 
 // get number of avaliable bytes for reading from the stdin pipe
 int Serial::available(void) {
-    /* TODO
+    /*
     NOTES:
-    Not used internally however commonly used for reading from serial buffer on arduino
-    most likely OS specific
+    Gets character from the stdin pipe
+    if there is a character return 1 and putback the character into the sdtdin pipe
+    this may cause a lot of IO operations
     */
-    void(0);
+    auto c = getchar();
+    if (c < 0) {
+        return 0;
+    } else {
+        ungetc(c, stdin);
+        return 1;
+    }
 }
 
 // peek at the next character in the stdin pipe
@@ -67,11 +74,11 @@ int Serial::availableForWrite(void) {
 }
 
 // waits for something to read all charactes in stdout pipe
+// this function compiles to NOP
 void Serial::flush() {
-    /* TODO
+    /*
     NOTES:
-    most likely need to know how many characters are left in stdout pipe
-    most likely OS specific
+    Not required as stdout pipe is practically unlimted
      */
     void(0);
 }
@@ -80,4 +87,9 @@ void Serial::flush() {
 size_t Serial::write(uint8_t c) {
     putchar(c);
     return 1;
+}
+
+// on ardunio sets up serial not required on OS
+Serial::Serial(uint8_t out) {
+    void(0);
 }

@@ -1,4 +1,7 @@
+#ifndef __custom__string__
+#define __custom__string__
 #include "string.hpp"
+#endif
 
 #include <ctype.h>
 #include <stdio.h>
