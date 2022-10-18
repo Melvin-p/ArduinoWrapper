@@ -1,9 +1,10 @@
 add_subdirectory(./library/)
 
-set(PROJECT_SOURCES
-main.cpp
-main.hpp
-)
+if(BUILD_TESTS)
+    set(PROJECT_SOURCES
+        main.cpp
+    )
 
-add_executable(ArduinoWrapper-test ${PROJECT_SOURCES})
-target_link_libraries(ArduinoWrapper-test PUBLIC ArduinoWrapper)
+    add_executable(ArduinoWrapper-test ${PROJECT_SOURCES})
+    target_link_libraries(ArduinoWrapper-test PUBLIC ArduinoWrapper)
+endif()

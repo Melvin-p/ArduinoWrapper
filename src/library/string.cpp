@@ -1,5 +1,29 @@
+/*
+    code taken and modified from
+    WString.cpp - String library for Wiring & Arduino
+    ...mostly rewritten by Paul Stoffregen...
+    Copyright (c) 2009-10 Hernando Barragan.  All rights reserved.
+    Copyright 2011, Paul Stoffregen, paul@pjrc.com
+
+    This file is part of ArduinoWrapper.
+
+    ArduinoWrapper is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    ArduinoWrapper is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with ArduinoWrapper. If not, see <https://www.gnu.org/licenses/>.
+
+    Modified 18 October 2022 by Melvin Pynadath
+*/
+
 #ifndef __custom__string__
-#define __custom__string__
 #include "string.hpp"
 #endif
 
@@ -10,10 +34,6 @@
 #include <cstring>
 
 #include "def.hpp"
-
-/*
-This is a port of WString.cpp - String library for Wiring & Arduino
-*/
 
 // memory management and helper functions
 void String::init(void) {
@@ -61,6 +81,25 @@ unsigned char String::changeBuffer(unsigned int maxStrLen) {
     return 0;
 }
 
+void String::move(String &rhs) {
+    if (buffer) {
+        if (rhs && capacity >= rhs.len) {
+            strcpy(buffer, rhs.buffer);
+            len = rhs.len;
+            rhs.len = 0;
+            return;
+        } else {
+            free(buffer);
+        }
+    }
+    buffer = rhs.buffer;
+    capacity = rhs.capacity;
+    len = rhs.len;
+    rhs.buffer = NULL;
+    rhs.capacity = 0;
+    rhs.len = 0;
+}
+
 // constructors
 String::String(const char *cstr) {
     init();
@@ -80,6 +119,15 @@ String::String(char c) {
     buf[0] = c;
     buf[1] = 0;
     *this = buf;
+}
+
+String::String(String &&rval) {
+    init();
+    move(rval);
+}
+String::String(StringSumHelper &&rval) {
+    init();
+    move(rval);
 }
 
 String::String(unsigned char value, unsigned char base) {

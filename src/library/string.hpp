@@ -1,5 +1,26 @@
 /*
-This is a port of WString.cpp - String library for Wiring & Arduino
+    code taken and modified from
+    WString.h - String library for Wiring & Arduino
+    ...mostly rewritten by Paul Stoffregen...
+    Copyright (c) 2009-10 Hernando Barragan.  All right reserved.
+    Copyright 2011, Paul Stoffregen, paul@pjrc.com
+
+    This file is part of ArduinoWrapper.
+
+    ArduinoWrapper is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    ArduinoWrapper is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with ArduinoWrapper. If not, see <https://www.gnu.org/licenses/>.
+
+    Modified 18 October 2022 by Melvin Pynadath
 */
 
 #define __custom__string__
@@ -7,6 +28,10 @@ This is a port of WString.cpp - String library for Wiring & Arduino
 class StringSumHelper;
 
 class String {
+    typedef void (String::*StringIfHelperType)() const;
+    void StringIfHelper() const {
+    }
+
    protected:
     char *buffer;           // the actual char array
     unsigned int capacity;  // the array length minus one (for the '\0')
@@ -17,6 +42,7 @@ class String {
     void invalidate(void);
     unsigned char changeBuffer(unsigned int maxStrLen);
     unsigned char concat(const char *cstr, unsigned int length);
+    void move(String &rhs);
 
     // copy and move
     String &copy(const char *cstr, unsigned int length);
@@ -25,6 +51,8 @@ class String {
     // constructors and desctructor
     String(const char *cstr = "");
     String(const String &str);
+    String(String &&rval);
+    String(StringSumHelper &&rval);
     explicit String(char c);
     explicit String(unsigned char, unsigned char base = 10);
     explicit String(int, unsigned char base = 10);
@@ -106,6 +134,9 @@ class String {
     String &operator=(const String &rhs);
 
     // comparison
+    operator StringIfHelperType() const {
+        return buffer ? &String::StringIfHelper : 0;
+    }
     int compareTo(const String &s) const;
     unsigned char equals(const String &s) const;
     unsigned char equals(const char *cstr) const;
