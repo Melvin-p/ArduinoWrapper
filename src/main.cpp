@@ -1,9 +1,216 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include <limits.h>
+
+#include <iostream>
+
 #include "../external/doctest.h"
 #include "./library/adwr.hpp"
 
-TEST_CASE("testing the String class") {
-    String test_string = "Hello";
-    CHECK(test_string.equals("Hello"));
-    CHECK_FALSE(test_string.equals("World"));
+TEST_SUITE("String class") {
+    /**
+    Notes:
+    Testing has revealed the arduino has differnt max_int value
+    int are 16bit
+    longs are 32bit
+    twos complement is used on arduino
+    Check if twos complement is guaranteed by the standard
+    */
+
+    TEST_CASE("String from char array") {
+        String test_string = "Hello";
+        CHECK(test_string.equals("Hello"));
+        CHECK_FALSE(test_string.equals("World"));
+        CHECK(test_string.length() == 5);
+    }
+
+    TEST_CASE("String from string and flash storage") {
+        String test_string = F("Hello");
+        String test_string_2 = String(test_string);
+        CHECK(test_string_2.equals("Hello"));
+    }
+
+    TEST_CASE("String from number") {
+        String test_string = String(23.6534, 3);
+        CHECK(test_string == "23.653");
+    }
+
+    // MAX BIN
+
+    TEST_CASE("Testing 65535 UINT_MAX to BIN") {
+        String test_string = String(65535, BIN);
+        CHECK(test_string == "1111111111111111");
+    }
+
+    TEST_CASE("Testing 2147483647 LONG_MAX to BIN") {
+        String test_string = String(2147483647, BIN);
+        CHECK(test_string == "1111111111111111111111111111111");
+    }
+
+    TEST_CASE("Testing 32767 INT_MAX to BIN") {
+        String test_string = String(32767, BIN);
+        CHECK(test_string == "111111111111111");
+    }
+
+    TEST_CASE("Testing 4294967295 ULONG_MAX to BIN") {
+        unsigned long temp = 4294967295;
+        String test_string = String(temp, BIN);
+        CHECK(test_string == "11111111111111111111111111111111");
+    }
+
+    TEST_CASE("Testing 255 UCHAR_MAX to BIN") {
+        String test_string = String(255, BIN);
+        CHECK(test_string == "11111111");
+    }
+
+    TEST_CASE("Testing 127 CHAR_MAX TO BIN") {
+        String test_string = String(127, BIN);
+        CHECK(test_string == "1111111");
+    }
+
+    // MAX OCT
+
+    TEST_CASE("Testing 65535 UINT_MAX to OCT") {
+        String test_string = String(65535, OCT);
+        CHECK(test_string == "177777");
+    }
+
+    TEST_CASE("Testing 2147483647 LONG_MAX to OCT") {
+        String test_string = String(2147483647, OCT);
+        CHECK(test_string == "17777777777");
+    }
+
+    TEST_CASE("Testing 32767 INT_MAX to OCT") {
+        String test_string = String(32767, OCT);
+        CHECK(test_string == "77777");
+    }
+
+    TEST_CASE("Testing 4294967295 ULONG_MAX to OCT") {
+        unsigned long temp = 4294967295;
+        String test_string = String(temp, OCT);
+        CHECK(test_string == "37777777777");
+    }
+
+    TEST_CASE("Testing 255 UCHAR_MAX to OCT") {
+        String test_string = String(255, OCT);
+        CHECK(test_string == "377");
+    }
+
+    TEST_CASE("Testing 127 CHAR_MAX to OCT") {
+        String test_string = String(127, OCT);
+        CHECK(test_string == "177");
+    }
+
+    // MAX HEX
+
+    TEST_CASE("Testing 65535 UINT_MAX to HEX") {
+        String test_string = String(65535, HEX);
+        CHECK(test_string == "ffff");
+    }
+
+    TEST_CASE("Testing 2147483647 LONG_MAX to HEX") {
+        String test_string = String(2147483647, HEX);
+        CHECK(test_string == "7fffffff");
+    }
+
+    TEST_CASE("Testing 32767 INT_MAX to HEX") {
+        String test_string = String(32767, HEX);
+        CHECK(test_string == "7fff");
+    }
+
+    TEST_CASE("Testing 4294967295 ULONG_MAX to HEX") {
+        unsigned long temp = 4294967295;
+        String test_string = String(temp, HEX);
+        CHECK(test_string == "ffffffff");
+    }
+
+    TEST_CASE("Testing 255 UCHAR_MAX to HEX") {
+        String test_string = String(255, HEX);
+        CHECK(test_string == "ff");
+    }
+
+    TEST_CASE("Testing 127 CHAR_MAX to HEX") {
+        String test_string = String(127, HEX);
+        CHECK(test_string == "7f");
+    }
+
+    // MIN BIN
+
+    TEST_CASE("Testing -2147483648 LONG_MIN to BIN") {
+        String test_string_2 = String(static_cast<long>(0b10000000000000000000000000000000), BIN);
+        CHECK(test_string_2 == "10000000000000000000000000000000");
+    }
+
+    TEST_CASE("Testing -128 CHAR_MIN to BIN") {
+        String test_string_3 = String(static_cast<char>(0b1111111110000000), BIN);
+        CHECK(test_string_3 == "1111111110000000");
+    }
+
+    TEST_CASE("Testing -32768 INT_MIN to BIN") {
+        String test_string_4 = String(static_cast<int>(static_cast<short>(0b1000000000000000)), BIN);
+        CHECK(test_string_4 == "1000000000000000");
+    }
+
+    // ZERO BIN
+
+    TEST_CASE("Testing long 0 to BIN") {
+        long zero_long = 0;
+        String test_string = String(zero_long, BIN);
+        CHECK(test_string == "0");
+    }
+
+    TEST_CASE("Testing int 0 to BIN") {
+        int zero_int = 0;
+        String test_string = String(zero_int, BIN);
+        CHECK(test_string == "0");
+    }
+
+    TEST_CASE("Testing unisgned int 0 to BIN") {
+        unsigned int zero_uint = 0;
+        String test_string = String(zero_uint, BIN);
+        CHECK(test_string == "0");
+    }
+
+    TEST_CASE("Testing unisgned long 0 to BIN") {
+        unsigned long zero_ulong = 0;
+        String test_string = String(zero_ulong, BIN);
+        CHECK(test_string == "0");
+    }
+
+    TEST_CASE("Testing unsinged char 0 to BIN") {
+        unsigned char zero_uchar = 0;
+        String test_string = String(zero_uchar, BIN);
+        CHECK(test_string == "0");
+    }
+
+    // ZERO OCT
+
+    TEST_CASE("Testing long 0 to OCT") {
+        long zero_long = 0;
+        String test_string = String(zero_long, OCT);
+        CHECK(test_string == "0");
+    }
+
+    TEST_CASE("Testing int 0 to OCT") {
+        int zero_int = 0;
+        String test_string = String(zero_int, OCT);
+        CHECK(test_string == "0");
+    }
+
+    TEST_CASE("Testing unisgned int 0 to OCT") {
+        unsigned int zero_uint = 0;
+        String test_string = String(zero_uint, OCT);
+        CHECK(test_string == "0");
+    }
+
+    TEST_CASE("Testing unisgned long 0 to OCT") {
+        unsigned long zero_ulong = 0;
+        String test_string = String(zero_ulong, OCT);
+        CHECK(test_string == "0");
+    }
+
+    TEST_CASE("Testing unsinged char 0 to OCT") {
+        unsigned char zero_uchar = 0;
+        String test_string = String(zero_uchar, OCT);
+        CHECK(test_string == "0");
+    }
 }

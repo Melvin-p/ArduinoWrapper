@@ -53,7 +53,6 @@ Builds the executable that runs the unit tests for the library
 ```
 If there is a compile error try deleting the build directory and re-running the commands
 
-
 ## Development Enviroment
 This project has VScode setup and is using clang format and clangd  
 Please do note that clangd will only work once .cache folder is generated which is created during the build process

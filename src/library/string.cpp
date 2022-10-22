@@ -131,6 +131,7 @@ String::String(StringSumHelper &&rval) {
 }
 
 String::String(unsigned char value, unsigned char base) {
+    init();
     char buf[1 + 8 * sizeof(unsigned char)];
     switch (base) {
         case DEC:
@@ -143,7 +144,12 @@ String::String(unsigned char value, unsigned char base) {
             sprintf(buf, "%o", value);
             break;
         case BIN:
-            sprintf(buf, "%s", std::bitset<sizeof(value) * 8>(value).to_string().c_str());
+            std::string temp = std::bitset<sizeof(value) * 8>(value).to_string();
+            temp.erase(0, temp.find_first_not_of("0"));
+            if (temp.length() == 0) {
+                temp.append("0");
+            }
+            sprintf(buf, "%s", temp.c_str());
     }
     *this = buf;
 }
@@ -162,7 +168,12 @@ String::String(int value, unsigned char base) {
             sprintf(buf, "%o", value);
             break;
         case BIN:
-            sprintf(buf, "%s", std::bitset<2 + 8 * sizeof(int)>(value).to_string().c_str());
+            std::string temp = std::bitset<1 + 8 * sizeof(int)>(value).to_string();
+            temp.erase(0, temp.find_first_not_of("0"));
+            if (temp.length() == 0) {
+                temp.append("0");
+            }
+            sprintf(buf, "%s", temp.c_str());
     }
     *this = buf;
 }
@@ -181,7 +192,12 @@ String::String(unsigned int value, unsigned char base) {
             sprintf(buf, "%o", value);
             break;
         case BIN:
-            sprintf(buf, "%s", std::bitset<1 + 8 * sizeof(unsigned int)>(value).to_string().c_str());
+            std::string temp = std::bitset<8 * sizeof(unsigned int)>(value).to_string();
+            temp.erase(0, temp.find_first_not_of("0"));
+            if (temp.length() == 0) {
+                temp.append("0");
+            }
+            sprintf(buf, "%s", temp.c_str());
     }
     *this = buf;
 }
@@ -200,7 +216,12 @@ String::String(long value, unsigned char base) {
             sprintf(buf, "%lo", value);
             break;
         case BIN:
-            sprintf(buf, "%s", std::bitset<2 + 8 * sizeof(long)>(value).to_string().c_str());
+            std::string temp = std::bitset<1 + 8 * sizeof(long)>(value).to_string();
+            temp.erase(0, temp.find_first_not_of("0"));
+            if (temp.length() == 0) {
+                temp.append("0");
+            }
+            sprintf(buf, "%s", temp.c_str());
     }
     *this = buf;
 }
@@ -219,7 +240,12 @@ String::String(unsigned long value, unsigned char base) {
             sprintf(buf, "%lo", value);
             break;
         case BIN:
-            sprintf(buf, "%s", std::bitset<1 + 8 * sizeof(unsigned long)>(value).to_string().c_str());
+            std::string temp = std::bitset<8 * sizeof(unsigned long)>(value).to_string();
+            temp.erase(0, temp.find_first_not_of("0"));
+            if (temp.length() == 0) {
+                temp.append("0");
+            }
+            sprintf(buf, "%s", temp.c_str());
     }
     *this = buf;
 }
