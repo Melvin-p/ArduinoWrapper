@@ -176,6 +176,25 @@ void loop(){
   Serial.println(String(INT_MIN, HEX));
   Serial.println();
 
-  word k = 3;
+  long t1 = 834;
+  Serial.println(String(t1, BIN));
+  Serial.println();
+
+  int t2 = 738;
+  Serial.println(String(t2, BIN));
+  Serial.println();
+
+  unsigned long t3 = 384;
+  Serial.println(String(t3, BIN));
+  Serial.println();
+
+  unsigned int t4 = 937;
+  Serial.println(String(t4, BIN));
+  Serial.println();
+
+  unsigned char t5 = 101;
+  Serial.println(String(t5, BIN));
+  Serial.println();
+
   
 }

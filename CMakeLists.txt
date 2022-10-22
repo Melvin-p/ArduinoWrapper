@@ -21,6 +21,10 @@ elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     message(WARNING "Mac OS Detected")
 endif()
 
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    add_compile_definitions(DEBUG)
+endif()
+
 if(INTERACTIVE)
      add_compile_definitions(INTERACTIVE)
 endif()

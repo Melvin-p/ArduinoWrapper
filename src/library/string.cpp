@@ -23,12 +23,12 @@
     Modified 18 October 2022 by Melvin Pynadath
 */
 
+#include <string>
 #ifndef __custom__string__
 #include "string.hpp"
 #endif
 
 #include <ctype.h>
-#include <stdio.h>
 
 #include <bitset>
 #include <cstring>
@@ -168,7 +168,13 @@ String::String(int value, unsigned char base) {
             sprintf(buf, "%o", value);
             break;
         case BIN:
-            std::string temp = std::bitset<1 + 8 * sizeof(int)>(value).to_string();
+            std::string temp;
+            if (value < 0) {
+                uint16_t new_value = static_cast<uint16_t>(value);
+                temp = std::bitset<1 + 8 * sizeof(int)>(new_value).to_string();
+            } else {
+                temp = std::bitset<1 + 8 * sizeof(int)>(value).to_string();
+            }
             temp.erase(0, temp.find_first_not_of("0"));
             if (temp.length() == 0) {
                 temp.append("0");
@@ -216,7 +222,13 @@ String::String(long value, unsigned char base) {
             sprintf(buf, "%lo", value);
             break;
         case BIN:
-            std::string temp = std::bitset<1 + 8 * sizeof(long)>(value).to_string();
+            std::string temp;
+            if (value < 0) {
+                uint32_t new_value = static_cast<uint32_t>(value);
+                temp = std::bitset<1 + 8 * sizeof(long)>(new_value).to_string();
+            } else {
+                temp = std::bitset<1 + 8 * sizeof(long)>(value).to_string();
+            }
             temp.erase(0, temp.find_first_not_of("0"));
             if (temp.length() == 0) {
                 temp.append("0");
@@ -408,6 +420,25 @@ String &String::operator=(const String &rhs) {
     else
         invalidate();
 
+    return *this;
+}
+
+String &String::operator=(const char *cstr) {
+    if (cstr)
+        copy(cstr, strlen(cstr));
+    else
+        invalidate();
+
+    return *this;
+}
+
+String &String::operator=(StringSumHelper &&rval) {
+    if (this != &rval) move(rval);
+    return *this;
+}
+
+String &String::operator=(String &&rval) {
+    if (this != &rval) move(rval);
     return *this;
 }
 

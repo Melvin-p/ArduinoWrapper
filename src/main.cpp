@@ -12,8 +12,6 @@ TEST_SUITE("String class") {
     Testing has revealed the arduino has differnt max_int value
     int are 16bit
     longs are 32bit
-    twos complement is used on arduino
-    Check if twos complement is guaranteed by the standard
     */
 
     TEST_CASE("String from char array") {
@@ -212,5 +210,37 @@ TEST_SUITE("String class") {
         unsigned char zero_uchar = 0;
         String test_string = String(zero_uchar, OCT);
         CHECK(test_string == "0");
+    }
+
+    // Test Random
+
+    TEST_CASE("Testing long to BIN") {
+        long test_long = 834;
+        String test_string = String(test_long, BIN);
+        CHECK(test_string == "1101000010");
+    }
+
+    TEST_CASE("Testing int to BIN") {
+        int test_int = 738;
+        String test_string = String(test_int, BIN);
+        CHECK(test_string == "1011100010");
+    }
+
+    TEST_CASE("Testing unisgned int to BIN") {
+        unsigned int test_unit = 937;
+        String test_string = String(test_unit, BIN);
+        CHECK(test_string == "1110101001");
+    }
+
+    TEST_CASE("Testing unisgned long to BIN") {
+        unsigned long test_ulong = 384;
+        String test_string = String(test_ulong, BIN);
+        CHECK(test_string == "110000000");
+    }
+
+    TEST_CASE("Testing unsinged char to BIN") {
+        unsigned char test_uchar = 101;
+        String test_string = String(test_uchar, BIN);
+        CHECK(test_string == "1100101");
     }
 }
