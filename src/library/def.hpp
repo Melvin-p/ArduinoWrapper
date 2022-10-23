@@ -13,5 +13,9 @@
 #define RAD_TO_DEG 57.295779513082320876798154814105
 #define EULER 2.718281828459045235360287471352
 
+#define F(string_literal) string_literal
+#define PROGMEM
+
 typedef bool boolean;
 typedef uint8_t byte;
+#define word uint16_t
