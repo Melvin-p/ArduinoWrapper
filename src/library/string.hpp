@@ -132,6 +132,9 @@ class String {
     friend StringSumHelper &operator+(const StringSumHelper &lhs, double num);
 
     String &operator=(const String &rhs);
+    String &operator=(const char *cstr);
+    String &operator=(String &&rval);
+    String &operator=(StringSumHelper &&rval);
 
     // comparison
     operator StringIfHelperType() const {
