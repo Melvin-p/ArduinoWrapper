@@ -16,6 +16,7 @@ Change x.ino to x.cpp then add the include headers to the file, finally compile 
 ## Plans
 - Support Adafruit RGB LCD Shield Library
 - automate the x.ino to x.exe process
+- may have to parse the c++ file and modify it before linking to library
 - support EEPROM
 - Maybe create CMake Package
 

@@ -1,4 +1,4 @@
-add_subdirectory(./library/)
+add_subdirectory(./library/adwr)
 
 if(BUILD_TESTS)
     set(PROJECT_SOURCES

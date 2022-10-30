@@ -4,7 +4,7 @@
 #include <iostream>
 
 #include "../external/doctest.h"
-#include "./library/adwr.hpp"
+#include "./library/adwr/adwr.hpp"
 
 TEST_SUITE("String class") {
     /**
