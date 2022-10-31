@@ -9,6 +9,10 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 option(BUILD_SHARED_LIBS "SHARED_LIBRARY" ON)
 option(INTERACTIVE "Build in interactive mode" OFF)
 option(BUILD_TESTS "Build Tests" ON)
+option(CONSUMER "turn on if unit test exe\
+controls if the application clears shared memory before creating shared memory and clears shared memory on termination\
+leave off for ArduinoWrapper library" 
+OFF)
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     add_compile_definitions(WIN)
@@ -28,6 +32,11 @@ endif()
 if(INTERACTIVE)
      add_compile_definitions(INTERACTIVE)
 endif()
+
+if(CONSUMER)
+    add_compile_definitions(CONSUMER)
+endif()
+
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/output)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/output)

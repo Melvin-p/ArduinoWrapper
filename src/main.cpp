@@ -5,6 +5,9 @@
 
 #include "../external/doctest.h"
 #include "./library/adwr/adwr.hpp"
+#ifndef __lcd_ipc__
+#include "./library/lcd/lcdipc.hpp"
+#endif
 
 TEST_SUITE("String class") {
     /**
@@ -242,5 +245,13 @@ TEST_SUITE("String class") {
         unsigned char test_uchar = 101;
         String test_string = String(test_uchar, BIN);
         CHECK(test_string == "1100101");
+    }
+}
+
+TEST_SUITE("LCD class") {
+    LcdIPC& temp = LcdIPC::getInstance();
+
+    TEST_CASE("Check backlight") {
+        CHECK(temp.getBackLight() == 0);
     }
 }

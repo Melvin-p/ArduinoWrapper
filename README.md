@@ -12,6 +12,7 @@ Change x.ino to x.cpp then add the include headers to the file, finally compile 
 - Due to how this wrapper works the memory constraints of the Arduino cannot be replicated.  
 - There will differences in how serial communication is handled.
 - GPIO Pins are not supported
+- LCD is assumed to be 16 by 2 and each character to be 5 pixels across and 7 pixels down
 
 ## Plans
 - Support Adafruit RGB LCD Shield Library

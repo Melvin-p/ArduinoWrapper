@@ -1,3 +1,4 @@
+add_subdirectory(./library/lcd)
 add_subdirectory(./library/adwr)
 
 if(BUILD_TESTS)
@@ -7,4 +8,5 @@ if(BUILD_TESTS)
 
     add_executable(ArduinoWrapper-test ${PROJECT_SOURCES})
     target_link_libraries(ArduinoWrapper-test PUBLIC ArduinoWrapper)
+    target_link_libraries(ArduinoWrapper-test PRIVATE LcdCom)
 endif()
