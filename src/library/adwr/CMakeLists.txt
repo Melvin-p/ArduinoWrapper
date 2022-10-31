@@ -17,10 +17,15 @@ serial.cpp
 serial.hpp
 stream.cpp
 stream.hpp
- "adwr.hpp")
+lcd.hpp
+lcd.cpp
+adwr.hpp
+)
 
 target_compile_options(ArduinoWrapper PRIVATE
     $<$<CXX_COMPILER_ID:MSVC>:/wd4996>
     $<$<CXX_COMPILER_ID:GNU>:-Wno-deprecated-declarations>
     $<$<CXX_COMPILER_ID:Clang>:-Wno-deprecated-declarations>
 )
+
+target_link_libraries(ArduinoWrapper PRIVATE LcdComProd)
