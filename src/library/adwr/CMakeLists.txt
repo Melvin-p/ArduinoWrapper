@@ -17,7 +17,8 @@ serial.cpp
 serial.hpp
 stream.cpp
 stream.hpp
- "adwr.hpp")
+ adwr.hpp
+)
 
 target_compile_options(ArduinoWrapper PRIVATE
     $<$<CXX_COMPILER_ID:MSVC>:/wd4996>

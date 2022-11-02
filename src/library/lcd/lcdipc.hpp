@@ -12,9 +12,9 @@ class LcdIPC {
     private:
     LcdIPC();
     ~LcdIPC();
-    LcdIPC(LcdIPC &other) {
+    LcdIPC(LcdIPC &lcdipc) {
     }
-    LcdIPC &operator=(LcdIPC &other) {
+    LcdIPC &operator=(LcdIPC &lcdipc) {
     }
 
     public:
@@ -52,8 +52,8 @@ class LcdIPC {
    private:
     struct lcdData;
     lcdData *data;
-    struct other;
-    other *lock;
+    struct boost_struct;
+    boost_struct *boost_objs;
 
    public:
     static LcdIPC& getInstance() {
