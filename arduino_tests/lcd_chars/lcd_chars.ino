@@ -101,20 +101,40 @@ void buttons() {
 
   if (buttons & BUTTON_RIGHT) {
     lcd.scrollDisplayRight();
+    Serial.println("RIGHT");
+    return;
   }
 
   if (buttons & BUTTON_LEFT) {
     lcd.scrollDisplayLeft();
+    Serial.println("LEFT");
+    return;
   }
 
-  if (buttons & BUTTON_UP) {
+  if((buttons & BUTTON_DOWN) && (buttons & BUTTON_UP)){
+    lcd.home();
+    Serial.println("HOME COMBO");
+    return;
+  }
+
+  if ((buttons & BUTTON_UP) && !(buttons & BUTTON_DOWN)) {
     numb = ((numb + 1) % 4);
     update();
+    Serial.println("UP");
+    return;
   }
 
-  if (buttons & BUTTON_DOWN) {
+  if ((buttons & BUTTON_DOWN) && !(buttons & BUTTON_UP)) {
     numb = ((numb - 1) % 4);
     update();
+    Serial.println("DOWN");
+    return;
+  }
+
+  if(buttons & BUTTON_SELECT){
+    lcd.home();
+    Serial.println("HOME SELECT");
+    return;
   }
 }
 

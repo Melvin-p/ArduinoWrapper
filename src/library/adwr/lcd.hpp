@@ -1,4 +1,3 @@
-
 #include "print.hpp"
 
 class Lcd : Print {
@@ -102,7 +101,4 @@ class Lcd : Print {
      * @return Returns what buttons have been pressed
      */
     /* uint8_t readButtons(); */
-
-   private:
-
 };

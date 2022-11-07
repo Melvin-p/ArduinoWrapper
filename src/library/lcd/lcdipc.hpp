@@ -1,9 +1,8 @@
-#include <array>
-#include <vector>
+#ifndef __charBitMap_def__
+#include "def.hpp"
+#endif
 
 #define __lcd_ipc__
-
-typedef std::array<uint8_t, 7> char_map;
 
 /**
 inherit this class privately to communciate with LCD
@@ -18,14 +17,15 @@ class LcdIPC {
     }
 
     public:
-    char_map getLcdDisp(uint8_t loc);
-    void setLcdDisp(uint8_t loc, char_map character);
+    charBitMap getLcdDisp(uint8_t loc);
+    void setLcdDisp(uint8_t loc, char value);
+    void write(uint8_t value);
 
-    char_map getCustChars(uint8_t loc);
-    void setCustChars(uint8_t loc, char_map character);
+    charBitMap getCustChars(uint8_t loc);
+    void setCustChars(uint8_t loc, charBitMap character);
 
     uint8_t getCursorPos();
-    void setCursorPos(bool value);
+    void setCursorPos(uint8_t value);
 
     bool getDisp();
     void setDisp(bool value);
@@ -37,8 +37,8 @@ class LcdIPC {
     void setCursBlink(bool value);
 
     /**
-    * true is right
-    * false is left
+    true is left to right
+    false is right to left
     */
     bool getDir();
     void setDir(bool value);
@@ -48,6 +48,16 @@ class LcdIPC {
 
     uint8_t getDispPos();
     void setDispPos(uint8_t value);
+
+    void clearDisp();
+
+    void shiftLeft();
+    void shiftRight();
+
+    void home();
+
+    void setAutoScroll(bool value);
+    bool getAutoScroll();
 
    private:
     struct lcdData;
