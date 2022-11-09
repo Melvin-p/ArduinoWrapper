@@ -264,7 +264,8 @@ const uint8_t charset[256][7] = {
 
 
 charBitMap charTocharMap(uint16_t value) {
-    charMap out = charset[value];
+    charBitMap out;
+    out.fill(*charset[value]);
     return out;
 
 }

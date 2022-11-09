@@ -150,7 +150,10 @@ void LcdIPC::write(uint8_t value) {
         this->data->curs_pos = abs(this->data->curs_pos);
         this->data->curs_pos = (this->data->curs_pos % 80);
     }
-    //TODO AUTOSCROLL
+    
+    if (this->data->auto_scroll) {
+        this->data->disp_pos = this->data->curs_pos;
+    }
 }
 
 charBitMap LcdIPC::getCustChars(uint8_t loc) {

@@ -5,6 +5,9 @@ add_library(
     STATIC
 lcdipc.cpp
 lcdipc.hpp
+charSetMap.hpp
+charSetMap.cpp
+def.hpp
 )
 
 target_link_libraries(LcdComProd PRIVATE Boost::system)
@@ -15,6 +18,9 @@ add_library(
     STATIC
 lcdipc.cpp
 lcdipc.hpp
+charSetMap.hpp
+charSetMap.cpp
+def.hpp
 )
 
 target_link_libraries(LcdComCon PRIVATE Boost::system)

@@ -5,9 +5,6 @@
 
 #include "../../../external/doctest.h"
 #include "../../library/adwr/adwr.hpp"
-#ifndef __lcd_ipc__
-#include "../../library/lcd/lcdipc.hpp"
-#endif
 
 TEST_SUITE("String class") {
     /**
@@ -253,9 +250,8 @@ TEST_SUITE("String class") {
 }
 
 TEST_SUITE("LCD class") {
-    LcdIPC& temp = LcdIPC::getInstance();
-
-    TEST_CASE("Check backlight") {
-        CHECK(temp.getBackLight() == 0);
+    TEST_CASE("LCD Blink") {
+        Adafruit_RGBLCDShield lcd = Adafruit_RGBLCDShield();
+        lcd.blink();
     }
 }

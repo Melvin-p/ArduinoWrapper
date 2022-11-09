@@ -1,4 +1,8 @@
-#include "print.hpp"
+#define __lcd__
+
+#ifndef __cus_print__
+    #include "print.hpp"
+#endif
 
 class Lcd : Print {
    public:
@@ -102,3 +106,5 @@ class Lcd : Print {
      */
     /* uint8_t readButtons(); */
 };
+
+typedef Lcd Adafruit_RGBLCDShield;

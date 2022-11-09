@@ -1,6 +1,8 @@
 
 #include <stdint.h>
 
+#define __def_main__
+
 #define DEC 10
 #define HEX 16
 #define OCT 8
