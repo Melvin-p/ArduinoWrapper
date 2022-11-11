@@ -4,11 +4,18 @@
 
 #include "./binary.hpp"
 #include "./character.hpp"
-#include "./def.hpp"
 #include "./math.hpp"
 #include "./serial.hpp"
 #include "./time.hpp"
 
+#ifndef __def_main__
+	#include "def.hpp"
+#endif
+
 #ifndef __custom__string__
-#include "./library/string.hpp"
+	#include "./library/string.hpp"
+#endif
+
+#ifndef __lcd_ipc__
+	#include "lcd.hpp"
 #endif

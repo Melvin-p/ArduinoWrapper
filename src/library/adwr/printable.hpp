@@ -21,6 +21,8 @@
     Modified 18 October 2022 by Melvin Pynadath
 */
 
+#define __cus_printable__
+
 class Print;
 
 /** The Printable class provides a way for new classes to allow themselves to be printed.

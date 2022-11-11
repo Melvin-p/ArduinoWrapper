@@ -3,8 +3,8 @@
 
 #include <iostream>
 
-#include "../external/doctest.h"
-#include "./library/adwr.hpp"
+#include "../../../external/doctest.h"
+#include "../../library/adwr/adwr.hpp"
 
 TEST_SUITE("String class") {
     /**
@@ -12,6 +12,10 @@ TEST_SUITE("String class") {
     Testing has revealed the arduino has differnt max_int value
     int are 16bit
     longs are 32bit
+    Using #define int short will compile however
+    the c++ standard library forbids macroizing the keyword "int" also
+    the c++ standard states "The type of an integer literal is the first of the corresponding list in Table 7 in which its value can be represented"
+    Looking table 7 shows int is default
     */
 
     TEST_CASE("String from char array") {
@@ -242,5 +246,12 @@ TEST_SUITE("String class") {
         unsigned char test_uchar = 101;
         String test_string = String(test_uchar, BIN);
         CHECK(test_string == "1100101");
+    }
+}
+
+TEST_SUITE("LCD class") {
+    TEST_CASE("LCD Blink") {
+        Adafruit_RGBLCDShield lcd = Adafruit_RGBLCDShield();
+        lcd.blink();
     }
 }

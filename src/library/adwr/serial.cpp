@@ -23,7 +23,9 @@
 
 #include <cstdio>
 
+#ifndef __def_main__
 #include "def.hpp"
+#endif
 
 /*
 NOTES:
@@ -36,17 +38,17 @@ Will wait for input from console
 */
 
 // this function compiles to NOP as it is not required on OS
-void Serial::begin(unsigned long baud, byte config) {
+void HardwareSerial::begin(unsigned long baud, byte config) {
     void(0);
 }
 
 // this function compiles to NOP as it is not required on OS
-void Serial::end() {
+void HardwareSerial::end() {
     void(0);
 }
 
 // get number of avaliable bytes for reading from the stdin pipe
-int Serial::available(void) {
+int HardwareSerial::available(void) {
     /*
     NOTES:
     Gets character from the stdin pipe
@@ -63,7 +65,7 @@ int Serial::available(void) {
 }
 
 // peek at the next character in the stdin pipe
-int Serial::peek(void) {
+int HardwareSerial::peek(void) {
     auto c = getchar();
     if (c < 0) {
         return -1;
@@ -74,7 +76,7 @@ int Serial::peek(void) {
 }
 
 // reads character from stdin pipe
-int Serial::read(void) {
+int HardwareSerial::read(void) {
     auto c = getchar();
     if (c < 0) {
         return -1;
@@ -84,7 +86,7 @@ int Serial::read(void) {
 }
 
 // get number of avaliable bytes for writing to stdout pipe without blocking
-int Serial::availableForWrite(void) {
+int HardwareSerial::availableForWrite(void) {
     /*
     this function is not used internally used so we will return 60 bytes
     60 because it is less than 64 byte buffer on the Arduino
@@ -94,7 +96,7 @@ int Serial::availableForWrite(void) {
 
 // waits for something to read all charactes in stdout pipe
 // this function compiles to NOP
-void Serial::flush() {
+void HardwareSerial::flush() {
     /*
     NOTES:
     Not required as stdout pipe is practically unlimted
@@ -103,12 +105,12 @@ void Serial::flush() {
 }
 
 // write character to stdout pipe
-size_t Serial::write(uint8_t c) {
+size_t HardwareSerial::write(uint8_t c) {
     putchar(c);
     return 1;
 }
 
 // on ardunio sets up serial not required on OS
-Serial::Serial(uint8_t out) {
+HardwareSerial::HardwareSerial(uint8_t out) {
     void(0);
 }
