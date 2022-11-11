@@ -1,7 +1,11 @@
+/*
+    Code taken from Adafruit_RGBLCDShield.h at https://github.com/adafruit/Adafruit-RGB-LCD-Shield-Library
+*/
+
 #define __lcd__
 
 #ifndef __cus_print__
-    #include "print.hpp"
+#include "print.hpp"
 #endif
 
 class Lcd : Print {

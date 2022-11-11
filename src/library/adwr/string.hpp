@@ -64,7 +64,7 @@ class String {
     ~String(void);
 
     unsigned char reserve(unsigned int size);
-    unsigned int length(void) const {
+    inline unsigned int length(void) const {
         return len;
     }
 
