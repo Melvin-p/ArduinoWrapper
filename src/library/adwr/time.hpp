@@ -17,6 +17,8 @@
     along with ArduinoWrapper.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+#define __time_func__
+
 unsigned long millis();
 
 unsigned long micros();

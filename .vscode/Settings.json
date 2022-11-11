@@ -8,6 +8,9 @@
     "cmake.copyCompileCommands": "${workspaceFolder}/compile_commands.json",
     "cmake.configureSettings": {
         "CMAKE_EXPORT_COMPILE_COMMANDS": true,
+        "VCPKG_TARGET_TRIPLET": "x64-windows",
+        "CMAKE_TOOLCHAIN_FILE": "${env:vcpkg}\\scripts\\buildsystems\\vcpkg.cmake",
+        "MSVC_RUNTIME_DYNAMIC": true,
     },
     "cmake.preferredGenerators": [
         "Ninja",

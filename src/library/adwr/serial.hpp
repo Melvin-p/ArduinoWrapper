@@ -28,9 +28,9 @@
 
 #include "stream.hpp"
 
-class Serial : public Stream {
+class HardwareSerial : public Stream {
    public:
-    Serial(uint8_t out);
+    HardwareSerial(uint8_t out);
     void begin(unsigned long baud) {
         begin(baud, 0xff);
     }
