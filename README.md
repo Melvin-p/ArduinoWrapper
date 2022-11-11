@@ -24,16 +24,22 @@ Change x.ino to x.cpp then add the include headers to the file, finally compile 
 ## Build Instructions
 ### Dependecies
 - CMake
-- A modern C++ compiler (Supports C++ 17)
+- A recent version of **gcc or clang** (must support C++ 17)
 - A build system i.e UNIX make, Ninja Build
-- A modern OS
+- **A Linux based operating system** (Ubuntu recommended **Mac OS untested assume not supported** )
+- VCPKG Used for handling the boost library dependencies Find install instructions [here](https://github.com/microsoft/vcpkg)
 
-Open a terminal navigate to repository root then the two CMake commands below can be run. If you don't have Ninja installed run ```cmake.exe -g --help``` and select a suitable generator. Built binaries are in the output folder.
+Some boost libraries are required, use the following VCPKG command to install them
+```
+vcpkg install boost-interprocess:x64-linux boost-serialization:x64-linux
+```
+
+Open a terminal navigate to repository root then the two CMake commands below can be run. Add the appropriate path to to your vcpkg.cmake. If you don't have Ninja installed run ```cmake.exe -g --help``` and select a suitable generator. Built binaries are in the output folder.
 
 This command generates the build files in the build directory
 
 ```
-cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -G Ninja -B ./build
+cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DVCPKG_TARGET_TRIPLET:STRING=x64-linux -DCMAKE_TOOLCHAIN_FILE=[Path To Your vcpkg.cmake] -DBUILD_SHARED_LIBS:BOOL=TRUE -G Ninja -B ./build
 ```  
 This command actually builds the library or exectutable
 ```
@@ -57,7 +63,7 @@ If there is a compile error try deleting the build directory and re-running the 
 
 ## Development Enviroment
 This project has VScode setup and is using clang format and clangd  
-Please do note that clangd will only work once .cache folder is generated which is created during the build process
+Please do note that clangd will only work once .cache folder is generated which is created during the build process. Also the vckpg directory is taken from ```vcpkg``` env variable
 
 ## Acknowledgements
 A lot of code was taken from the Arduino Library.

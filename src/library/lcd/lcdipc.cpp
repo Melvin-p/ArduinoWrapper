@@ -2,8 +2,8 @@
 #include "lcdipc.hpp"
 #endif
 
-#include <cstdint>
 #include <iostream>
+#include <vector>
 
 #ifndef __charMap__
 #include "./charSetMap.hpp"
@@ -88,20 +88,19 @@ struct LcdIPC::boost_struct {
     }
 };
 
-
 LcdIPC::LcdIPC() {
-
 #ifndef CONSUMER
-    //clears any existing shared memory and removes named mutex
+    // clears any existing shared memory and removes named mutex
     bip::shared_memory_object::remove("arduino_sm");
     bip::named_mutex::remove("arduino_mutex");
-#endif  
-       
+#endif
+
     try {
         this->boost_objs = new boost_struct();
     } catch (bip::interprocess_exception &e) {
         std::cerr << e.what() << "\n";
-        std::cerr << "Cannot find shared memory or named mutex" << "\n";
+        std::cerr << "Cannot find shared memory or named mutex"
+                  << "\n";
         throw std::bad_alloc();
     }
 
@@ -114,10 +113,10 @@ LcdIPC::LcdIPC() {
             throw bip::bad_alloc();
         }
 #endif
-    }
-     catch (bip::bad_alloc &e) {
+    } catch (bip::bad_alloc &e) {
         std::cerr << e.what() << "\n";
-        std::cerr << "Failed to find object in shared memory" << "\n";
+        std::cerr << "Failed to find object in shared memory"
+                  << "\n";
         throw std::bad_alloc();
     }
 }
@@ -125,7 +124,6 @@ LcdIPC::LcdIPC() {
 LcdIPC::~LcdIPC() {
     delete this->boost_objs;
 }
-
 
 charBitMap LcdIPC::getLcdDisp(uint8_t loc) {
     bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->mutex));
@@ -147,10 +145,10 @@ void LcdIPC::write(uint8_t value) {
         this->data->curs_pos = (this->data->curs_pos % 80);
     } else {
         this->data->curs_pos--;
-        this->data->curs_pos = abs(this->data->curs_pos);
+        this->data->curs_pos = (this->data->curs_pos);
         this->data->curs_pos = (this->data->curs_pos % 80);
     }
-    
+
     if (this->data->auto_scroll) {
         this->data->disp_pos = this->data->curs_pos;
     }
@@ -219,7 +217,6 @@ void LcdIPC::setDir(bool value) {
 uint8_t LcdIPC::getBackLight() {
     bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->mutex));
     return this->data->back_light;
-    
 }
 
 void LcdIPC::setBackLight(uint8_t value) {
@@ -249,7 +246,7 @@ void LcdIPC::shiftLeft() {
     // shift display pointer
     bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->mutex));
     this->data->disp_pos--;
-    this->data->disp_pos = abs(this->data->disp_pos);
+    this->data->disp_pos = (this->data->disp_pos);
     this->data->disp_pos = (this->data->disp_pos % 80);
 }
 
@@ -261,8 +258,8 @@ void LcdIPC::shiftRight() {
 }
 
 void LcdIPC::home() {
-    //set cursor to pointer to zero
-    //set display pointer to zero
+    // set cursor to pointer to zero
+    // set display pointer to zero
     bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->mutex));
     this->data->curs_pos = 0;
     this->data->disp_pos = 0;

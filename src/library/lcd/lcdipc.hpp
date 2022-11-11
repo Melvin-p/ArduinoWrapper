@@ -2,6 +2,8 @@
 #include "def.hpp"
 #endif
 
+#include <cstdint>
+
 #define __lcd_ipc__
 
 /**
