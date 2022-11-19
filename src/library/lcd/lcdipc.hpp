@@ -10,15 +10,19 @@
 inherit this class privately to communciate with LCD
 */
 class LcdIPC {
-    private:
+   private:
     LcdIPC();
     ~LcdIPC();
     LcdIPC(LcdIPC &lcdipc) {
     }
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wreturn-type"
+
     LcdIPC &operator=(LcdIPC &lcdipc) {
     }
+#pragma GCC diagnostic pop
 
-    public:
+   public:
     charBitMap getLcdDisp(uint8_t loc);
     void setLcdDisp(uint8_t loc, char value);
     void write(uint8_t value);
@@ -68,10 +72,8 @@ class LcdIPC {
     boost_struct *boost_objs;
 
    public:
-    static LcdIPC& getInstance() {
+    static LcdIPC &getInstance() {
         static LcdIPC instance;
         return instance;
     }
 };
-
-

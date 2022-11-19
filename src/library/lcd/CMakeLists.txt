@@ -5,8 +5,6 @@ add_library(
     STATIC
 lcdipc.cpp
 lcdipc.hpp
-charSetMap.hpp
-charSetMap.cpp
 def.hpp
 )
 
@@ -24,8 +22,6 @@ add_library(
     STATIC
 lcdipc.cpp
 lcdipc.hpp
-charSetMap.hpp
-charSetMap.cpp
 def.hpp
 )
 
