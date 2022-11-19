@@ -12,21 +12,21 @@ option(BUILD_TESTS "Build Tests" ON)
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     add_compile_definitions(WIN)
-    message(STATUS "Compling For Windows")
+    message(WARNING "Windows detected UNTESTED UNSUPPORTED")
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     add_compile_definitions(LINUX)
     message(STATUS "Compling For Linux")
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     add_compile_definitions(LINUX)
-    message(WARNING "Mac OS Detected")
+    message(WARNING "Mac OS detected UNTESTED UNSUPPORTED")
+endif()
+
+if (NOT ((CMAKE_CXX_COMPILER_ID STREQUAL "Clnag") OR (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")))
+    message(FATAL_ERROR "Unsupported compiler")
 endif()
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     add_compile_definitions(DEBUG)
-endif()
-
-if(INTERACTIVE)
-     add_compile_definitions(INTERACTIVE)
 endif()
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/output)
