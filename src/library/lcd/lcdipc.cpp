@@ -30,6 +30,7 @@ struct LcdIPC::lcdData {
     uint8_t back_light;
     uint8_t disp_pos;
     bool auto_scroll;
+    uint8_t buttons;
 
    private:
     uint8_t charset[256][7] = {
@@ -308,15 +309,26 @@ struct LcdIPC::lcdData {
         this->auto_scroll = false;
     }
 
+    /*
+    Reads in char value and converts to a bitmap
+    */
     charBitMap charTocharMap(uint16_t value) {
         charBitMap out;
         out.fill(*charset[value]);
         return out;
     }
-    void setCustomChar(charBitMap value, u_int8_t loc) {
+
+    /*
+    Set a custom char
+    */
+    void setCustomChar(charBitMap value, uint8_t loc) {
         std::copy(value.begin(), value.end(), std::begin(charset[loc % 8]));
     }
-    charBitMap getCustomChar(u_int8_t loc) {
+
+    /*
+    Reads out a custom char
+    */
+    charBitMap getCustomChar(uint8_t loc) {
         charBitMap out;
         out.fill(*charset[loc % 8]);
         return out;
@@ -403,7 +415,7 @@ void LcdIPC::setLcdDisp(uint8_t loc, char value) {
     this->data->lcd_disp[loc % 80] = character;
 }
 
-void LcdIPC::write(uint8_t value) {
+size_t LcdIPC::write(uint8_t value) {
     bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->mutex));
     charBitMap character = this->data->charTocharMap(value);
     this->data->lcd_disp[this->data->curs_pos] = character;
@@ -419,6 +431,8 @@ void LcdIPC::write(uint8_t value) {
     if (this->data->auto_scroll) {
         this->data->disp_pos = this->data->curs_pos;
     }
+
+    return 1;
 }
 
 charBitMap LcdIPC::getCustChars(uint8_t loc) {
@@ -539,4 +553,14 @@ void LcdIPC::setAutoScroll(bool value) {
 bool LcdIPC::getAutoScroll() {
     bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->mutex));
     return this->data->auto_scroll;
+}
+
+void LcdIPC::setButton(uint8_t value) {
+    bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->mutex));
+    this->data->buttons = value;
+}
+
+uint8_t LcdIPC::getButton() {
+    bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->mutex));
+    return this->data->buttons;
 }

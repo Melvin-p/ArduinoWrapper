@@ -101,7 +101,7 @@ void Lcd::setBacklight(uint8_t status) {
     temp.setBackLight(status);
 }
 
-void Lcd::createChar(uint8_t loc, uint8_t value[]){
+void Lcd::createChar(uint8_t loc, uint8_t value[]) {
     LcdIPC& temp = LcdIPC::getInstance();
     charBitMap bitMap;
     bitMap.fill(*value);
@@ -113,8 +113,12 @@ void Lcd::setCursor(uint8_t col, uint8_t row) {
     temp.setCursorPos((col + (row * 40)));
 }
 
-size_t Lcd::write(uint8_t) {
+size_t Lcd::write(uint8_t value) {
     LcdIPC& temp = LcdIPC::getInstance();
-    return size_t();
+    return temp.write(value);
 }
 
+uint8_t readButtons() {
+    LcdIPC& temp = LcdIPC::getInstance();
+    return temp.getButton();
+}
