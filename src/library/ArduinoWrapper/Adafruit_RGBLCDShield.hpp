@@ -7,6 +7,7 @@
 #define BUTTON_LEFT 0x10    //!< Left button
 #define BUTTON_RIGHT 0x02   //!< Right button
 #define BUTTON_SELECT 0x01  //!< Select button
+#define LCD_5x8DOTS 0x00    //!< 8 pixel high font mode0
 
 #define __lcd__
 
@@ -14,15 +15,15 @@
 #include "print.hpp"
 #endif
 
-class Lcd : Print {
+class Adafruit_RGBLCDShield : public Print {
    public:
     void init(uint8_t fourbitmode, uint8_t rs, uint8_t rw, uint8_t enable, uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7);
 
-    Lcd();
+    Adafruit_RGBLCDShield();
 
-    ~Lcd();
+    ~Adafruit_RGBLCDShield();
 
-    void begin(uint8_t cols, uint8_t rows, uint8_t charsize);
+    void begin(uint8_t cols, uint8_t rows, uint8_t charsize = LCD_5x8DOTS);
 
     /*!
      * @brief High-level command to clear the display
@@ -115,5 +116,3 @@ class Lcd : Print {
      */
     uint8_t readButtons();
 };
-
-typedef Lcd Adafruit_RGBLCDShield;

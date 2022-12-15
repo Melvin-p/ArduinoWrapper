@@ -75,6 +75,8 @@ class LcdIPC {
     void setButton(uint8_t value);
     uint8_t getButton();
 
+    lcd getLcd();
+
    private:
     struct lcdData;
     lcdData *data;
