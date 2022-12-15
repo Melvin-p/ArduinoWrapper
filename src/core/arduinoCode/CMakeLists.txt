@@ -5,4 +5,4 @@ set(PROJECT_SOURCES
 )
 
  add_executable(arduinoCode ${PROJECT_SOURCES})
- target_link_libraries(arduinoCode PUBLIC libArduinoWrapper)
+ target_link_libraries(arduinoCode PUBLIC ArduinoWrapper)
