@@ -1,5 +1,6 @@
+#include <stdint.h>
+
 #include <array>
-#include <cstdint>
 
 #define __charBitMap_def__
 

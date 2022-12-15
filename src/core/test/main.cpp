@@ -1,10 +1,8 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include <limits.h>
 
-#include <iostream>
-
 #include "../../../external/doctest.h"
-#include "../../library/adwr/adwr.hpp"
+#include "../../library/ArduinoWrapper/adwr.hpp"
 
 TEST_SUITE("String class") {
     /**
@@ -246,12 +244,5 @@ TEST_SUITE("String class") {
         unsigned char test_uchar = 101;
         String test_string = String(test_uchar, BIN);
         CHECK(test_string == "1100101");
-    }
-}
-
-TEST_SUITE("LCD class") {
-    TEST_CASE("LCD Blink") {
-        Adafruit_RGBLCDShield lcd = Adafruit_RGBLCDShield();
-        lcd.blink();
     }
 }

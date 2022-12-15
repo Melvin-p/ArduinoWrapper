@@ -2,7 +2,8 @@
 #include "def.hpp"
 #endif
 
-#include <cstdint>
+#include <stddef.h>
+#include <stdint.h>
 
 #define BUTTON_UP 0x08      //!< Up button
 #define BUTTON_DOWN 0x04    //!< Down button

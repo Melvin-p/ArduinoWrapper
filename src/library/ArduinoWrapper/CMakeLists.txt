@@ -1,5 +1,5 @@
 add_library(
-    ArduinoWrapper
+    libArduinoWrapper
 time.cpp
 time.hpp
 string.cpp
@@ -22,10 +22,10 @@ lcd.cpp
 adwr.hpp
 )
 
-target_compile_options(ArduinoWrapper PRIVATE
+target_compile_options(libArduinoWrapper PRIVATE
     $<$<CXX_COMPILER_ID:MSVC>:/wd4996>
     $<$<CXX_COMPILER_ID:GNU>:-Wno-deprecated-declarations>
     $<$<CXX_COMPILER_ID:Clang>:-Wno-deprecated-declarations>
 )
 
-target_link_libraries(ArduinoWrapper PRIVATE LcdComProd)
+target_link_libraries(libArduinoWrapper PRIVATE libLcdComProd)

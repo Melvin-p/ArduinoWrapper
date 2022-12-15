@@ -1,2 +1,2 @@
 add_subdirectory(./test)
-add_subdirectory(./codeArd)
+add_subdirectory(./arduinoCode)
