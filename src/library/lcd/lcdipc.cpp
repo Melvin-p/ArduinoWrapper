@@ -309,6 +309,7 @@ struct LcdIPC::lcdData {
         this->back_light = 0;
         this->disp_pos = 0;
         this->auto_scroll = false;
+        this->buttons = 0;
     }
 
     /*
@@ -565,4 +566,17 @@ void LcdIPC::setButton(uint8_t value) {
 uint8_t LcdIPC::getButton() {
     bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->mutex));
     return this->data->buttons;
+}
+
+lcd LcdIPC::getLcd() {
+    bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->mutex));
+    lcd out;
+    uint8_t temp = this->data->disp_pos;
+    for (uint8_t i = 0; i < 16; i++) {
+        out[i] = this->data->lcd_disp[temp + i];
+    }
+    for (uint8_t i = 16; i < 32; i++) {
+        out[i] = this->data->lcd_disp[temp + (i - 16) + 40];
+    }
+    return out;
 }

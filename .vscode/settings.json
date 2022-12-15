@@ -23,5 +23,5 @@
         "editor.defaultFormatter": "xaver.clang-format",
         "editor.semanticHighlighting.enabled": true
     },
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
 }
