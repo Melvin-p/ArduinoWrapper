@@ -4,4 +4,4 @@ set(PROJECT_SOURCES
 )
 
 add_executable(ArduinoWrapper-test ${PROJECT_SOURCES})
-target_link_libraries(ArduinoWrapper-test PUBLIC libArduinoWrapper)
+target_link_libraries(ArduinoWrapper-test PUBLIC ArduinoWrapper)
