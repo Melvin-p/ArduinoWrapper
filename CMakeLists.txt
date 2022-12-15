@@ -8,7 +8,6 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 option(BUILD_SHARED_LIBS "SHARED_LIBRARY" ON)
 option(INTERACTIVE "Build in interactive mode" OFF)
-option(BUILD_TESTS "Build Tests" ON)
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     add_compile_definitions(WIN)

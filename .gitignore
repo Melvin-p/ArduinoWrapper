@@ -3,4 +3,8 @@
 build/
 compile_commands.json
 
+#visual studio
 .vs/
+
+#CLion OR Jetbrain
+.idea/

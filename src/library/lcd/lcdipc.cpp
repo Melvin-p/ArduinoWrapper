@@ -2,6 +2,8 @@
 #include "lcdipc.hpp"
 #endif
 
+#include <stdint.h>
+
 #include <boost/interprocess/exceptions.hpp>
 #include <boost/interprocess/managed_shared_memory.hpp>
 #include <boost/interprocess/sync/named_mutex.hpp>
