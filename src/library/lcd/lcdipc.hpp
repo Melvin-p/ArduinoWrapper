@@ -2,7 +2,14 @@
 #include "def.hpp"
 #endif
 
-#include <cstdint>
+#include <stddef.h>
+#include <stdint.h>
+
+#define BUTTON_UP 0x08      //!< Up button
+#define BUTTON_DOWN 0x04    //!< Down button
+#define BUTTON_LEFT 0x10    //!< Left button
+#define BUTTON_RIGHT 0x02   //!< Right button
+#define BUTTON_SELECT 0x01  //!< Select button
 
 #define __lcd_ipc__
 
@@ -10,18 +17,22 @@
 inherit this class privately to communciate with LCD
 */
 class LcdIPC {
-    private:
+   private:
     LcdIPC();
     ~LcdIPC();
     LcdIPC(LcdIPC &lcdipc) {
     }
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wreturn-type"
+
     LcdIPC &operator=(LcdIPC &lcdipc) {
     }
+#pragma GCC diagnostic pop
 
-    public:
+   public:
     charBitMap getLcdDisp(uint8_t loc);
     void setLcdDisp(uint8_t loc, char value);
-    void write(uint8_t value);
+    size_t write(uint8_t value);
 
     charBitMap getCustChars(uint8_t loc);
     void setCustChars(uint8_t loc, charBitMap character);
@@ -61,6 +72,11 @@ class LcdIPC {
     void setAutoScroll(bool value);
     bool getAutoScroll();
 
+    void setButton(uint8_t value);
+    uint8_t getButton();
+
+    lcd getLcd();
+
    private:
     struct lcdData;
     lcdData *data;
@@ -68,10 +84,8 @@ class LcdIPC {
     boost_struct *boost_objs;
 
    public:
-    static LcdIPC& getInstance() {
+    static LcdIPC &getInstance() {
         static LcdIPC instance;
         return instance;
     }
 };
-
-

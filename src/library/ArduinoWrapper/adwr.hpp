@@ -17,5 +17,5 @@
 #endif
 
 #ifndef __lcd_ipc__
-	#include "lcd.hpp"
+	#include "Adafruit_RGBLCDShield.hpp"
 #endif
