@@ -20,7 +20,7 @@ elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     message(WARNING "Mac OS detected UNTESTED UNSUPPORTED")
 endif()
 
-if (NOT ((CMAKE_CXX_COMPILER_ID STREQUAL "Clnag") OR (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")))
+if (NOT ((CMAKE_CXX_COMPILER_ID STREQUAL "Clang") OR (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")))
     message(FATAL_ERROR "Unsupported compiler")
 endif()
 

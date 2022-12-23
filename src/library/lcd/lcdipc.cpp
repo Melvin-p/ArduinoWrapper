@@ -317,7 +317,9 @@ struct LcdIPC::lcdData {
     */
     charBitMap charTocharMap(uint16_t value) {
         charBitMap out;
-        out.fill(*charset[value]);
+        for (int i = 0; i < 7; i++){
+            out[i] = charset[value][i];
+        }
         return out;
     }
 
@@ -523,7 +525,8 @@ void LcdIPC::clearDisp() {
     charBitMap temp;
     temp.fill(0);
     this->data->lcd_disp.fill(temp);
-    home();
+    this->data->curs_pos = 0;
+    this->data->disp_pos = 0;
 }
 
 void LcdIPC::shiftLeft() {

@@ -8,3 +8,6 @@ compile_commands.json
 
 #CLion OR Jetbrain
 .idea/
+
+temp/
+src/core/arduinoCode/
