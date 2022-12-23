@@ -1,2 +1,2 @@
 add_subdirectory(./lcd)
-add_subdirectory(./adwr)
+add_subdirectory(./ArduinoWrapper)

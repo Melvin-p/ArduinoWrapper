@@ -6,115 +6,119 @@
 #include "time.hpp"
 #endif
 
-#include "lcd.hpp"
+#include "Adafruit_RGBLCDShield.hpp"
 
-void Lcd::init(uint8_t fourbitmode, uint8_t rs, uint8_t rw, uint8_t enable, uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7) {
+void Adafruit_RGBLCDShield::init(uint8_t fourbitmode, uint8_t rs, uint8_t rw, uint8_t enable, uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7) {
     void(0);
 }
 
-Lcd::Lcd() {
+Adafruit_RGBLCDShield::Adafruit_RGBLCDShield() {
     void(0);
 }
 
-Lcd::~Lcd() {
+Adafruit_RGBLCDShield::~Adafruit_RGBLCDShield() {
     void(0);
 }
 
-void Lcd::begin(uint8_t cols, uint8_t rows, uint8_t charsize) {
+void Adafruit_RGBLCDShield::begin(uint8_t cols, uint8_t rows, uint8_t charsize) {
     void(0);
 }
 
-void Lcd::clear() {
+void Adafruit_RGBLCDShield::clear() {
     LcdIPC& temp = LcdIPC::getInstance();
     temp.clearDisp();
     delayMicroseconds(2000);
 }
 
-void Lcd::home() {
+void Adafruit_RGBLCDShield::home() {
     LcdIPC& temp = LcdIPC::getInstance();
     temp.home();
     delayMicroseconds(2000);
 }
 
-void Lcd::noDisplay() {
+void Adafruit_RGBLCDShield::noDisplay() {
     LcdIPC& temp = LcdIPC::getInstance();
     temp.setDisp(false);
 }
 
-void Lcd::display() {
+void Adafruit_RGBLCDShield::display() {
     LcdIPC& temp = LcdIPC::getInstance();
     temp.setDisp(true);
 }
 
-void Lcd::noBlink() {
+void Adafruit_RGBLCDShield::noBlink() {
     LcdIPC& temp = LcdIPC::getInstance();
     temp.setCursBlink(false);
 }
 
-void Lcd::blink() {
+void Adafruit_RGBLCDShield::blink() {
     LcdIPC& temp = LcdIPC::getInstance();
     temp.setCursBlink(true);
 }
 
-void Lcd::noCursor() {
+void Adafruit_RGBLCDShield::noCursor() {
     LcdIPC& temp = LcdIPC::getInstance();
     temp.setCursEnabled(false);
 }
 
-void Lcd::cursor() {
+void Adafruit_RGBLCDShield::cursor() {
     LcdIPC& temp = LcdIPC::getInstance();
     temp.setCursEnabled(true);
 }
 
-void Lcd::scrollDisplayLeft() {
+void Adafruit_RGBLCDShield::scrollDisplayLeft() {
     LcdIPC& temp = LcdIPC::getInstance();
     temp.shiftLeft();
 }
 
-void Lcd::scrollDisplayRight() {
+void Adafruit_RGBLCDShield::scrollDisplayRight() {
     LcdIPC& temp = LcdIPC::getInstance();
     temp.shiftRight();
 }
 
-void Lcd::leftToRight() {
+void Adafruit_RGBLCDShield::leftToRight() {
     LcdIPC& temp = LcdIPC::getInstance();
     temp.setDir(true);
 }
 
-void Lcd::rightToLeft() {
+void Adafruit_RGBLCDShield::rightToLeft() {
     LcdIPC& temp = LcdIPC::getInstance();
     temp.setDir(false);
 }
 
-void Lcd::autoscroll() {
+void Adafruit_RGBLCDShield::autoscroll() {
     LcdIPC& temp = LcdIPC::getInstance();
     temp.setAutoScroll(true);
 }
 
-void Lcd::noAutoscroll() {
+void Adafruit_RGBLCDShield::noAutoscroll() {
     LcdIPC& temp = LcdIPC::getInstance();
     temp.setAutoScroll(false);
 }
 
-void Lcd::setBacklight(uint8_t status) {
+void Adafruit_RGBLCDShield::setBacklight(uint8_t status) {
     LcdIPC& temp = LcdIPC::getInstance();
     temp.setBackLight(status);
 }
 
-void Lcd::createChar(uint8_t loc, uint8_t value[]){
+void Adafruit_RGBLCDShield::createChar(uint8_t loc, uint8_t value[]) {
     LcdIPC& temp = LcdIPC::getInstance();
     charBitMap bitMap;
     bitMap.fill(*value);
     temp.setCustChars(loc, bitMap);
 }
 
-void Lcd::setCursor(uint8_t col, uint8_t row) {
+void Adafruit_RGBLCDShield::setCursor(uint8_t col, uint8_t row) {
     LcdIPC& temp = LcdIPC::getInstance();
     temp.setCursorPos((col + (row * 40)));
 }
 
-size_t Lcd::write(uint8_t) {
+size_t Adafruit_RGBLCDShield::write(uint8_t value) {
     LcdIPC& temp = LcdIPC::getInstance();
-    return size_t();
+    return temp.write(value);
 }
 
+uint8_t Adafruit_RGBLCDShield::readButtons() {
+    LcdIPC& temp = LcdIPC::getInstance();
+    return temp.getButton();
+}

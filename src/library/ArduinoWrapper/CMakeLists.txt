@@ -17,8 +17,8 @@ serial.cpp
 serial.hpp
 stream.cpp
 stream.hpp
-lcd.hpp
-lcd.cpp
+Adafruit_RGBLCDShield.hpp
+Adafruit_RGBLCDShield.cpp
 adwr.hpp
 )
 
