@@ -317,7 +317,7 @@ struct LcdIPC::lcdData {
     */
     charBitMap charTocharMap(uint16_t value) {
         charBitMap out;
-        for (int i = 0; i < 7; i++){
+        for (int i = 0; i < 7; i++) {
             out[i] = charset[value][i];
         }
         return out;
@@ -568,7 +568,9 @@ void LcdIPC::setButton(uint8_t value) {
 
 uint8_t LcdIPC::getButton() {
     bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->mutex));
-    return this->data->buttons;
+    uint8_t temp = this->data->buttons;
+    this->data->buttons = 0;
+    return temp;
 }
 
 lcd LcdIPC::getLcd() {

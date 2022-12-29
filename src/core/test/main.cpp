@@ -1,5 +1,4 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
-#include <limits.h>
 
 #include "../../../external/doctest.h"
 #include "../../library/ArduinoWrapper/adwr.hpp"
