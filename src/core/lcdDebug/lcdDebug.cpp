@@ -1,26 +1,21 @@
-#include <ncurses.h>
+#include <signal.h>
+#include <stdint.h>
+#include <stdio.h>
 
-#include <iostream>
+#include "Window.hpp"
 
-#include "../../library/lcd/lcdipc.hpp"
+Window &window = Window::getWindow();
+
+void resize_handle(int sig) {
+    window.resize_window();
+}
 
 int main(int argc, char **argv) {
-    LcdIPC &lcdipc = LcdIPC::getInstance();
-    lcd value = lcdipc.getLcd();
-    std::cout << "Test" << "\n";
-    for (uint16_t j = 0; j < 32; j++) {
-        for (uint8_t i = 0; i < 7; i++) {
-            unsigned char row = value[j][i];
-            for (uint8_t mask = 0x80; mask != 0; mask >>= 1) {
-                if (row & mask) {
-                    std::cout << "O";
-                } else {
-                    std::cout << " ";
-                }
-            }
-            std::cout << "\n";
-        }
-        std::cout << "\n";
+    signal(SIGWINCH, resize_handle);
+    while (1 == 1) {
+        window.print();
+        window.bt_uptade();
     }
+
     return 0;
 }

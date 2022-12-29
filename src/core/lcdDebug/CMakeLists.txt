@@ -2,6 +2,8 @@ find_package(Curses REQUIRED)
 
 set(lcdDebug_SOURCES
     "lcdDebug.cpp"
+    Window.cpp 
+    Window.hpp
 )
 
 add_executable(lcdDebug ${lcdDebug_SOURCES})
