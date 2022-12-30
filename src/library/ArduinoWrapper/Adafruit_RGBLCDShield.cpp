@@ -104,7 +104,9 @@ void Adafruit_RGBLCDShield::setBacklight(uint8_t status) {
 void Adafruit_RGBLCDShield::createChar(uint8_t loc, uint8_t value[]) {
     LcdIPC& temp = LcdIPC::getInstance();
     charBitMap bitMap;
-    bitMap.fill(*value);
+    for (int i = 0; i < 7; i++) {
+        bitMap[i] = value[i];
+    }
     temp.setCustChars(loc, bitMap);
 }
 

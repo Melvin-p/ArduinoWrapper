@@ -568,9 +568,7 @@ void LcdIPC::setButton(uint8_t value) {
 
 uint8_t LcdIPC::getButton() {
     bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->mutex));
-    uint8_t temp = this->data->buttons;
-    this->data->buttons = 0;
-    return temp;
+    return this->data->buttons;
 }
 
 lcd LcdIPC::getLcd() {
