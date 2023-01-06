@@ -9,7 +9,6 @@ options are
 all options are required full normalised path is required
 if there ae space in the path to this file or provided path this script will not work
 
-no sanity checks performed
 assuming g++, ar exists
 assuming build outputs in build/Release/output folder
 assuming inputted paths are normalized and valid
@@ -48,7 +47,7 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 # build exectuable
 
-g++ -DLINUX  -O3 -DNDEBUG -include "$SCRIPT_DIR/sample_private.hpp" -I "$SCRIPT_DIR/../../src/library/ArduinoWrapper/" -std=gnu++17 -o "$OUT_DIR/$OUT_NAME.o" -c "$IN_FILE"
+c++ -DLINUX  -O3 -DNDEBUG -include "$SCRIPT_DIR/sample_private.hpp" -I "$SCRIPT_DIR/../../src/library/ArduinoWrapper/" -std=gnu++17 -o "$OUT_DIR/$OUT_NAME.o" -c "$IN_FILE"
 
 if [ $? -ne 0 ]; then
     exit 1;
@@ -60,13 +59,13 @@ if [ $? -ne 0 ]; then
     exit 1;
 fi
 
-g++ -DLINUX  -O3 -DNDEBUG -std=gnu++17 -o "$OUT_DIR/main.cpp.o" -c "$SCRIPT_DIR/main.cpp"
+c++ -DLINUX  -O3 -DNDEBUG -std=gnu++17 -o "$OUT_DIR/main.cpp.o" -c "$SCRIPT_DIR/main.cpp"
 
 if [ $? -ne 0 ]; then
     exit 1;
 fi
 
-g++ -o  "$OUT_DIR/$OUT_NAME.out" "$OUT_DIR/main.cpp.o" -l:"$OUT_NAME.a" -l:"libArduinoWrapper.so" -L"$SCRIPT_DIR/../../build/Release/output/" -L"$OUT_DIR"
+c++ -o  "$OUT_DIR/$OUT_NAME.out" "$OUT_DIR/main.cpp.o" -l:"$OUT_NAME.a" -l:"libArduinoWrapper.so" -L"$SCRIPT_DIR/../../build/Release/output/" -L"$OUT_DIR"
 
 if [ $? -ne 0 ]; then
     exit 1;

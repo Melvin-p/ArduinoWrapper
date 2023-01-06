@@ -9,5 +9,9 @@ compile_commands.json
 #CLion OR Jetbrain
 .idea/
 
+#QtCreator
+CMakeLists.txt.user
+
+#debug
 temp/
 src/core/arduinoCode/

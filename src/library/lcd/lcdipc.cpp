@@ -317,7 +317,7 @@ struct LcdIPC::lcdData {
     */
     charBitMap charTocharMap(uint16_t value) {
         charBitMap out;
-        for (int i = 0; i < 7; i++){
+        for (int i = 0; i < 7; i++) {
             out[i] = charset[value][i];
         }
         return out;
