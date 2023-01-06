@@ -1,4 +1,7 @@
-add_subdirectory(./test)
+# only build tests if tests enabled
+if(tests)
+    add_subdirectory(./test)
+endif()
 
 # only build lcd debugging utility if enabled
 if(lcdDebug)
