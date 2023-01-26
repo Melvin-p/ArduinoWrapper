@@ -108,7 +108,7 @@ This project has VScode setup and is using clang format and clangd
 Please do note that clangd will only work once .cache folder is generated which is created during the build process. Also, the vcpkg directory is taken from ```vcpkg``` env variable
 
 ## Acknowledgements
-A lot of code was taken from the Arduino Library.
+A lot of code was taken from the Arduino Library. [Arduino GitHub Cores](https://github.com/arduino)
 
 ## License
 All code is licensed under GPLv3. Files not under this license will have their license stated in the license header for that particular file.
