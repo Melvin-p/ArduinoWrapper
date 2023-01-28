@@ -23,7 +23,8 @@
     Modified 18 October 2022 by Melvin Pynadath
 */
 
-#define __custom__string__
+#ifndef STRING_H
+#define STRING_H
 
 class StringSumHelper;
 
@@ -241,3 +242,5 @@ class StringSumHelper : public String {
     StringSumHelper(double num) : String(num) {
     }
 };
+
+#endif

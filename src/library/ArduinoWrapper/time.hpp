@@ -17,7 +17,8 @@
     along with ArduinoWrapper.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#define __time_func__
+#ifndef C_TIME_H
+#define C_TIME_H
 
 unsigned long millis();
 
@@ -26,3 +27,5 @@ unsigned long micros();
 void delay(unsigned long ms);
 
 void delayMicroseconds(unsigned int us);
+
+#endif

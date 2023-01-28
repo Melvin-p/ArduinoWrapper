@@ -24,6 +24,9 @@
 
 #include "print.hpp"
 
+#ifndef STREAM_H
+#define STREAM_H
+
 enum LookaheadMode {
     SKIP_ALL,        // All invalid characters are ignored.
     SKIP_NONE,       // Nothing is skipped, and the stream is not touched unless the first waiting character is valid.
@@ -131,3 +134,5 @@ class Stream : public Print {
     // Returns index of the target that is found first or -1 if timeout occurs.
     int findMulti(struct MultiTarget *targets, int tCount);
 };
+
+#endif

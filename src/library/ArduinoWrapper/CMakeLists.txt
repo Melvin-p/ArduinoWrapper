@@ -12,15 +12,15 @@ set(PROJECT_SOURCES
     print.cpp
     print.hpp
     printable.hpp
-    serial.cpp
-    serial.hpp
+        HardwareSerial.cpp
+        HardwareSerial.hpp
     stream.cpp
     stream.hpp
     adwr.hpp
 )
 
 if(lcd_enabled)
-    list(APPEND Adafruit_RGBLCDShield.hpp Adafruit_RGBLCDShield.cpp)
+    list(APPEND PROJECT_SOURCES Adafruit_RGBLCDShield.hpp Adafruit_RGBLCDShield.cpp)
 endif()
 
 add_library(

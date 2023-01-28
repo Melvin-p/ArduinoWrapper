@@ -28,6 +28,9 @@
 
 #include "stream.hpp"
 
+#ifndef SERIAL_H
+#define SERIAL_H
+
 class HardwareSerial : public Stream {
    public:
     HardwareSerial(uint8_t out);
@@ -59,3 +62,5 @@ class HardwareSerial : public Stream {
         return true;
     }
 };
+
+#endif

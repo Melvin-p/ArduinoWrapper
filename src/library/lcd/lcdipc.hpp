@@ -17,12 +17,10 @@
     along with ArduinoWrapper.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#ifndef __charBitMap_def__
-#include "def.hpp"
-#endif
-
 #include <stddef.h>
 #include <stdint.h>
+
+#include "def.hpp"
 
 #define BUTTON_UP 0x08      //!< Up button
 #define BUTTON_DOWN 0x04    //!< Down button
@@ -30,7 +28,8 @@
 #define BUTTON_RIGHT 0x02   //!< Right button
 #define BUTTON_SELECT 0x01  //!< Select button
 
-#define __lcd_ipc__
+#ifndef LCD_IPC_H
+#define LCD_IPC_H
 
 /**
 inherit this class privately to communciate with LCD
@@ -108,3 +107,5 @@ class LcdIPC {
         return instance;
     }
 };
+
+#endif

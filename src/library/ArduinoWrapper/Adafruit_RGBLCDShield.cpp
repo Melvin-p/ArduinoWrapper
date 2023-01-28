@@ -17,15 +17,10 @@
     along with ArduinoWrapper.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#ifndef __lcd_ipc__
-#include "../lcd/lcdipc.hpp"
-#endif
-
-#ifndef __time_func__
-#include "time.hpp"
-#endif
-
 #include "Adafruit_RGBLCDShield.hpp"
+
+#include "../lcd/lcdipc.hpp"
+#include "time.hpp"
 
 void Adafruit_RGBLCDShield::init(uint8_t fourbitmode, uint8_t rs, uint8_t rw, uint8_t enable, uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7) {
     void(0);
