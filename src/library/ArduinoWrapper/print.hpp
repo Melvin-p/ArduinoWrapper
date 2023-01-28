@@ -21,20 +21,16 @@
     Modified 18 October 2022 by Melvin Pynadath
 */
 
-#define __cus_print__
-
 #include <stdint.h>
 
 #include <cstring>
 
 #include "def.hpp"
-#ifndef __cus_printable__
-    #include "printable.hpp"
-#endif
-
-#ifndef __custom__string__
+#include "printable.hpp"
 #include "string.hpp"
-#endif
+
+#ifndef CUS_PRINT_H
+#define CUS_PRINT_H
 
 class Print {
    private:
@@ -100,3 +96,5 @@ class Print {
     virtual void flush() { /* Empty implementation for backward compatibility */
     }
 };
+
+#endif

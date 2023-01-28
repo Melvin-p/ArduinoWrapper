@@ -20,7 +20,10 @@
 #include <array>
 #include <cstdint>
 
-#define __charBitMap_def__
+#ifndef charBitMap_def_H
+#define charBitMap_def_H
 
 typedef std::array<uint8_t, 7> charBitMap;
 typedef std::array<charBitMap, 32> lcd;
+
+#endif

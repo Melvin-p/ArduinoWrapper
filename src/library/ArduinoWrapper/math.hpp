@@ -23,6 +23,9 @@
 
 #include "def.hpp"
 
+#ifndef MATH_H
+#define MATH_H
+
 #define min(a, b) ((a) < (b) ? (a) : (b))
 #define max(a, b) ((a) > (b) ? (a) : (b))
 // abs is global
@@ -48,3 +51,5 @@ long map(long x, long in_min, long in_max, long out_min, long out_max);
 long random(long howbig);
 long random(long howsmall, long howbig);
 void randomSeed(unsigned long seed);
+
+#endif
