@@ -4,7 +4,7 @@ if(tests)
 endif()
 
 # only build lcd debugging utility if enabled
-if(lcdDebug)
+if(lcdDebug AND lcd_enabled)
     add_subdirectory(./lcdDebug)
 endif()
 

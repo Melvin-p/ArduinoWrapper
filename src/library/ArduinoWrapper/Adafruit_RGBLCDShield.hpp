@@ -9,11 +9,10 @@
 #define BUTTON_SELECT 0x01  //!< Select button
 #define LCD_5x8DOTS 0x00    //!< 8 pixel high font mode0
 
-#define __lcd__
-
-#ifndef __cus_print__
 #include "print.hpp"
-#endif
+
+#ifndef LCD_H
+#define LCD_h
 
 class Adafruit_RGBLCDShield : public Print {
    public:
@@ -116,3 +115,5 @@ class Adafruit_RGBLCDShield : public Print {
      */
     uint8_t readButtons();
 };
+
+#endif

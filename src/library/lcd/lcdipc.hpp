@@ -1,9 +1,26 @@
-#ifndef __charBitMap_def__
-#include "def.hpp"
-#endif
+/*
+    Copyright (C) 2023 Melvin Pynadath
+
+    This file is part of ArduinoWrapper.
+
+    ArduinoWrapper is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    ArduinoWrapper is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with ArduinoWrapper.  If not, see <https://www.gnu.org/licenses/>.
+*/
 
 #include <stddef.h>
 #include <stdint.h>
+
+#include "def.hpp"
 
 #define BUTTON_UP 0x08      //!< Up button
 #define BUTTON_DOWN 0x04    //!< Down button
@@ -11,7 +28,8 @@
 #define BUTTON_RIGHT 0x02   //!< Right button
 #define BUTTON_SELECT 0x01  //!< Select button
 
-#define __lcd_ipc__
+#ifndef LCD_IPC_H
+#define LCD_IPC_H
 
 /**
 inherit this class privately to communciate with LCD
@@ -89,3 +107,5 @@ class LcdIPC {
         return instance;
     }
 };
+
+#endif

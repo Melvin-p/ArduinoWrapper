@@ -1,7 +1,8 @@
 
 #include <stdint.h>
 
-#define __def_main__
+#ifndef DEF_H
+#define DEF_H
 
 #define DEC 10
 #define HEX 16
@@ -21,3 +22,5 @@
 typedef bool boolean;
 typedef uint8_t byte;
 #define word uint16_t
+
+#endif

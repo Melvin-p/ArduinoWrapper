@@ -21,6 +21,9 @@
     Modified 18 October 2022 by Melvin Pynadath
 */
 
+#ifndef BINARY_H
+#define BINARY_H
+
 #define lowByte(w) ((uint8_t)((w)&0xff))
 #define highByte(w) ((uint8_t)((w) >> 8))
 
@@ -32,3 +35,5 @@
 
 unsigned int makeWord(unsigned int w);
 unsigned int makeWord(unsigned char h, unsigned char l);
+
+#endif
