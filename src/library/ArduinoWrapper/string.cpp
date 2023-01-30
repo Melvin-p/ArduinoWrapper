@@ -23,15 +23,13 @@
     Modified 18 October 2022 by Melvin Pynadath
 */
 
-#include <string>
-#ifndef __custom__string__
 #include "string.hpp"
-#endif
 
 #include <ctype.h>
 
 #include <bitset>
 #include <cstring>
+#include <string>
 
 #include "def.hpp"
 

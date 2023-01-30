@@ -2,20 +2,17 @@
  * puts all necessary include files into a single header for ease of use
  */
 
+#include "./HardwareSerial.hpp"
 #include "./binary.hpp"
 #include "./character.hpp"
+#include "./def.hpp"
 #include "./math.hpp"
-#include "./serial.hpp"
+#include "./print.hpp"
+#include "./printable.hpp"
+#include "./stream.hpp"
+#include "./string.hpp"
 #include "./time.hpp"
 
-#ifndef __def_main__
-	#include "def.hpp"
-#endif
-
-#ifndef __custom__string__
-	#include "./library/string.hpp"
-#endif
-
-#ifndef __lcd_ipc__
-	#include "Adafruit_RGBLCDShield.hpp"
+#ifdef lcd_enabled
+#include "Adafruit_RGBLCDShield.hpp"
 #endif

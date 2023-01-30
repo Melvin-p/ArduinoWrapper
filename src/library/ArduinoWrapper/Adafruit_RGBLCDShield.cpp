@@ -1,12 +1,26 @@
-#ifndef __lcd_ipc__
-#include "../lcd/lcdipc.hpp"
-#endif
+/*
+    Copyright (C) 2023 Melvin Pynadath
 
-#ifndef __time_func__
-#include "time.hpp"
-#endif
+    This file is part of ArduinoWrapper.
+
+    ArduinoWrapper is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    ArduinoWrapper is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with ArduinoWrapper.  If not, see <https://www.gnu.org/licenses/>.
+*/
 
 #include "Adafruit_RGBLCDShield.hpp"
+
+#include "../lcd/lcdipc.hpp"
+#include "time.hpp"
 
 void Adafruit_RGBLCDShield::init(uint8_t fourbitmode, uint8_t rs, uint8_t rw, uint8_t enable, uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7) {
     void(0);

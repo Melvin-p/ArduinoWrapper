@@ -17,15 +17,13 @@
     along with ArduinoWrapper.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#include "serial.hpp"
+#include "HardwareSerial.hpp"
 
 #include <stdint.h>
 
 #include <cstdio>
 
-#ifndef __def_main__
 #include "def.hpp"
-#endif
 
 /*
 NOTES:

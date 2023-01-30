@@ -25,6 +25,9 @@
 
 #include "def.hpp"
 
+#ifndef CHAR_H
+#define CHAR_H
+
 inline boolean isAlphaNumeric(int c) {
     return (isalnum(c) == 0 ? false : true);
 }
@@ -115,3 +118,5 @@ inline int toLowerCase(int c) {
 inline int toUpperCase(int c) {
     return toupper(c);
 }
+
+#endif

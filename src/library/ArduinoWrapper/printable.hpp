@@ -21,7 +21,8 @@
     Modified 18 October 2022 by Melvin Pynadath
 */
 
-#define __cus_printable__
+#ifndef CUS_PRINTABLE_H
+#define CUS_PRINTABLE_H
 
 class Print;
 
@@ -35,3 +36,4 @@ class Printable {
    public:
     virtual size_t printTo(Print& p) const = 0;
 };
+#endif
