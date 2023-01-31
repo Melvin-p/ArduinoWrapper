@@ -82,7 +82,7 @@ fi
 
 # build exectuable
 
-c++ -DLINUX  -O3 -DNDEBUG -include "$SCRIPT_DIR/sample_private.hpp" -I "$SCRIPT_DIR/../../src/library/ArduinoWrapper/" -std=gnu++17 -o "$OUT_DIR/$filename_noext.o" -c "$OUT_DIR/${filename_noext}_processed.cpp"
+c++ -DLINUX  -O3 -DNDEBUG -include "$SCRIPT_DIR/sample_private.hpp" -I "$SCRIPT_DIR/../../src/library/ArduinoWrapper/" -std=gnu++17 -o "$OUT_DIR/$filename_noext.o" -c "$OUT_DIR/${filename_noext}_processed.cpp" -D lcd_enabled
 
 if [ $? -ne 0 ]; then
     exit 170;
@@ -100,7 +100,7 @@ if [ $? -ne 0 ]; then
     exit 172;
 fi
 
-c++ -o  "$OUT_DIR/$filename_noext.out" "$OUT_DIR/main.cpp.o" -l:"$filename_noext.a" -l:"libArduinoWrapper.so" -L"$SCRIPT_DIR/../../build/Release/output/" -L"$OUT_DIR"
+c++ -o "$OUT_DIR/$filename_noext.out" "$OUT_DIR/main.cpp.o" -l:"$filename_noext.a" -l:"libArduinoWrapper.so" -L"$SCRIPT_DIR/../../build/Release/output/" -L"$OUT_DIR"
 
 if [ $? -ne 0 ]; then
     exit 173;
