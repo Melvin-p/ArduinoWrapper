@@ -25,6 +25,10 @@
 
 #include "def.hpp"
 
+#ifdef ipc_serial
+#include "./../serial/serial.hpp"
+#endif
+
 /*
 NOTES:
 size of stdin and stdout buffer on windows is limited to the max allowed to the program by the os
@@ -47,6 +51,10 @@ void HardwareSerial::end() {
 
 // get number of avaliable bytes for reading from the stdin pipe
 int HardwareSerial::available(void) {
+#ifdef ipc_serial
+    SerialIPC *serial = SerialIPC::getInstance();
+    return serial->available();
+#else
     /*
     NOTES:
     Gets character from the stdin pipe
@@ -60,10 +68,15 @@ int HardwareSerial::available(void) {
         ungetc(c, stdin);
         return 1;
     }
+#endif
 }
 
 // peek at the next character in the stdin pipe
 int HardwareSerial::peek(void) {
+#ifdef ipc_serial
+    SerialIPC *serial = SerialIPC::getInstance();
+    return serial->peek();
+#else
     auto c = getchar();
     if (c < 0) {
         return -1;
@@ -71,41 +84,62 @@ int HardwareSerial::peek(void) {
         ungetc(c, stdin);
         return c;
     }
+#endif
 }
 
 // reads character from stdin pipe
 int HardwareSerial::read(void) {
+#ifdef ipc_serial
+    SerialIPC *serial = SerialIPC::getInstance();
+    return serial->read();
+#else
     auto c = getchar();
     if (c < 0) {
         return -1;
     } else {
         return c;
     }
+#endif
 }
 
 // get number of avaliable bytes for writing to stdout pipe without blocking
 int HardwareSerial::availableForWrite(void) {
+#ifdef ipc_serial
+    SerialIPC *serial = SerialIPC::getInstance();
+    return serial->availableForWrite();
+#else
     /*
     this function is not used internally used so we will return 60 bytes
     60 because it is less than 64 byte buffer on the Arduino
     */
     return 60;
+#endif
 }
 
 // waits for something to read all charactes in stdout pipe
 // this function compiles to NOP
 void HardwareSerial::flush() {
+#ifdef ipc_serial
+    SerialIPC *serial = SerialIPC::getInstance();
+    serial->flush();
+#else
     /*
     NOTES:
     Not required as stdout pipe is practically unlimted
      */
     void(0);
+#endif
 }
 
 // write character to stdout pipe
 size_t HardwareSerial::write(uint8_t c) {
+#ifdef ipc_serial
+    SerialIPC *serial = SerialIPC::getInstance();
+    return serial->write(c);
+#else
     putchar(c);
     return 1;
+#endif
 }
 
 // on ardunio sets up serial not required on OS
