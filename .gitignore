@@ -2,6 +2,7 @@
 .cache/
 build/
 compile_commands.json
+.vscode/c_cpp_properties.json
 
 #visual studio
 .vs/
@@ -15,3 +16,4 @@ CMakeLists.txt.user
 #debug
 temp/
 src/core/arduinoCode/
+
