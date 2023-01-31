@@ -131,5 +131,6 @@ int SerialIPC::available() {
 
 void SerialIPC::flush() {
     bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->mutex));
-    this->queue->clear();
+    while (this->queue->size() > 0) {
+    }
 }
