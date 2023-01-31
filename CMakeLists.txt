@@ -11,6 +11,7 @@ option(BUILD_SHARED_LIBS "SHARED_LIBRARY" ON)
 option(lcdDebug "Build lcd viewer" ON)
 option(tests "Build tests" ON)
 option(lcd_enabled "Build with support for lcd" ON)
+option(serialDebug "Build serial monitor" ON)
 option(ipc_serial "Build with support for serial over IPC" ON)
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
