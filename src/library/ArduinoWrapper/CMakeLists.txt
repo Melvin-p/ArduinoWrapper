@@ -33,6 +33,11 @@ if(lcd_enabled)
     target_compile_definitions(ArduinoWrapper PUBLIC lcd_enabled)
 endif()
 
+if(ipc_serial)
+    target_link_libraries(ArduinoWrapper PRIVATE SerialProd)
+    target_compile_definitions(ArduinoWrapper PUBLIC ipc_serial)
+endif()
+
 target_compile_options(ArduinoWrapper PRIVATE
     $<$<CXX_COMPILER_ID:MSVC>:/wd4996>
     $<$<CXX_COMPILER_ID:GNU>:-Wno-deprecated-declarations>
