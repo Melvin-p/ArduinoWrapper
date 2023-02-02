@@ -54,14 +54,21 @@
      </widget>
     </item>
     <item>
-     <widget class="QLineEdit" name="inputLine">
-      <property name="text">
-       <string notr="true"/>
-      </property>
-      <property name="maxLength">
-       <number>350</number>
-      </property>
-     </widget>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QLineEdit" name="inputLine">
+        <property name="text">
+         <string notr="true"/>
+        </property>
+        <property name="maxLength">
+         <number>350</number>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="lineEndingSelector"/>
+      </item>
+     </layout>
     </item>
    </layout>
   </widget>
