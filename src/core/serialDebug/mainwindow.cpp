@@ -25,6 +25,10 @@
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow), serial(SerialIPC::getInstance()), timer(new QTimer(this)) {
     ui->setupUi(this);
+    ui->lineEndingSelector->addItem("No Line Ending");
+    ui->lineEndingSelector->addItem("New Line");
+    ui->lineEndingSelector->addItem("Cariage Return");
+    ui->lineEndingSelector->addItem("Both NL & CR");
     connect(timer, &QTimer::timeout, this, &::MainWindow::read_serial);
     timer->start(1);
 }
@@ -34,20 +38,36 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::on_inputLine_returnPressed() {
-    QString k = ui->inputLine->text();
+    QString inputStr = ui->inputLine->text();
     ui->inputLine->clear();
-    qDebug() << "Enter Key pressed:" << k;
+    QTextCursor cursor = ui->stdInBox->textCursor();
+    ui->stdInBox->moveCursor(cursor.End);
+    if (ui->lineEndingSelector->currentText() == "Both NL & CR") {
+        ui->stdInBox->insertPlainText(inputStr.append("\r\n"));
+    } else if (ui->lineEndingSelector->currentText() == "New Line") {
+        ui->stdInBox->insertPlainText(inputStr.append("\n"));
+    } else if (ui->lineEndingSelector->currentText() == "Cariage Return") {
+        ui->stdInBox->insertPlainText(inputStr.append("\r"));
+    } else {
+        ui->stdInBox->insertPlainText(inputStr);
+    }
+    ui->stdInBox->moveCursor(cursor.End);
 }
 
 void MainWindow::read_serial() {
     std::stringstream ss;
-    while (serial->available() > 0) {
-        unsigned char temp = serial->read();
+    while (serial->c_available() > 0) {
+        unsigned char temp = serial->c_read();
         ss << temp;
     }
-    QTextCursor cursor = ui->stdOutBox->textCursor();
-    ui->stdOutBox->moveCursor(cursor.End);
-    QString temp_2 = QString::fromStdString(ss.str());
-    ui->stdOutBox->insertPlainText(temp_2);
-    ui->stdOutBox->moveCursor(cursor.End);
+    auto str_temp = ss.str();
+    if (str_temp.size() > 0) {
+        QTextCursor cursor = ui->stdOutBox->textCursor();
+        ui->stdOutBox->moveCursor(cursor.End);
+        ui->stdOutBox->insertPlainText(QString::fromStdString(str_temp));
+        ui->stdOutBox->moveCursor(cursor.End);
+    }
+}
+
+void MainWindow::on_inputLine_selectionChanged() {
 }

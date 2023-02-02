@@ -135,6 +135,8 @@ void HardwareSerial::flush() {
 size_t HardwareSerial::write(uint8_t c) {
 #ifdef ipc_serial
     SerialIPC *serial = SerialIPC::getInstance();
+    // need to wait for buffer to have space to write
+    serial->flush();
     return serial->write(c);
 #else
     putchar(c);

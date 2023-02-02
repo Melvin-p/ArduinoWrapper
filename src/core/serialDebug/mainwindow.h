@@ -41,7 +41,9 @@ class MainWindow : public QMainWindow {
    private slots:
     void on_inputLine_returnPressed();
 
-   private:
+    void on_inputLine_selectionChanged();
+
+private:
     Ui::MainWindow *ui;
     SerialIPC *serial;
     QTimer *timer;
