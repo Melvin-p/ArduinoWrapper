@@ -20,8 +20,11 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <stdint.h>
+
 #include <QMainWindow>
 #include <QTimer>
+#include <string>
 
 #include "../../library/serial/serial.hpp"
 
@@ -41,14 +44,14 @@ class MainWindow : public QMainWindow {
    private slots:
     void on_inputLine_returnPressed();
 
-    void on_inputLine_selectionChanged();
-
-private:
+   private:
     Ui::MainWindow *ui;
     SerialIPC *serial;
     QTimer *timer;
+    std::string to_send;
 
    private:
     void read_serial();
+    void write_serial();
 };
 #endif  // MAINWINDOW_H
