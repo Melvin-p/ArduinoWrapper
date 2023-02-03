@@ -19,17 +19,20 @@
 
 #include "mainwindow.h"
 
+#include <qdebug.h>
+
 #include <sstream>
 
 #include "./ui_mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow), serial(SerialIPC::getInstance()), timer(new QTimer(this)) {
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow), serial(SerialIPC::getInstance()), timer(new QTimer(this)), to_send() {
     ui->setupUi(this);
     ui->lineEndingSelector->addItem("No Line Ending");
     ui->lineEndingSelector->addItem("New Line");
     ui->lineEndingSelector->addItem("Cariage Return");
     ui->lineEndingSelector->addItem("Both NL & CR");
     connect(timer, &QTimer::timeout, this, &::MainWindow::read_serial);
+    connect(timer, &QTimer::timeout, this, &::MainWindow::write_serial);
     timer->start(1);
 }
 
@@ -43,15 +46,18 @@ void MainWindow::on_inputLine_returnPressed() {
     QTextCursor cursor = ui->stdInBox->textCursor();
     ui->stdInBox->moveCursor(cursor.End);
     if (ui->lineEndingSelector->currentText() == "Both NL & CR") {
-        ui->stdInBox->insertPlainText(inputStr.append("\r\n"));
+        inputStr.append("\r\n");
+
     } else if (ui->lineEndingSelector->currentText() == "New Line") {
-        ui->stdInBox->insertPlainText(inputStr.append("\n"));
+        inputStr.append("\n");
+
     } else if (ui->lineEndingSelector->currentText() == "Cariage Return") {
-        ui->stdInBox->insertPlainText(inputStr.append("\r"));
-    } else {
-        ui->stdInBox->insertPlainText(inputStr);
+        inputStr.append("\r");
     }
+    ui->stdInBox->insertPlainText(inputStr);
+    to_send.append(inputStr.toStdString());
     ui->stdInBox->moveCursor(cursor.End);
+    write_serial();
 }
 
 void MainWindow::read_serial() {
@@ -69,5 +75,10 @@ void MainWindow::read_serial() {
     }
 }
 
-void MainWindow::on_inputLine_selectionChanged() {
+void MainWindow::write_serial() {
+    while ((serial->c_availableForWrite() > 0) && (to_send.size() > 0)) {
+        serial->c_write(to_send.front());
+        to_send.erase(to_send.begin());
+        qDebug() << QString::fromStdString(to_send);
+    }
 }

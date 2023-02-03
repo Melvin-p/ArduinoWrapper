@@ -39,7 +39,8 @@ holds the boost specific objects
 */
 struct SerialIPC::boost_struct {
    public:
-    bip::named_mutex mutex;
+    bip::named_mutex r_mutex;
+    bip::named_mutex t_mutex;
     bip::managed_shared_memory managed_shm;
 
    public:
@@ -48,10 +49,10 @@ struct SerialIPC::boost_struct {
     open only for test library
     */
 #ifndef CONSUMER
-    boost_struct() : mutex(bip::create_only, "serial_mutex"), managed_shm{bip::create_only, "serial_sm", 1048576} {
+    boost_struct() : r_mutex(bip::create_only, "r_serial_mutex"), t_mutex(bip::create_only, "t_serial_mutex"), managed_shm{bip::create_only, "serial_sm", 1048576} {
     }
 #else
-    boost_struct() : mutex(bip::open_only, "serial_mutex"), managed_shm(bip::open_only, "serial_sm") {
+    boost_struct() : r_mutex(bip::open_only, "r_serial_mutex"), t_mutex(bip::open_only, "t_serial_mutex"), managed_shm(bip::open_only, "serial_sm") {
     }
 #endif
     ~boost_struct() {
@@ -60,7 +61,8 @@ struct SerialIPC::boost_struct {
         Removes boost objects required as shared memory and mutexes are presistent
         Only required by the ArduinoWrapper library not the test library
         */
-        bip::named_mutex::remove("serial_mutex");
+        bip::named_mutex::remove("r_serial_mutex");
+        bip::named_mutex::remove("t_serial_mutex");
         bip::shared_memory_object::remove("serial_sm");
 #endif
     }
@@ -68,16 +70,17 @@ struct SerialIPC::boost_struct {
 
 SerialIPC::SerialIPC() {
 #ifndef CONSUMER
-    // clears any existing shared memory and removes named mutex
+    // clears any existing shared memory and removes named r_mutex
     bip::shared_memory_object::remove("serial_sm");
-    bip::named_mutex::remove("serial_mutex");
+    bip::named_mutex::remove("t_serial_mutex");
+    bip::named_mutex::remove("r_serial_mutex");
 #endif
 
     try {
         this->boost_objs = new boost_struct();
     } catch (bip::interprocess_exception &e) {
         std::cerr << e.what() << "\n";
-        std::cerr << "Cannot find shared memory or named mutex"
+        std::cerr << "Cannot find shared memory or named r_mutex"
                   << "\n";
         throw std::bad_alloc();
     }
@@ -119,42 +122,49 @@ SerialIPC::~SerialIPC() {
 }
 
 size_t SerialIPC::write(uint8_t c) {
-    bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->mutex));
+    bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->t_mutex));
     this->t_buffer->push_back(c);
     return 1;
 }
 
 int SerialIPC::read() {
-    bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->mutex));
-    int temp = this->r_buffer->at(0);
-    this->r_buffer->pop_front();
+    bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->r_mutex));
+    int temp = -1;
+    try {
+        temp = this->r_buffer->at(0);
+    } catch (boost::wrapexcept<std::out_of_range> &e) {
+        temp = -1;
+    }
+    if (temp != -1) {
+        this->r_buffer->pop_front();
+    }
     return temp;
 }
 
 int SerialIPC::peek() {
-    bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->mutex));
+    bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->r_mutex));
     int temp = this->r_buffer->at(0);
     return temp;
 }
 
 int SerialIPC::availableForWrite() {
-    bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->mutex));
+    bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->t_mutex));
     int cap = this->t_buffer->capacity();
     int size = this->t_buffer->size();
     return (cap - size);
 }
 
 int SerialIPC::available() {
-    bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->mutex));
+    bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->r_mutex));
     return this->r_buffer->size();
 }
 
 void SerialIPC::flush() {
     // no scoped lock to avoid deadlock
     while (true) {
-        this->boost_objs->mutex.lock();
+        this->boost_objs->t_mutex.lock();
         unsigned int temp = this->t_buffer->size();
-        this->boost_objs->mutex.unlock();
+        this->boost_objs->t_mutex.unlock();
         if (temp < T_BUFFER_SIZE) {
             break;
         }
@@ -162,35 +172,42 @@ void SerialIPC::flush() {
 }
 
 int SerialIPC::c_availableForWrite() {
-    bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->mutex));
+    bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->r_mutex));
     int cap = this->r_buffer->capacity();
     int size = this->r_buffer->size();
     return (cap - size);
 }
 
 int SerialIPC::c_available() {
-    bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->mutex));
+    bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->t_mutex));
     return this->t_buffer->size();
 }
 
 size_t SerialIPC::c_write(uint8_t c) {
-    bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->mutex));
+    bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->r_mutex));
     this->r_buffer->push_back(c);
     return 1;
 }
 
 int SerialIPC::c_read() {
-    bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->mutex));
-    int temp = this->t_buffer->at(0);
-    this->t_buffer->pop_front();
+    bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->t_mutex));
+    int temp = -1;
+    try {
+        temp = this->t_buffer->at(0);
+    } catch (boost::wrapexcept<std::out_of_range> &e) {
+        temp = -1;
+    }
+    if (temp != -1) {
+        this->r_buffer->pop_front();
+    }
     return temp;
 }
 
 void SerialIPC::c_flush() {
     while (true) {
-        this->boost_objs->mutex.lock();
+        this->boost_objs->r_mutex.lock();
         unsigned int temp = this->r_buffer->size();
-        this->boost_objs->mutex.unlock();
+        this->boost_objs->r_mutex.unlock();
         if (temp < R_BUFFER_SIZE) {
             break;
         }
