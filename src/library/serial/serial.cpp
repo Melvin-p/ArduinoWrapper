@@ -162,10 +162,13 @@ int SerialIPC::available() {
 void SerialIPC::flush() {
     // no scoped lock to avoid deadlock
     while (true) {
-        this->boost_objs->t_mutex.lock();
-        unsigned int temp = this->t_buffer->size();
-        this->boost_objs->t_mutex.unlock();
-        if (temp < T_BUFFER_SIZE) {
+        unsigned int size = T_BUFFER_SIZE;
+        bool is_locked = this->boost_objs->t_mutex.try_lock();
+        if (is_locked) {
+            size = this->t_buffer->size();
+            this->boost_objs->t_mutex.unlock();
+        }
+        if (size < T_BUFFER_SIZE) {
             break;
         }
     }
@@ -198,17 +201,20 @@ int SerialIPC::c_read() {
         temp = -1;
     }
     if (temp != -1) {
-        this->r_buffer->pop_front();
+        this->t_buffer->pop_front();
     }
     return temp;
 }
 
 void SerialIPC::c_flush() {
     while (true) {
-        this->boost_objs->r_mutex.lock();
-        unsigned int temp = this->r_buffer->size();
-        this->boost_objs->r_mutex.unlock();
-        if (temp < R_BUFFER_SIZE) {
+        unsigned int size = R_BUFFER_SIZE;
+        bool is_locked = this->boost_objs->r_mutex.try_lock();
+        if (is_locked) {
+            size = this->r_buffer->size();
+            this->boost_objs->r_mutex.unlock();
+        }
+        if (size < R_BUFFER_SIZE) {
             break;
         }
     }
