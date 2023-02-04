@@ -33,6 +33,8 @@ class SerialIPC {
     SerialIPC(const SerialIPC &Serial) = delete;
 
    public:
+    //for use by ArduinoWrapper
+
     int peek();
     int availableForWrite();
     int available();
@@ -40,10 +42,19 @@ class SerialIPC {
     int read();
     void flush();
 
+    //for user by SerialDebug or ArduinoTest
+
+    int c_availableForWrite();
+    int c_available();
+    size_t c_write(uint8_t c);
+    int c_read();
+    void c_flush();
+
    private:
     struct boost_struct;
     boost_struct *boost_objs;
-    Buffers *queue;
+    Buffers *t_buffer;
+    Buffers *r_buffer;
 
    private:
     static SerialIPC *instance;

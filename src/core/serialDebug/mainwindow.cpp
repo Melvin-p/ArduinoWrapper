@@ -19,13 +19,20 @@
 
 #include "mainwindow.h"
 
+#include <qdebug.h>
+
 #include <sstream>
 
 #include "./ui_mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow), serial(SerialIPC::getInstance()), timer(new QTimer(this)) {
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow), serial(SerialIPC::getInstance()), timer(new QTimer(this)), to_send() {
     ui->setupUi(this);
+    ui->lineEndingSelector->addItem("No Line Ending");
+    ui->lineEndingSelector->addItem("New Line");
+    ui->lineEndingSelector->addItem("Cariage Return");
+    ui->lineEndingSelector->addItem("Both NL & CR");
     connect(timer, &QTimer::timeout, this, &::MainWindow::read_serial);
+    connect(timer, &QTimer::timeout, this, &::MainWindow::write_serial);
     timer->start(1);
 }
 
@@ -34,20 +41,47 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::on_inputLine_returnPressed() {
-    QString k = ui->inputLine->text();
+    QString inputStr = ui->inputLine->text();
     ui->inputLine->clear();
-    qDebug() << "Enter Key pressed:" << k;
+    QTextCursor cursor = ui->stdInBox->textCursor();
+    ui->stdInBox->moveCursor(cursor.End);
+    if (ui->lineEndingSelector->currentText() == "Both NL & CR") {
+        inputStr.append("\r\n");
+
+    } else if (ui->lineEndingSelector->currentText() == "New Line") {
+        inputStr.append("\n");
+
+    } else if (ui->lineEndingSelector->currentText() == "Cariage Return") {
+        inputStr.append("\r");
+    }
+    ui->stdInBox->insertPlainText(inputStr);
+    to_send.append(inputStr.toStdString());
+    ui->stdInBox->moveCursor(cursor.End);
+    write_serial();
 }
 
 void MainWindow::read_serial() {
     std::stringstream ss;
-    while (serial->available() > 0) {
-        unsigned char temp = serial->read();
+    uint8_t counter = 0;
+    while ((serial->c_available() > 0) && (counter < 64)) {
+        unsigned char temp = serial->c_read();
         ss << temp;
+        counter++;
     }
-    QTextCursor cursor = ui->stdOutBox->textCursor();
-    ui->stdOutBox->moveCursor(cursor.End);
-    QString temp_2 = QString::fromStdString(ss.str());
-    ui->stdOutBox->insertPlainText(temp_2);
-    ui->stdOutBox->moveCursor(cursor.End);
+    auto str_temp = ss.str();
+    if (str_temp.size() > 0) {
+        QTextCursor cursor = ui->stdOutBox->textCursor();
+        ui->stdOutBox->moveCursor(cursor.End);
+        ui->stdOutBox->insertPlainText(QString::fromStdString(str_temp));
+        ui->stdOutBox->moveCursor(cursor.End);
+    }
+}
+
+void MainWindow::write_serial() {
+    uint8_t counter = 0;
+    while ((serial->c_availableForWrite() > 0) && (to_send.size() > 0) && (counter < 64)) {
+        serial->c_write(to_send.front());
+        to_send.erase(to_send.begin());
+        counter++;
+    }
 }
