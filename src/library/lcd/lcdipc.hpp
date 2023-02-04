@@ -31,9 +31,6 @@
 #ifndef LCD_IPC_H
 #define LCD_IPC_H
 
-/**
-inherit this class privately to communciate with LCD
-*/
 class LcdIPC {
    private:
     LcdIPC();

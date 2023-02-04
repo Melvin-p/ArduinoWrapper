@@ -9,7 +9,7 @@
 #define BUTTON_SELECT 0x01  //!< Select button
 #define LCD_5x8DOTS 0x00    //!< 8 pixel high font mode0
 
-#include "print.hpp"
+#include "Print.hpp"
 
 #ifndef LCD_H
 #define LCD_h
