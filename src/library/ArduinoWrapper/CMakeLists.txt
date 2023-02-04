@@ -9,13 +9,13 @@ set(PROJECT_SOURCES
     character.hpp
     binary.cpp
     binary.hpp
-    print.cpp
-    print.hpp
-    printable.hpp
-        HardwareSerial.cpp
-        HardwareSerial.hpp
-    stream.cpp
-    stream.hpp
+    Print.cpp
+    Print.hpp
+    Printable.hpp
+    HardwareSerial.cpp
+    HardwareSerial.hpp
+    Stream.cpp
+    Stream.hpp
     adwr.hpp
 )
 

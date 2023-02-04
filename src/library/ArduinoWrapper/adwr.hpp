@@ -3,13 +3,13 @@
  */
 
 #include "./HardwareSerial.hpp"
+#include "./Print.hpp"
+#include "./Printable.hpp"
+#include "./Stream.hpp"
 #include "./binary.hpp"
 #include "./character.hpp"
 #include "./def.hpp"
 #include "./math.hpp"
-#include "./print.hpp"
-#include "./printable.hpp"
-#include "./stream.hpp"
 #include "./string.hpp"
 #include "./time.hpp"
 
