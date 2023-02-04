@@ -22,7 +22,7 @@
     Modified 18 October 2022 by Melvin Pynadath
 */
 
-#include "print.hpp"
+#include "Print.hpp"
 
 #ifndef STREAM_H
 #define STREAM_H

@@ -26,7 +26,7 @@
     Modified 18 October 2022 by Melvin Pynadath
  */
 
-#include "stream.hpp"
+#include "Stream.hpp"
 
 #include "time.hpp"
 
