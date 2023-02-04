@@ -25,8 +25,8 @@
 
 #include <cstring>
 
+#include "Printable.hpp"
 #include "def.hpp"
-#include "printable.hpp"
 #include "string.hpp"
 
 #ifndef CUS_PRINT_H

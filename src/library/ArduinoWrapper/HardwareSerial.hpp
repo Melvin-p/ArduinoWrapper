@@ -26,7 +26,7 @@
 
 #include <stdint.h>
 
-#include "stream.hpp"
+#include "Stream.hpp"
 
 #ifndef SERIAL_H
 #define SERIAL_H
