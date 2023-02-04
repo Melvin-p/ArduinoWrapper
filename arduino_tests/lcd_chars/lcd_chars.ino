@@ -107,6 +107,18 @@ void setup() {
     // lcd columns and rows
     lcd.begin(16, 2);
 
+    byte customChar[] = {0b11111, 0b11001, 0b10101, 0b10011, 0b10101, 0b11001, 0b11111};
+    byte customChar_2[] = {0b0, 0b1010, 0b100, 0b11111, 0b0, 0b0, 0b0};
+    byte customChar_3[] = {0b0, 0b1010, 0b100, 0b1110, 0b10001, 0b0, 0b0};
+    byte customChar_4[] = {0b0, 0b1010, 0b100, 0b1010, 0b100, 0b1010, 0b0};
+    byte customChar_5[] = {0b1001, 0b10110, 0b1001, 0b1010, 0b10010, 0b1101, 0b10010};
+
+    lcd.createChar(0, customChar);
+    lcd.createChar(1, customChar_2);
+    lcd.createChar(2, customChar_3);
+    lcd.createChar(3, customChar_4);
+    lcd.createChar(4, customChar_5);
+
     lcd.blink();
     lcd.cursor();
 
