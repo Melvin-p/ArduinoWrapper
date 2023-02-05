@@ -6,6 +6,7 @@ compile_commands.json
 
 #visual studio
 .vs/
+CMakeSettings.json
 
 #CLion OR Jetbrain
 .idea/
