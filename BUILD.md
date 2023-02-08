@@ -85,3 +85,5 @@ Then run to build
 ```
 cmake --build build/
 ```
+
+Binaries produced will be in the output folder

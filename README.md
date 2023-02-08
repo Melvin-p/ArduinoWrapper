@@ -19,11 +19,16 @@ after the arduino code is compiled.
 - On an arduino ints are 2 bytes but on x64 systems it is 4 bytes. So there are difference in the size of the fundamental types
 - Behaviour of functions may subtle vary from on a real Arduino
 
+## Bugs and limitations to be rectified
+- floats in the String class are broken
+- the lcd debug utility is very jank
+- only one arduinoCode executable can be run on a machine at one time this due to the same shared memory being used
+
 ## Plans
 - automate the x.ino to x.exe process
 - support EEPROM
 
-## Build
+## Build Instructions
 in BUILD.md
 
 ## Instructions for use
