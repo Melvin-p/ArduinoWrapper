@@ -11,9 +11,8 @@ found in the Arduino Core provided by the Arduino IDE. This project provides a l
 after the arduino code is compiled.  
 
 ## Limitations
-- The functions are internally different to Arduino’s standard functions so if you rely on this internal behaviour this library may not work.
 - Due to how this wrapper works the memory constraints of the Arduino cannot be replicated.  
-- There will difference in how serial communication is handled.  
+- There maybe differences in how serial communication is handled  
 - GPIO Pins are not supported  
 - LCD is assumed to be 16 by 2 and each character to be 5 pixels across and 7 pixels down  
 - On an arduino ints are 2 bytes but on x64 systems it is 4 bytes. So there are difference in the size of the fundamental types
@@ -58,6 +57,8 @@ project root
 │       └── compile.sh     # used to compile tests which will run on an arduino executable not implemented yet
 └── .vscode                # vscode config
 ```
+
+![output](https://user-images.githubusercontent.com/70172420/217626751-9b5ac11f-ffb7-47fa-86b4-09aff84c2ace.svg)
 
 The the lcd library and serial library (used only if serial is built in IPC mode) are built in two different modes producer and consumer  
 ArduinoWrapper linked to the producer version of these libraries  
