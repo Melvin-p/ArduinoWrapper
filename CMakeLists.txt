@@ -13,6 +13,8 @@ option(tests "Build tests" ON)
 option(lcd_enabled "Build with support for lcd" ON)
 option(serialDebug "Build serial monitor" ON)
 option(ipc_serial "Build with support for serial over IPC" ON)
+option(pedantic "build with all warning" OFF)
+option(lto "build with link time optimisation" ON)
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     add_compile_definitions(WIN)
@@ -29,7 +31,20 @@ if (NOT ((CMAKE_CXX_COMPILER_ID STREQUAL "Clang") OR (CMAKE_CXX_COMPILER_ID STRE
     message(WARNING "Unsupported compiler")
 else()
     message(VERBOSE "compiler okay")
+    # if compiler okay then warning flags can be added if they are turned on
+    if(pedantic)
+        add_compile_options(-Wpedantic -Wall -Wextra)
+    endif()
 endif()
+
+if(lto)
+    include(CheckIPOSupported)
+    check_ipo_supported(RESULT ipo_support OUTPUT output)
+    if(ipo_support)
+        set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
+    endif()
+endif()
+
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     add_compile_definitions(DEBUG)
