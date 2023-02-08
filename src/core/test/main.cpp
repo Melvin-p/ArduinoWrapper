@@ -19,7 +19,8 @@
 
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 
-#include "../../../external/doctest.h"
+#include <doctest/doctest.h>
+
 #include "../../library/ArduinoWrapper/adwr.hpp"
 
 TEST_SUITE("String class") {
