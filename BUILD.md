@@ -20,36 +20,38 @@ Build options can be set when running the CMake commands
 - lcdDebug  
     Default: ON  
     Requires: lcd_enabled  
-    Dependencies: Qt6, boost
+    Dependencies: Qt6, boost  
     builds the lcd debugging executable
 - tests  
     Default: ON  
-    Requires: 
-    Dependencies: doctest, (boost if building with lcd_enabled and ipc_serial)
+    Requires:  
+    Dependencies: doctest, (boost if building with lcd_enabled and ipc_serial)  
     builds the tests
 - lcd_enabled  
     Default: ON  
-    Requires: 
-    Dependencies: boost
+    Requires:  
+    Dependencies: boost  
     Builds with support for lcd  
 - serialDebug  
     Default: ON  
     Requires: ipc_serial  
-    Dependencies: Qt6, boost
+    Dependencies: Qt6, boost  
     builds the serial debugging executable  
 - ipc_serial  
     Default: ON
     Requires:  
-    Dependencies: boost
+    Dependencies: boost  
     Builds serial over IPC
 - pedantic  
-    Default: OFF
+    Default: OFF  
     Requires:  
-    Dependencies:
+    Dependencies:  
+    builds with -Wpedantic -Wall -Wextra flags
 - lto  
     Default: ON  
     Requires:  
     Dependencies:
+    Builds with  link time optimisation on
 
 ##  Dependencies
  - `boost-interprocess` 1.81
@@ -71,7 +73,7 @@ It is recommended that Qt is built dynamically and everything else statically. T
 ./vcpkg install boost-interprocess:x64-linux-custom boost-system:x64-linux-custom boost-circular-buffer:x64-linux-custom doctest:x64-linux-custom --overlay-triplets=[PATH TO custom-triplets folder]
 ```
 
-Qt6 on VCPKG installs the default triplet alongside the the custom triplet eventhough the custom triplet has been specified. So it is necessary to install Qt6 twice. Run the following command to install Qt6 in VCPKG.
+Qt6 on VCPKG installs the default triplet alongside the the custom triplet even though the custom triplet has been specified. So it is necessary to install Qt6 twice. Run the following command to install Qt6 in VCPKG.
 ```
 ./vcpkg install qtbase[concurrent,core,dbus,doubleconversion,fontconfig,freetype,gui,harfbuzz,icu,pcre2,png,testlib,thread,widgets,xcb,xcb-xlib,xkb,xkbcommon-x11,xlib,xrender,zstd]:x64-linux-custom qtbase[concurrent,core,dbus,doubleconversion,fontconfig,freetype,gui,harfbuzz,icu,pcre2,png,testlib,thread,widgets,xcb,xcb-xlib,xkb,xkbcommon-x11,xlib,xrender,zstd]:x64-linux --overlay-triplets=[PATH TO custom-triplets folder]
 ```
