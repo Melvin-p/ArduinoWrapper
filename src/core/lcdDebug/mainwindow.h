@@ -51,7 +51,7 @@ class MainWindow : public QMainWindow {
    private:
     Ui::MainWindow *ui;
     uint8_t bt_status;
-    LcdIPC &lcdipc;
+    LcdIPC *lcdipc;
     void keyPressEvent(QKeyEvent *ev);
     void keyReleaseEvent(QKeyEvent *ev);
     QTimer *timer;
