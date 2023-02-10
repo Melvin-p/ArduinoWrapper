@@ -97,8 +97,8 @@ void MainWindow::keyReleaseEvent(QKeyEvent *ev) {
 }
 
 void MainWindow::update() {
-    lcdipc.setButton(bt_status);
-    lcd value = lcdipc.getLcd();
+    lcdipc->setButton(bt_status);
+    lcd value = lcdipc->getLcd();
 
     ui->plainTextEdit->clear();
 

@@ -17,13 +17,15 @@
     along with ArduinoWrapper.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+#include "./serial.hpp"
+
 #include <boost/interprocess/exceptions.hpp>
 #include <boost/interprocess/managed_shared_memory.hpp>
 #include <boost/interprocess/sync/named_mutex.hpp>
 #include <boost/interprocess/sync/scoped_lock.hpp>
 #include <iostream>
 
-#include "./private_serial.hpp"
+#include "def.hpp"
 
 #define T_BUFFER_SIZE 64
 #define R_BUFFER_SIZE 64
@@ -33,6 +35,17 @@
 namespace bip = boost::interprocess;
 
 SerialIPC *SerialIPC::instance = nullptr;
+
+struct SerialIPC::Data {
+   public:
+    Buffers *t_buffer;
+    Buffers *r_buffer;
+
+    Data() {
+        t_buffer = nullptr;
+        r_buffer = nullptr;
+    }
+};
 
 /**
 holds the boost specific objects
@@ -85,12 +98,14 @@ SerialIPC::SerialIPC() {
         throw std::bad_alloc();
     }
 
+    data = new Data();
+
     try {
 #ifndef CONSUMER
-        this->t_buffer = this->boost_objs->managed_shm.construct<Buffers>("t_buffer_n")(T_BUFFER_SIZE, this->boost_objs->managed_shm.get_segment_manager());
+        data->t_buffer = this->boost_objs->managed_shm.construct<Buffers>("t_buffer_n")(T_BUFFER_SIZE, this->boost_objs->managed_shm.get_segment_manager());
 #else
-        this->t_buffer = this->boost_objs->managed_shm.find<Buffers>("t_buffer_n").first;
-        if (this->t_buffer == nullptr) {
+        data->t_buffer = this->boost_objs->managed_shm.find<Buffers>("t_buffer_n").first;
+        if (data->t_buffer == nullptr) {
             throw bip::bad_alloc();
         }
 #endif
@@ -102,10 +117,10 @@ SerialIPC::SerialIPC() {
     }
     try {
 #ifndef CONSUMER
-        this->r_buffer = this->boost_objs->managed_shm.construct<Buffers>("r_buffer_n")(R_BUFFER_SIZE, this->boost_objs->managed_shm.get_segment_manager());
+        data->r_buffer = this->boost_objs->managed_shm.construct<Buffers>("r_buffer_n")(R_BUFFER_SIZE, this->boost_objs->managed_shm.get_segment_manager());
 #else
-        this->r_buffer = this->boost_objs->managed_shm.find<Buffers>("r_buffer_n").first;
-        if (this->r_buffer == nullptr) {
+        data->r_buffer = this->boost_objs->managed_shm.find<Buffers>("r_buffer_n").first;
+        if (data->r_buffer == nullptr) {
             throw bip::bad_alloc();
         }
 #endif
@@ -123,7 +138,7 @@ SerialIPC::~SerialIPC() {
 
 size_t SerialIPC::write(uint8_t c) {
     bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->t_mutex));
-    this->t_buffer->push_back(c);
+    data->t_buffer->push_back(c);
     return 1;
 }
 
@@ -131,32 +146,32 @@ int SerialIPC::read() {
     bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->r_mutex));
     int temp = -1;
     try {
-        temp = this->r_buffer->at(0);
+        temp = data->r_buffer->at(0);
     } catch (boost::wrapexcept<std::out_of_range> &e) {
         temp = -1;
     }
     if (temp != -1) {
-        this->r_buffer->pop_front();
+        data->r_buffer->pop_front();
     }
     return temp;
 }
 
 int SerialIPC::peek() {
     bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->r_mutex));
-    int temp = this->r_buffer->at(0);
+    int temp = data->r_buffer->at(0);
     return temp;
 }
 
 int SerialIPC::availableForWrite() {
     bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->t_mutex));
-    int cap = this->t_buffer->capacity();
-    int size = this->t_buffer->size();
+    int cap = data->t_buffer->capacity();
+    int size = data->t_buffer->size();
     return (cap - size);
 }
 
 int SerialIPC::available() {
     bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->r_mutex));
-    return this->r_buffer->size();
+    return data->r_buffer->size();
 }
 
 void SerialIPC::flush() {
@@ -165,7 +180,7 @@ void SerialIPC::flush() {
         unsigned int size = T_BUFFER_SIZE;
         bool is_locked = this->boost_objs->t_mutex.try_lock();
         if (is_locked) {
-            size = this->t_buffer->size();
+            size = data->t_buffer->size();
             this->boost_objs->t_mutex.unlock();
         }
         if (size < T_BUFFER_SIZE) {
@@ -176,19 +191,19 @@ void SerialIPC::flush() {
 
 int SerialIPC::c_availableForWrite() {
     bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->r_mutex));
-    int cap = this->r_buffer->capacity();
-    int size = this->r_buffer->size();
+    int cap = data->r_buffer->capacity();
+    int size = data->r_buffer->size();
     return (cap - size);
 }
 
 int SerialIPC::c_available() {
     bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->t_mutex));
-    return this->t_buffer->size();
+    return data->t_buffer->size();
 }
 
 size_t SerialIPC::c_write(uint8_t c) {
     bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->r_mutex));
-    this->r_buffer->push_back(c);
+    data->r_buffer->push_back(c);
     return 1;
 }
 
@@ -196,12 +211,12 @@ int SerialIPC::c_read() {
     bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->t_mutex));
     int temp = -1;
     try {
-        temp = this->t_buffer->at(0);
+        temp = data->t_buffer->at(0);
     } catch (boost::wrapexcept<std::out_of_range> &e) {
         temp = -1;
     }
     if (temp != -1) {
-        this->t_buffer->pop_front();
+        data->t_buffer->pop_front();
     }
     return temp;
 }
@@ -211,7 +226,7 @@ void SerialIPC::c_flush() {
         unsigned int size = R_BUFFER_SIZE;
         bool is_locked = this->boost_objs->r_mutex.try_lock();
         if (is_locked) {
-            size = this->r_buffer->size();
+            size = data->r_buffer->size();
             this->boost_objs->r_mutex.unlock();
         }
         if (size < R_BUFFER_SIZE) {
