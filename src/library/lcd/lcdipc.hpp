@@ -35,14 +35,11 @@ class LcdIPC {
    private:
     LcdIPC();
     ~LcdIPC();
-    LcdIPC(LcdIPC &lcdipc) {
-    }
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wreturn-type"
+    LcdIPC &operator=(LcdIPC &lcdipc) = delete;
 
-    LcdIPC &operator=(LcdIPC &lcdipc) {
-    }
-#pragma GCC diagnostic pop
+   public:
+    LcdIPC(LcdIPC &lcdipc) = delete;
+    LcdIPC(const LcdIPC &lcdipc) = delete;
 
    public:
     charBitMap getLcdDisp(uint8_t loc);
@@ -98,9 +95,14 @@ class LcdIPC {
     struct boost_struct;
     boost_struct *boost_objs;
 
+   private:
+    static LcdIPC *instance;
+
    public:
-    static LcdIPC &getInstance() {
-        static LcdIPC instance;
+    static LcdIPC *getInstance() {
+        if (instance == nullptr) {
+            instance = new LcdIPC();
+        }
         return instance;
     }
 };
