@@ -264,4 +264,80 @@ TEST_SUITE("String class") {
         String test_string = String(test_uchar, BIN);
         CHECK(test_string == "1100101");
     }
+
+    // Test Float
+
+    TEST_CASE("Testing float postive 0 decimal change") {
+        float test_float = 101.02;
+        String test_string = String(test_float, 2);
+        CHECK(test_string == "101.02");
+    }
+
+    TEST_CASE("Testing float postive +1 decimal change") {
+        float test_float = 101.02;
+        String test_string = String(test_float, 3);
+        CHECK(test_string == "101.020");
+    }
+
+    TEST_CASE("Testing float postive -1 decimal change") {
+        float test_float = 101.08;
+        String test_string = String(test_float, 1);
+        CHECK(test_string == "101.1");
+    }
+
+    TEST_CASE("Testing float negative 0 decimal change") {
+        float test_float = -101.02;
+        String test_string = String(test_float, 2);
+        CHECK(test_string == "-101.02");
+    }
+
+    TEST_CASE("Testing float negative +1 decimal change") {
+        float test_float = -101.02;
+        String test_string = String(test_float, 3);
+        CHECK(test_string == "-101.020");
+    }
+
+    TEST_CASE("Testing float negative -1 decimal change") {
+        float test_float = -101.08;
+        String test_string = String(test_float, 1);
+        CHECK(test_string == "-101.1");
+    }
+
+    // Test Double
+
+    TEST_CASE("Testing float postive 0 decimal change") {
+        double test_float = 101.02;
+        String test_string = String(test_float, 2);
+        CHECK(test_string == "101.02");
+    }
+
+    TEST_CASE("Testing float postive +1 decimal change") {
+        double test_float = 101.02;
+        String test_string = String(test_float, 3);
+        CHECK(test_string == "101.020");
+    }
+
+    TEST_CASE("Testing float postive -1 decimal change") {
+        double test_float = 101.08;
+        String test_string = String(test_float, 1);
+        CHECK(test_string == "101.1");
+    }
+
+    TEST_CASE("Testing float negative 0 decimal change") {
+        double test_float = -101.02;
+        String test_string = String(test_float, 2);
+        CHECK(test_string == "-101.02");
+    }
+
+    TEST_CASE("Testing float negative +1 decimal change") {
+        double test_float = -101.02;
+        String test_string = String(test_float, 3);
+        CHECK(test_string == "-101.020");
+    }
+
+    TEST_CASE("Testing float negative -1 decimal change") {
+        double test_float = -101.08;
+        String test_string = String(test_float, 1);
+        CHECK(test_string == "-101.1");
+    }
 }
