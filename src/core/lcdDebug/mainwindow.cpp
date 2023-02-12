@@ -131,4 +131,45 @@ void MainWindow::update() {
         }
         ui->plainTextEdit->appendPlainText("");
     }
+
+    auto colour = lcdipc->getBackLight();
+
+    QPalette palette = ui->plainTextEdit->palette();
+
+    switch (colour) {
+        case RED: {
+            palette.setColor(QPalette::Base, Qt::red);
+            break;
+        }
+        case YELLOW: {
+            palette.setColor(QPalette::Base, Qt::yellow);
+            break;
+        }
+        case GREEN: {
+            palette.setColor(QPalette::Base, Qt::green);
+            break;
+        }
+        case TEAL: {
+            palette.setColor(QPalette::Base, Qt::cyan);
+            break;
+        }
+        case BLUE: {
+            palette.setColor(QPalette::Base, Qt::blue);
+            break;
+        }
+        case VIOLET: {
+            palette.setColor(QPalette::Base, Qt::magenta);
+            break;
+        }
+        case WHITE: {
+            palette.setColor(QPalette::Base, Qt::white);
+            break;
+        }
+        default: {
+            palette.setColor(QPalette::Base, Qt::lightGray);
+            break;
+        }
+    }
+    palette.setColor(QPalette::Text, Qt::black);
+    ui->plainTextEdit->setPalette(palette);
 }
