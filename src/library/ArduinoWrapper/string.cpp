@@ -270,19 +270,19 @@ String::String(float value, unsigned char decimalPlaces) {
 
     if (m == nullptr) {
         invalidate();
-    }
-
-    m++;
-    int counter = 0;
-    while (m < &buf[33]) {
-        if (*m == '\0') {
-            *m = '0';
-        }
+    } else {
         m++;
-        counter++;
-        if (counter == decimalPlaces) {
-            *m = '\0';
-            break;
+        int counter = 0;
+        while (m < &buf[33]) {
+            if (*m == '\0') {
+                *m = '0';
+            }
+            m++;
+            counter++;
+            if (counter == decimalPlaces) {
+                *m = '\0';
+                break;
+            }
         }
     }
 
@@ -300,19 +300,19 @@ String::String(double value, unsigned char decimalPlaces) {
 
     if (m == nullptr) {
         invalidate();
-    }
-
-    m++;
-    int counter = 0;
-    while (m < &buf[33]) {
-        if (*m == '\0') {
-            *m = '0';
-        }
+    } else {
         m++;
-        counter++;
-        if (counter == decimalPlaces) {
-            *m = '\0';
-            break;
+        int counter = 0;
+        while (m < &buf[33]) {
+            if (*m == '\0') {
+                *m = '0';
+            }
+            m++;
+            counter++;
+            if (counter == decimalPlaces) {
+                *m = '\0';
+                break;
+            }
         }
     }
 
