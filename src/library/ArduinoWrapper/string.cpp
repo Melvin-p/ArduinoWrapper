@@ -133,13 +133,13 @@ String::String(unsigned char value, unsigned char base) {
     char buf[1 + 8 * sizeof(unsigned char)];
     switch (base) {
         case DEC:
-            sprintf(buf, "%d", value);
+            std::snprintf(buf, 1 + 8 * sizeof(unsigned char), "%d", value);
             break;
         case HEX:
-            sprintf(buf, "%x", value);
+            std::snprintf(buf, 1 + 8 * sizeof(unsigned char), "%x", value);
             break;
         case OCT:
-            sprintf(buf, "%o", value);
+            std::snprintf(buf, 1 + 8 * sizeof(unsigned char), "%o", value);
             break;
         case BIN:
             std::string temp = std::bitset<sizeof(value) * 8>(value).to_string();
@@ -147,7 +147,7 @@ String::String(unsigned char value, unsigned char base) {
             if (temp.length() == 0) {
                 temp.append("0");
             }
-            sprintf(buf, "%s", temp.c_str());
+            std::snprintf(buf, 1 + 8 * sizeof(unsigned char), "%s", temp.c_str());
     }
     *this = buf;
 }
@@ -157,13 +157,13 @@ String::String(int value, unsigned char base) {
     char buf[2 + 8 * sizeof(int)];
     switch (base) {
         case DEC:
-            sprintf(buf, "%d", value);
+            std::snprintf(buf, 2 + 8 * sizeof(int), "%d", value);
             break;
         case HEX:
-            sprintf(buf, "%x", value);
+            std::snprintf(buf, 2 + 8 * sizeof(int), "%x", value);
             break;
         case OCT:
-            sprintf(buf, "%o", value);
+            std::snprintf(buf, 2 + 8 * sizeof(int), "%o", value);
             break;
         case BIN:
             std::string temp;
@@ -177,7 +177,7 @@ String::String(int value, unsigned char base) {
             if (temp.length() == 0) {
                 temp.append("0");
             }
-            sprintf(buf, "%s", temp.c_str());
+            std::snprintf(buf, 2 + 8 * sizeof(int), "%s", temp.c_str());
     }
     *this = buf;
 }
@@ -187,13 +187,13 @@ String::String(unsigned int value, unsigned char base) {
     char buf[1 + 8 * sizeof(unsigned int)];
     switch (base) {
         case DEC:
-            sprintf(buf, "%d", value);
+            std::snprintf(buf, 1 + 8 * sizeof(unsigned int), "%d", value);
             break;
         case HEX:
-            sprintf(buf, "%x", value);
+            std::snprintf(buf, 1 + 8 * sizeof(unsigned int), "%x", value);
             break;
         case OCT:
-            sprintf(buf, "%o", value);
+            std::snprintf(buf, 1 + 8 * sizeof(unsigned int), "%o", value);
             break;
         case BIN:
             std::string temp = std::bitset<8 * sizeof(unsigned int)>(value).to_string();
@@ -201,7 +201,7 @@ String::String(unsigned int value, unsigned char base) {
             if (temp.length() == 0) {
                 temp.append("0");
             }
-            sprintf(buf, "%s", temp.c_str());
+            std::snprintf(buf, 1 + 8 * sizeof(unsigned int), "%s", temp.c_str());
     }
     *this = buf;
 }
@@ -211,13 +211,13 @@ String::String(long value, unsigned char base) {
     char buf[2 + 8 * sizeof(long)];
     switch (base) {
         case DEC:
-            sprintf(buf, "%ld", value);
+            std::snprintf(buf, 2 + 8 * sizeof(long), "%ld", value);
             break;
         case HEX:
-            sprintf(buf, "%lx", value);
+            std::snprintf(buf, 2 + 8 * sizeof(long), "%lx", value);
             break;
         case OCT:
-            sprintf(buf, "%lo", value);
+            std::snprintf(buf, 2 + 8 * sizeof(long), "%lo", value);
             break;
         case BIN:
             std::string temp;
@@ -231,7 +231,7 @@ String::String(long value, unsigned char base) {
             if (temp.length() == 0) {
                 temp.append("0");
             }
-            sprintf(buf, "%s", temp.c_str());
+            std::snprintf(buf, 2 + 8 * sizeof(long), "%s", temp.c_str());
     }
     *this = buf;
 }
@@ -241,13 +241,13 @@ String::String(unsigned long value, unsigned char base) {
     char buf[1 + 8 * sizeof(unsigned long)];
     switch (base) {
         case DEC:
-            sprintf(buf, "%ld", value);
+            std::snprintf(buf, 1 + 8 * sizeof(unsigned long), "%ld", value);
             break;
         case HEX:
-            sprintf(buf, "%lx", value);
+            std::snprintf(buf, 1 + 8 * sizeof(unsigned long), "%lx", value);
             break;
         case OCT:
-            sprintf(buf, "%lo", value);
+            std::snprintf(buf, 1 + 8 * sizeof(unsigned long), "%lo", value);
             break;
         case BIN:
             std::string temp = std::bitset<8 * sizeof(unsigned long)>(value).to_string();
@@ -255,24 +255,67 @@ String::String(unsigned long value, unsigned char base) {
             if (temp.length() == 0) {
                 temp.append("0");
             }
-            sprintf(buf, "%s", temp.c_str());
+            std::snprintf(buf, 1 + 8 * sizeof(unsigned long), "%s", temp.c_str());
     }
     *this = buf;
 }
 
 String::String(float value, unsigned char decimalPlaces) {
     init();
-    char buf[33];
+    char buf[33] = {'\0'};
 
-    sprintf(buf, "%.*f", decimalPlaces, value);
+    std::snprintf(buf, 33, "%.*f", decimalPlaces, value);
+
+    auto m = std::strchr(buf, '.');
+
+    if (m == nullptr) {
+        invalidate();
+    }
+
+    m++;
+    int counter = 0;
+    while (m < &buf[33]) {
+        if (*m == '\0') {
+            *m = '0';
+        }
+        m++;
+        counter++;
+        if (counter == decimalPlaces) {
+            *m = '\0';
+            break;
+        }
+    }
 
     *this = buf;
 }
 
 String::String(double value, unsigned char decimalPlaces) {
     init();
-    char buf[33];
-    sprintf(buf, "%.*f", decimalPlaces, value);
+    char buf[33] = {'\0'};
+    float n_value = static_cast<float>(value);
+
+    std::snprintf(buf, 33, "%.*f", decimalPlaces, n_value);
+
+    auto m = std::strchr(buf, '.');
+
+    if (m == nullptr) {
+        invalidate();
+    }
+
+    m++;
+    int counter = 0;
+    while (m < &buf[33]) {
+        if (*m == '\0') {
+            *m = '0';
+        }
+        m++;
+        counter++;
+        if (counter == decimalPlaces) {
+            *m = '\0';
+            break;
+        }
+    }
+
     *this = buf;
 }
 
