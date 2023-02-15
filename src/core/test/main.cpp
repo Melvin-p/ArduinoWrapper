@@ -340,4 +340,145 @@ TEST_SUITE("String class") {
         String test_string = String(test_float, 1);
         CHECK(test_string == "-101.1");
     }
+
+    // Test other string functions
+
+    TEST_CASE("Concat String and float") {
+        float test_float = 0.001;
+        String test_string("Hello World ");
+        test_string.concat(test_float);
+        CHECK(test_string == "Hello World 0.001");
+        CHECK(test_string.length() == 17);
+    }
+
+    TEST_CASE("Concat String and double") {
+        double test_double = 0.001;
+        String test_string("Hello World ");
+        test_string.concat(test_double);
+        CHECK(test_string == "Hello World 0.001");
+        CHECK(test_string.length() == 17);
+    }
+
+    TEST_CASE("Concat String and int") {
+        int test_int = 12;
+        String test_string("Hello World ");
+        test_string.concat(test_int);
+        CHECK(test_string == "Hello World 12");
+        CHECK(test_string.length() == 14);
+    }
+
+    TEST_CASE("Concat String and unsigned int") {
+        unsigned int test_uint = 12;
+        String test_string("Hello World ");
+        test_string.concat(test_uint);
+        CHECK(test_string == "Hello World 12");
+        CHECK(test_string.length() == 14);
+    }
+
+    TEST_CASE("Concat String and long") {
+        long test_long = 12;
+        String test_string("Hello World ");
+        test_string.concat(test_long);
+        CHECK(test_string == "Hello World 12");
+        CHECK(test_string.length() == 14);
+    }
+
+    TEST_CASE("Concat String and unsigned long") {
+        unsigned long test_ulong = 12;
+        String test_string("Hello World ");
+        test_string.concat(test_ulong);
+        CHECK(test_string == "Hello World 12");
+        CHECK(test_string.length() == 14);
+    }
+
+    TEST_CASE("Concat String and unsigned char") {
+        unsigned char test_uchar = 104;
+        String test_string("Hello World ");
+        test_string.concat(test_uchar);
+        CHECK(test_string == "Hello World 104");
+        CHECK(test_string.length() == 15);
+    }
+
+    TEST_CASE("Concat String and char") {
+        char test_char = 'f';
+        String test_string("Hello World ");
+        test_string.concat(test_char);
+        CHECK(test_string == "Hello World f");
+        CHECK(test_string.length() == 13);
+    }
+
+    TEST_CASE("Concat String and String") {
+        String test_string_2 = "\nHello World";
+        String test_string("Hello World");
+        test_string.concat(test_string_2);
+        CHECK(test_string == "Hello World\nHello World");
+        CHECK(test_string.length() == 23);
+    }
+
+    TEST_CASE("Concat String and cstr") {
+        char test_char[] = {'H', 'E', 'L', 'L', 'O', '\0'};
+        String test_string("Hello World ");
+        test_string.concat(test_char);
+        CHECK(test_string == "Hello World HELLO");
+        CHECK(test_string.length() == 17);
+        CHECK(*test_string.begin() == 'H');
+        CHECK(*(test_string.end() - 1) == 'O');
+    }
+
+    TEST_CASE("Concat String and cstr from String") {
+        String test_string_2 = "How are you";
+        String test_string("Hello World ");
+        test_string.concat(test_string_2.c_str());
+        CHECK(test_string == "Hello World How are you");
+        test_string_2.replace('o', 'u');
+        CHECK(test_string_2 == "Huw are yuu");
+        test_string.concat(test_string_2.c_str());
+        CHECK(test_string == "Hello World How are youHuw are yuu");
+    }
+
+    TEST_CASE("String case change and replace") {
+        String test_string("ALL UPPERCASE");
+        String test_string_2("all lowercase");
+        test_string.toLowerCase();
+        CHECK(test_string == "all uppercase");
+        test_string_2.toUpperCase();
+        CHECK(test_string_2 == "ALL LOWERCASE");
+        String test_string_3 = "base";
+        String test_string_4 = "case";
+        test_string.replace(test_string_4, test_string_3);
+        CHECK(test_string == "all upperbase");
+    }
+
+    TEST_CASE("String trim") {
+        String test_string("   Trim   ");
+        CHECK(test_string == "   Trim   ");
+        test_string.trim();
+        CHECK(test_string == "Trim");
+    }
+
+    TEST_CASE("String remove") {
+        String test_string = "hello";
+        test_string.remove(2, 2);
+        CHECK(test_string == "heo");
+    }
+
+    TEST_CASE("String equality") {
+        String test_string = "ALL UPPERCASE";
+        String test_string_2 = "all uppercase";
+        CHECK(test_string.equalsIgnoreCase(test_string_2) == true);
+        test_string.toLowerCase();
+        CHECK(test_string.startsWith("all") == true);
+        CHECK(test_string.endsWith("case") == true);
+        // compare 2 ??
+    }
+
+    TEST_CASE("String to numerics") {
+        String s_int = "123";
+        String s_double = "90.003";
+        auto i_int = s_int.toInt();
+        auto d_double = s_double.toDouble();
+        CHECK(i_int == 123);
+        CHECK(d_double == 90.003);
+        // float returns very long decimals
+    }
 }
