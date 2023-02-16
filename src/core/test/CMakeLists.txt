@@ -16,5 +16,13 @@ if(DEFINED doctest_include_dire)
     add_executable(ArduinoWrapper-test ${PROJECT_SOURCES})
     target_link_libraries(ArduinoWrapper-test PUBLIC ArduinoWrapper)
     target_include_directories(ArduinoWrapper-test PRIVATE ${doctest_include_dire})
+    if(NOT CMAKE_BUILD_TYPE STREQUAL "Release")
+        target_compile_options(ArduinoWrapper-test  PRIVATE
+            $<$<CXX_COMPILER_ID:Clang>:-fprofile-arcs -ftest-coverage>
+        )
+        target_link_options(ArduinoWrapper-test  PRIVATE
+            $<$<CXX_COMPILER_ID:Clang>:-fprofile-arcs -ftest-coverage>
+        )
+    endif()
 endif()
 
