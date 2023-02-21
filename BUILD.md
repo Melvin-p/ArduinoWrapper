@@ -21,12 +21,12 @@ Build options can be set when running the CMake commands
     Default: ON  
     Requires: lcd_enabled  
     Dependencies: Qt6, boost  
-    builds the lcd debugging executable
+    builds the lcd debugging executable  
 - tests  
     Default: ON  
     Requires:  
     Dependencies: doctest, (boost if building with lcd_enabled and ipc_serial)  
-    builds the tests
+    builds the tests  
 - lcd_enabled  
     Default: ON  
     Requires:  
@@ -38,22 +38,23 @@ Build options can be set when running the CMake commands
     Dependencies: Qt6, boost  
     builds the serial debugging executable  
 - ipc_serial  
-    Default: ON
+    Default: ON  
     Requires:  
     Dependencies: boost  
-    Builds serial over IPC
+    Builds serial over IPC  
 - pedantic  
     Default: OFF  
     Requires:  
     Dependencies:  
-    builds with -Wpedantic -Wall -Wextra flags
+    builds with -Wpedantic -Wall -Wextra flags  
 - lto  
     Default: ON  
     Requires:  
-    Dependencies:
-    Builds with  link time optimisation on
+    Dependencies:  
+    Builds with  link time optimisation on  
 
 ##  Dependencies
+major version must match  
  - `boost-interprocess` 1.81
  - `boost-system` 1.81
  - `boost-circular-buffer` 1.81
@@ -63,7 +64,7 @@ Build options can be set when running the CMake commands
   Additional packages need to be installed for Qt6 to compile, your system may need different set of packages in this case you need to read the error message from VCPKG to figure out which dependency is missing or check the Qt website. The command below installs the packages need for Qt6 to compile on Ubuntu.
 
  ```
- sudo apt-get install libfontconfig1-dev libfreetype6-dev libx11-dev libx11-xcb-dev libxext-dev libxfixes-dev libxi-dev libxrender-dev libxcb1-dev libxcb-glx0-dev libxcb-keysyms1-dev libxcb-image0-dev libxcb-shm0-dev libxcb-icccm4-dev libxcb-sync-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-randr0-dev libxcb-render-util0-dev libxcb-util-dev libxcb-xinerama0-dev libxcb-xkb-dev libxkbcommon-dev libxkbcommon-x11-dev pkg-config bison python3-disutils autoconf autoconf-archive libtool 
+ sudo apt-get install libfontconfig1-dev libfreetype6-dev libx11-dev libx11-xcb-dev libxext-dev libxfixes-dev libxi-dev libxrender-dev libxcb1-dev libxcb-glx0-dev libxcb-keysyms1-dev libxcb-image0-dev libxcb-shm0-dev libxcb-icccm4-dev libxcb-sync-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-randr0-dev libxcb-render-util0-dev libxcb-util-dev libxcb-xinerama0-dev libxcb-xkb-dev libxkbcommon-dev libxkbcommon-x11-dev pkg-config bison python3-distutils autoconf autoconf-archive libtool 
  ```
 
 After VCPKG has been setup.  
