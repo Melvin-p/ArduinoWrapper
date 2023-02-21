@@ -1,7 +1,7 @@
 # ArduinoWrapper
 
 ## What is ArduinoWrapper
-It is a wrapper/compatibility layer for Arduino code so that it can run on Linux.  
+It is a wrapper/compatibility layer for Arduino code so that it can run on Linux. (Windows not supported)  
 It creates mock hardware devices such as serial so it is best described as a quasi-simulation.
 
 ## Core Idea
@@ -12,19 +12,19 @@ after the arduino code is compiled.
 
 ## Limitations
 - Due to how this wrapper works the memory constraints of the Arduino cannot be replicated.  
-- There maybe differences in how serial communication is handled  
-- GPIO Pins are not supported  
-- LCD is assumed to be 16 by 2 and each character to be 5 pixels across and 7 pixels down  
-- On an arduino ints are 2 bytes but on x64 systems it is 4 bytes. So there are difference in the size of the fundamental types
-- Behaviour of functions may subtle vary from on a real Arduino
+- There maybe differences in how serial communication is handled.  
+- GPIO Pins are not supported. It should be possible to add this feature similarly to how lcd module was implemented.  
+- LCD is assumed to be 16 by 2 and each character to be 5 pixels across and 7 pixels down.  
+- On an arduino ints are 2 bytes but on x64 systems it is 4 bytes. So there are difference in the size of the fundamental types  
+- Behavior of functions may subtle vary from on a real Arduino  
+- floating point behavior may differ from arduino's because floats are emulated on an arduino  
 
 ## Bugs and limitations to be rectified
-- floats in the String class are broken
-- the lcd debug utility is very jank
-- only one arduinoCode executable can be run on a machine at one time this due to the same shared memory being used
+- the lcd debug utility is very jank  
+- only one arduinoCode executable can be run on a machine at one time this due to the same shared memory being used  
+- poor documentation  
 
 ## Plans
-- automate the x.ino to x.exe process
 - support EEPROM
 
 ## Build Instructions
