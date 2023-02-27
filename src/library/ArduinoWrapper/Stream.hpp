@@ -27,6 +27,9 @@
 #ifndef STREAM_H
 #define STREAM_H
 
+// This enumeration provides the lookahead options for parseInt(), parseFloat()
+// The rules set out here are used until either the first valid character is found
+// or a time out occurs due to lack of input.
 enum LookaheadMode {
     SKIP_ALL,        // All invalid characters are ignored.
     SKIP_NONE,       // Nothing is skipped, and the stream is not touched unless the first waiting character is valid.

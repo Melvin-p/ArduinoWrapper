@@ -31,6 +31,12 @@
 #ifndef LCD_IPC_H
 #define LCD_IPC_H
 
+/**
+ * @brief the LCD communication class \n
+ *
+ * Contains the shared lcd data structure and methods to manipulate it. \n
+ * singleton
+ */
 class LcdIPC {
    private:
     LcdIPC();
@@ -42,51 +48,206 @@ class LcdIPC {
     LcdIPC(const LcdIPC &lcdipc) = delete;
 
    public:
+    /**
+     * @brief Get char on the lcd at specified location
+     *
+     * @param loc
+     * @return charBitMap
+     */
     charBitMap getLcdDisp(uint8_t loc);
+
+    /**
+     * @brief Set char on the lcd at specified location
+     *
+     * @param loc
+     * @param value
+     */
     void setLcdDisp(uint8_t loc, char value);
+
+    /**
+     * @brief push a character on to the display
+     *
+     * @param value
+     * @return size_t the number of bytes written
+     */
     size_t write(uint8_t value);
 
+    /**
+     * @brief get custom characters from the lcd \n
+     *
+     * only 8 custom characters in the display so will do % 8 on loc
+     *
+     * @param loc
+     * @return charBitMap
+     */
     charBitMap getCustChars(uint8_t loc);
+
+    /**
+     * @brief create a custom character \n
+     *
+     * creates a customs character. There are only 8 custom characters so will do % 8 on loc
+     *
+     * @param loc
+     * @param character
+     */
     void setCustChars(uint8_t loc, charBitMap character);
 
+    /**
+     * @brief get the position of the cursor
+     *
+     * @return uint8_t
+     */
     uint8_t getCursorPos();
+
+    /**
+     * @brief set the postion of the cursor
+     *
+     * @param value
+     */
     void setCursorPos(uint8_t value);
 
+    /**
+     * @brief is the display on
+     *
+     * @return true
+     * @return false
+     */
     bool getDisp();
+
+    /**
+     * @brief turn display on and off
+     *
+     * @param value
+     */
     void setDisp(bool value);
 
+    /**
+     * @brief is the cursor enabled
+     *
+     * @return true
+     * @return false
+     */
     bool getCursEnabled();
+
+    /**
+     * @brief enable or disable the cursor
+     *
+     * @param value
+     */
     void setCursEnabled(bool value);
 
     bool getCursBlink();
     void setCursBlink(bool value);
 
     /**
-    true is left to right
-    false is right to left
-    */
+     * @brief get the direction the display moves in \n
+     *
+     * true is left to right \n
+     * false is right to left \n
+     *
+     * @return true
+     * @return false
+     */
     bool getDir();
+
+    /**
+     * @brief set the direction of the display \n
+     *
+     * true is left to right \n
+     * false is right to left \n
+     *
+     * @param value
+     */
     void setDir(bool value);
 
+    /**
+     * @brief get the colour of the back light
+     *
+     * @return uint8_t
+     */
     uint8_t getBackLight();
+
+    /**
+     * @brief set the colour of teh back light
+     *
+     * @param value
+     */
     void setBackLight(uint8_t value);
 
+    /**
+     * @brief get the display postion this is the where the first character shown on the lcd is
+     *
+     * @return uint8_t
+     */
     uint8_t getDispPos();
+
+    /**
+     * @brief set the display postion
+     *
+     * @param value
+     */
     void setDispPos(uint8_t value);
 
+    /**
+     * @brief clear the lcd
+     *
+     */
     void clearDisp();
 
+    /**
+     * @brief shift the display to the left
+     *
+     */
     void shiftLeft();
+
+    /**
+     * @brief shift the display to the right
+     *
+     */
     void shiftRight();
 
+    /**
+     * @brief set the cursor and display to postion 0
+     *
+     */
     void home();
 
+    /**
+     * @brief turn autoscroll on or off
+     *
+     * @param value
+     */
     void setAutoScroll(bool value);
+
+    /**
+     * @brief check if autoscroll is on or off
+     *
+     * @return true
+     * @return false
+     */
     bool getAutoScroll();
 
+    /**
+     * @brief set the buttons \n
+     *
+     * see the preprocessor marcos BUTTON_* for the bit flags \n
+     *
+     * @param value
+     */
     void setButton(uint8_t value);
+
+    /**
+     * @brief get the buttons
+     *
+     * @return uint8_t
+     */
     uint8_t getButton();
 
+    /**
+     * @brief get the displayed portion of the lcd
+     *
+     * @return lcd
+     */
     lcd getLcd();
 
    private:
@@ -99,6 +260,11 @@ class LcdIPC {
     static LcdIPC *instance;
 
    public:
+    /**
+     * @brief get an instance of the lcdIPC class
+     *
+     * @return LcdIPC*
+     */
     static LcdIPC *getInstance() {
         if (instance == nullptr) {
             instance = new LcdIPC();

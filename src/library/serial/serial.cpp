@@ -30,12 +30,14 @@
 #define T_BUFFER_SIZE 64
 #define R_BUFFER_SIZE 64
 
-// TODO seperate mutexes for r_buffer and t_buffer
-
 namespace bip = boost::interprocess;
 
 SerialIPC *SerialIPC::instance = nullptr;
 
+/**
+ * @brief holds the transmit and receive buffers
+ *
+ */
 struct SerialIPC::Data {
    public:
     Buffers *t_buffer;
@@ -48,8 +50,9 @@ struct SerialIPC::Data {
 };
 
 /**
-holds the boost specific objects
-*/
+ * @brief holds the boost specific objects
+ *
+ */
 struct SerialIPC::boost_struct {
    public:
     bip::named_mutex r_mutex;
@@ -71,7 +74,7 @@ struct SerialIPC::boost_struct {
     ~boost_struct() {
 #ifndef CONSUMER
         /*
-        Removes boost objects required as shared memory and mutexes are presistent
+        Removes boost objects required as shared memory and mutexes are persistent
         Only required by the ArduinoWrapper library not the test library
         */
         bip::named_mutex::remove("r_serial_mutex");

@@ -23,7 +23,17 @@
 #ifndef charBitMap_def_H
 #define charBitMap_def_H
 
+/**
+ * @brief the char bit map that holds a character \n
+ * This is used in other data structures such as lcd to represent a individual character \n
+ * Each character is 5 pixels across in 7 rows so only the first 5 bits of each value are relevant
+ */
 typedef std::array<uint8_t, 7> charBitMap;
+
+/**
+ * @brief a displayed lcd buffer \n
+ * contains the displayed portion of the lcd \n
+ */
 typedef std::array<charBitMap, 32> lcd;
 
 #endif
