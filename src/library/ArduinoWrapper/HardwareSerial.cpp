@@ -31,25 +31,23 @@
 
 /*
 NOTES:
-size of stdin and stdout buffer on windows is limited to the max allowed to the program by the os
+size of stdin and stdout buffer is limited to the max allowed to the program by the os
 however there limits in the terminal buffer and some other buffers.
-there are differences for file redirection, command line text redirection and parent program
-handles for stdin and stdout
-
+there are differences for file redirection, command line text redirection and parent program handles for stdin and stdout
 Will wait for input from console
+cannot send data while data is being received on the terminal
+These problems can be alleviated by compiling with serialIPC support
 */
 
-// this function compiles to NOP as it is not required on OS
 void HardwareSerial::begin(unsigned long baud, byte config) {
     void(0);
 }
 
-// this function compiles to NOP as it is not required on OS
 void HardwareSerial::end() {
     void(0);
 }
 
-// get number of avaliable bytes for reading from the stdin pipe
+// get number of available bytes for reading from the stdin pipe
 int HardwareSerial::available(void) {
 #ifdef ipc_serial
     SerialIPC *serial = SerialIPC::getInstance();
@@ -60,6 +58,7 @@ int HardwareSerial::available(void) {
     Gets character from the stdin pipe
     if there is a character return 1 and putback the character into the sdtdin pipe
     this may cause a lot of IO operations
+    this due to a limitation of the language
     */
     auto c = getchar();
     if (c < 0) {
@@ -102,13 +101,14 @@ int HardwareSerial::read(void) {
 #endif
 }
 
-// get number of avaliable bytes for writing to stdout pipe without blocking
+// get number of available bytes for writing to stdout pipe without blocking
 int HardwareSerial::availableForWrite(void) {
 #ifdef ipc_serial
     SerialIPC *serial = SerialIPC::getInstance();
     return serial->availableForWrite();
 #else
     /*
+    stdout pipe is unlimited
     this function is not used internally used so we will return 60 bytes
     60 because it is less than 64 byte buffer on the Arduino
     */
@@ -116,8 +116,7 @@ int HardwareSerial::availableForWrite(void) {
 #endif
 }
 
-// waits for something to read all charactes in stdout pipe
-// this function compiles to NOP
+// waits for something to read all characters in stdout pipe
 void HardwareSerial::flush() {
 #ifdef ipc_serial
     SerialIPC *serial = SerialIPC::getInstance();
@@ -125,7 +124,7 @@ void HardwareSerial::flush() {
 #else
     /*
     NOTES:
-    Not required as stdout pipe is practically unlimted
+    Not required as stdout pipe is practically unlimited
      */
     void(0);
 #endif
@@ -144,7 +143,6 @@ size_t HardwareSerial::write(uint8_t c) {
 #endif
 }
 
-// on ardunio sets up serial not required on OS
 HardwareSerial::HardwareSerial(uint8_t out) {
     void(0);
 }

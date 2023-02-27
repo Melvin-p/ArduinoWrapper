@@ -33,11 +33,16 @@ namespace bip = boost::interprocess;
 LcdIPC *LcdIPC::instance = nullptr;
 
 /**
-data structure for LCD
-created in shared memory
-*/
+ * @brief data structure for LCD \n
+ * created in shared memory
+ */
 struct LcdIPC::lcdData {
    public:
+    /**
+     * @brief the lcd buffer \n
+     * the lcd has two rows of 40 characters however only 16 in each row is visible \n
+     * Equivalent to Display Data RAM in the real lcd
+     */
     std::array<charBitMap, 80> lcd_disp;
     uint8_t curs_pos;
     bool disp;
@@ -54,6 +59,7 @@ struct LcdIPC::lcdData {
     uint8_t buttons;
 
    private:
+    // look up table equivalent to CGROM and CGRAM in the lcd
     uint8_t charset[256][7] = {
         {0},                           // 0
         {0},                           // 1
@@ -331,9 +337,9 @@ struct LcdIPC::lcdData {
         this->buttons = 0;
     }
 
-    /*
-    Reads in char value and converts to a bitmap
-    */
+    /**
+     * @brief reads in char value and converts to a bitmap
+     */
     charBitMap charTocharMap(uint16_t value) {
         charBitMap out;
         for (int i = 0; i < 7; i++) {
@@ -342,16 +348,22 @@ struct LcdIPC::lcdData {
         return out;
     }
 
-    /*
-    Set a custom char
-    */
+    /**
+     * @brief set a custom char
+     *
+     * @param value
+     * @param loc
+     */
     void setCustomChar(charBitMap value, uint8_t loc) {
         std::copy(value.begin(), value.end(), std::begin(charset[loc % 8]));
     }
 
-    /*
-    Reads out a custom char
-    */
+    /**
+     * @brief get a custom char
+     *
+     * @param loc
+     * @return * Reads
+     */
     charBitMap getCustomChar(uint8_t loc) {
         charBitMap out;
         out.fill(*charset[loc % 8]);
@@ -360,8 +372,8 @@ struct LcdIPC::lcdData {
 };
 
 /**
-holds the boost specific objects
-*/
+ * @brief holds the boost specific objects
+ */
 struct LcdIPC::boost_struct {
    public:
     bip::named_mutex mutex;
@@ -382,7 +394,7 @@ struct LcdIPC::boost_struct {
     ~boost_struct() {
 #ifndef CONSUMER
         /*
-        Removes boost objects required as shared memory and mutexes are presistent
+        Removes boost objects required as shared memory and mutexes are persistent
         Only required by the ArduinoWrapper library not the test library
         */
         bip::named_mutex::remove("arduino_mutex");
@@ -549,22 +561,18 @@ void LcdIPC::clearDisp() {
 }
 
 void LcdIPC::shiftLeft() {
-    // shift display pointer
     bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->mutex));
     this->data->disp_pos--;
     this->data->disp_pos = (this->data->disp_pos % 80);
 }
 
 void LcdIPC::shiftRight() {
-    // shift display pointer
     bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->mutex));
     this->data->disp_pos++;
     this->data->disp_pos = (this->data->disp_pos % 80);
 }
 
 void LcdIPC::home() {
-    // set cursor to pointer to zero
-    // set display pointer to zero
     bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->mutex));
     this->data->curs_pos = 0;
     this->data->disp_pos = 0;

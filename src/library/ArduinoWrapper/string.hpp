@@ -26,6 +26,8 @@
 #ifndef STRING_H
 #define STRING_H
 
+// An inherited class for holding the result of a concatenation.  These
+// result objects are assumed to be writable by subsequent concatenations.
 class StringSumHelper;
 
 class String {
@@ -151,6 +153,7 @@ class String {
     operator StringIfHelperType() const {
         return buffer ? &String::StringIfHelper : 0;
     }
+
     int compareTo(const String &s) const;
     unsigned char equals(const String &s) const;
     unsigned char equals(const char *cstr) const;

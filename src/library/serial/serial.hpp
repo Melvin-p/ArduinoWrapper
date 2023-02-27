@@ -33,19 +33,83 @@ class SerialIPC {
    public:
     // for use by ArduinoWrapper
 
+    /**
+     * @brief get next character available in the receive buffer
+     *
+     * @return int
+     */
     int peek();
+
+    /**
+     * @brief number of characters available for write on the transmit buffer
+     *
+     * @return int
+     */
     int availableForWrite();
+
+    /**
+     * @brief the number of characters available for reading from the receive buffer
+     *
+     * @return int
+     */
     int available();
+
+    /**
+     * @brief write a character to the transmit buffer
+     *
+     * @param c
+     * @return size_t the number of characters written
+     */
     size_t write(uint8_t c);
+
+    /**
+     * @brief read character from receive buffer
+     *
+     * @return int
+     */
     int read();
+
+    /**
+     * @brief wait for space in the transmit buffer
+     *
+     */
     void flush();
 
     // for user by SerialDebug or ArduinoTest
 
+    /**
+     * @brief the number of characters available for write on the receive buffer
+     *
+     * @return int
+     */
     int c_availableForWrite();
+
+    /**
+     * @brief the number of characters available for read on the transmit buffer
+     *
+     * @return int
+     */
     int c_available();
+
+    /**
+     * @brief write a character to the receive buffer
+     *
+     * @param c
+     * @return size_t
+     */
     size_t c_write(uint8_t c);
+
+    /**
+     * @brief read a character from the transmit buffer
+     *
+     * @return int
+     */
     int c_read();
+
+    /**
+     * @brief wait for space in the receive buffer
+     *
+     */
     void c_flush();
 
    private:
@@ -58,6 +122,10 @@ class SerialIPC {
     static SerialIPC *instance;
 
    public:
+    /**
+     * @brief get an instance of the SerialIPC class
+     * @return SerialIPC*
+     */
     static SerialIPC *getInstance() {
         if (instance == nullptr) {
             instance = new SerialIPC();
