@@ -38,6 +38,8 @@ if(ipc_serial)
     target_compile_definitions(ArduinoWrapper PUBLIC ipc_serial)
 endif()
 
+target_include_directories(ArduinoWrapper PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
 target_compile_options(ArduinoWrapper PRIVATE
     $<$<NOT:$<BOOL:${pedantic}>>:
         $<$<CXX_COMPILER_ID:MSVC>:/wd4996>
