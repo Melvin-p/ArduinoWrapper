@@ -17,7 +17,7 @@
     along with ArduinoWrapper.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#include "lcdipc.hpp"
+#include "LcdIPC.hpp"
 
 #include <stdint.h>
 

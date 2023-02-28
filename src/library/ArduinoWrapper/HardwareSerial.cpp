@@ -26,7 +26,7 @@
 #include "def.hpp"
 
 #ifdef ipc_serial
-#include <serial.hpp>
+#include <SerialIPC.hpp>
 #endif
 
 /*

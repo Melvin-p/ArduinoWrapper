@@ -24,7 +24,7 @@
 
 #include <QMainWindow>
 #include <QTimer>
-#include <serial.hpp>
+#include <SerialIPC.hpp>
 #include <string>
 
 QT_BEGIN_NAMESPACE
