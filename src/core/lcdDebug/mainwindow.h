@@ -39,8 +39,7 @@
 
 #include <QMainWindow>
 #include <QTimer>
-
-#include "../../library/lcd/lcdipc.hpp"
+#include <lcdipc.hpp>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {

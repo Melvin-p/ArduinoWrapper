@@ -21,7 +21,7 @@
 
 #include <doctest/doctest.h>
 
-#include "../../library/ArduinoWrapper/adwr.hpp"
+#include <adwr.hpp>
 
 TEST_SUITE("String class") {
     /**
