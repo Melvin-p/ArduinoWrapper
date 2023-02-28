@@ -19,7 +19,7 @@
 
 #include "Adafruit_RGBLCDShield.hpp"
 
-#include <lcdipc.hpp>
+#include <LcdIPC.hpp>
 
 #include "time.hpp"
 

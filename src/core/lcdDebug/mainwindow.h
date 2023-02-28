@@ -37,9 +37,9 @@
 
 #include <stdint.h>
 
+#include <LcdIPC.hpp>
 #include <QMainWindow>
 #include <QTimer>
-#include <lcdipc.hpp>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {

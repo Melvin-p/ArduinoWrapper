@@ -17,7 +17,7 @@
     along with ArduinoWrapper.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#include "./serial.hpp"
+#include "./SerialIPC.hpp"
 
 #include <stdint.h>
 
