@@ -17,15 +17,30 @@
     along with ArduinoWrapper.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#include "./serial.hpp"
+#include "./SerialIPC.hpp"
 
+#include <stdint.h>
+
+#include <boost/circular_buffer.hpp>
+#include <boost/interprocess/allocators/allocator.hpp>
 #include <boost/interprocess/exceptions.hpp>
+#include <boost/interprocess/interprocess_fwd.hpp>
 #include <boost/interprocess/managed_shared_memory.hpp>
 #include <boost/interprocess/sync/named_mutex.hpp>
 #include <boost/interprocess/sync/scoped_lock.hpp>
 #include <iostream>
 
-#include "def.hpp"
+namespace bip = boost::interprocess;
+
+using Segment = bip::managed_shared_memory;
+using Mgr = Segment::segment_manager;
+template <typename T>
+using Alloc = bip::allocator<T, Mgr>;
+
+template <typename T>
+using Ring = boost::circular_buffer<T, Alloc<T>>;
+
+using Buffers = Ring<uint8_t>;
 
 #define T_BUFFER_SIZE 64
 #define R_BUFFER_SIZE 64

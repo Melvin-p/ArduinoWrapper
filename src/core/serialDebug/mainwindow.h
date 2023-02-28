@@ -24,9 +24,8 @@
 
 #include <QMainWindow>
 #include <QTimer>
+#include <SerialIPC.hpp>
 #include <string>
-
-#include "../../library/serial/serial.hpp"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
