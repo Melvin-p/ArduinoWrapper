@@ -112,6 +112,13 @@ class SerialIPC {
      */
     void c_flush();
 
+    /**
+     * @brief get next available character in the transmit buffer
+     *
+     * @return int
+     */
+    int c_peek();
+
    private:
     struct boost_struct;
     boost_struct *boost_objs;

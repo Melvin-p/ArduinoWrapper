@@ -252,3 +252,9 @@ void SerialIPC::c_flush() {
         }
     }
 }
+
+int SerialIPC::c_peek() {
+    bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->t_mutex));
+    int temp = data->t_buffer->at(0);
+    return temp;
+}

@@ -27,7 +27,18 @@
 
 #include "Printable.hpp"
 #include "def.hpp"
+
+/**
+ * when this file is being used by adwr_reuse use std::string instead of Arduino string
+ * adwr_reuse is consumed by the arduino code executable testing framework ArduinoTest
+ *
+ */
+#ifdef use_std_str
+#include <string>
+using String = std::string;
+#else
 #include "string.hpp"
+#endif
 
 #ifndef CUS_PRINT_H
 #define CUS_PRINT_H
