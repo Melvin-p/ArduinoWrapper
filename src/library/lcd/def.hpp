@@ -28,7 +28,7 @@
  * This is used in other data structures such as lcd to represent a individual character \n
  * Each character is 5 pixels across in 7 rows so only the first 5 bits of each value are relevant
  */
-typedef std::array<uint8_t, 7> charBitMap;
+typedef std::array<uint8_t, 8> charBitMap;
 
 /**
  * @brief a displayed lcd buffer \n
