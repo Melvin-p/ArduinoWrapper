@@ -27,6 +27,7 @@
  * @brief the char bit map that holds a character \n
  * This is used in other data structures such as lcd to represent a individual character \n
  * Each character is 5 pixels across in 7 rows so only the first 5 bits of each value are relevant
+ * the the 8th character is a hidden extra piece of data so that the type of character can be easily queried
  */
 typedef std::array<uint8_t, 8> charBitMap;
 

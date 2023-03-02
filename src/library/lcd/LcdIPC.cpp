@@ -60,7 +60,7 @@ struct LcdIPC::lcdData {
 
    private:
     // look up table equivalent to CGROM and CGRAM in the lcd
-    uint8_t charset[256][8] = {
+    std::array<charBitMap, 256> charset = {{
         {0, 0, 0, 0, 0, 0, 0, 0},           // 0
         {0, 0, 0, 0, 0, 0, 0, 1},           // 1
         {0, 0, 0, 0, 0, 0, 0, 2},           // 2
@@ -317,7 +317,7 @@ struct LcdIPC::lcdData {
         {0, 4, 0, 31, 0, 4, 0, 253},        // 253 divide
         {0, 0, 0, 0, 0, 0, 0, 254},         // 254
         {31, 31, 31, 31, 31, 31, 31, 255},  // 255
-    };
+    }};
 
    public:
     lcdData() {
@@ -340,11 +340,9 @@ struct LcdIPC::lcdData {
     /**
      * @brief reads in char value and converts to a bitmap
      */
-    charBitMap charTocharMap(uint16_t value) {
+    charBitMap charTocharMap(uint8_t value) {
         charBitMap out;
-        for (int i = 0; i < 7; i++) {
-            out[i] = charset[value][i];
-        }
+        std::copy(std::begin(charset[value]), std::end(charset[value]), std::begin(out));
         return out;
     }
 
@@ -355,7 +353,7 @@ struct LcdIPC::lcdData {
      * @param loc
      */
     void setCustomChar(charBitMap value, uint8_t loc) {
-        std::copy(value.begin(), value.end(), std::begin(charset[loc % 8]));
+        std::copy(value.begin(), value.end() - 1, std::begin(charset[loc % 8]));
     }
 
     /**
@@ -366,8 +364,24 @@ struct LcdIPC::lcdData {
      */
     charBitMap getCustomChar(uint8_t loc) {
         charBitMap out;
-        out.fill(*charset[loc % 8]);
+        std::copy(std::begin(charset[loc % 8]), std::end(charset[loc % 8]), out.begin());
         return out;
+    }
+
+    void write(uint8_t value) {
+        charBitMap character = charTocharMap(value);
+        lcd_disp[curs_pos] = character;
+        if (dir) {
+            curs_pos++;
+            curs_pos = (curs_pos % 80);
+        } else {
+            curs_pos--;
+            curs_pos = (curs_pos % 80);
+        }
+
+        if (auto_scroll) {
+            disp_pos = curs_pos;
+        }
     }
 };
 
@@ -378,6 +392,7 @@ struct LcdIPC::boost_struct {
    public:
     bip::named_mutex mutex;
     bip::managed_shared_memory managed_shm;
+    bip::named_mutex bt_mutex;
 
    public:
     /*
@@ -385,10 +400,10 @@ struct LcdIPC::boost_struct {
     open only for test library
     */
 #ifndef CONSUMER
-    boost_struct() : mutex(bip::create_only, "arduino_mutex"), managed_shm{bip::create_only, "arduino_sm", 1048576} {
+    boost_struct() : mutex(bip::create_only, "arduino_mutex"), managed_shm{bip::create_only, "arduino_sm", 1048576}, bt_mutex(bip::create_only, "bt_ard_mutex") {
     }
 #else
-    boost_struct() : mutex(bip::open_only, "arduino_mutex"), managed_shm(bip::open_only, "arduino_sm") {
+    boost_struct() : mutex(bip::open_only, "arduino_mutex"), managed_shm(bip::open_only, "arduino_sm"), bt_mutex(bip::open_only, "bt_ard_mutex") {
     }
 #endif
     ~boost_struct() {
@@ -399,6 +414,7 @@ struct LcdIPC::boost_struct {
         */
         bip::named_mutex::remove("arduino_mutex");
         bip::shared_memory_object::remove("arduino_sm");
+        bip::named_mutex::remove("bt_ard_mutex");
 #endif
     }
 };
@@ -408,6 +424,7 @@ LcdIPC::LcdIPC() {
     // clears any existing shared memory and removes named mutex
     bip::shared_memory_object::remove("arduino_sm");
     bip::named_mutex::remove("arduino_mutex");
+    bip::named_mutex::remove("bt_ard_mutex");
 #endif
 
     try {
@@ -453,21 +470,7 @@ void LcdIPC::setLcdDisp(uint8_t loc, char value) {
 
 size_t LcdIPC::write(uint8_t value) {
     bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->mutex));
-    charBitMap character = this->data->charTocharMap(value);
-    this->data->lcd_disp[this->data->curs_pos] = character;
-    if (this->data->dir) {
-        this->data->curs_pos++;
-        this->data->curs_pos = (this->data->curs_pos % 80);
-    } else {
-        this->data->curs_pos--;
-        this->data->curs_pos = (this->data->curs_pos);
-        this->data->curs_pos = (this->data->curs_pos % 80);
-    }
-
-    if (this->data->auto_scroll) {
-        this->data->disp_pos = this->data->curs_pos;
-    }
-
+    this->data->write(value);
     return 1;
 }
 
@@ -589,12 +592,12 @@ bool LcdIPC::getAutoScroll() {
 }
 
 void LcdIPC::setButton(uint8_t value) {
-    bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->mutex));
+    bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->bt_mutex));
     this->data->buttons = value;
 }
 
 uint8_t LcdIPC::getButton() {
-    bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->mutex));
+    bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->bt_mutex));
     return this->data->buttons;
 }
 

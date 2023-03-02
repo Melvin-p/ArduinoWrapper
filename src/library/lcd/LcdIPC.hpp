@@ -20,7 +20,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#include "def.hpp"
+#include "lcd_data_types.hpp"
 
 #define BUTTON_UP 0x08      //!< Up button
 #define BUTTON_DOWN 0x04    //!< Down button
