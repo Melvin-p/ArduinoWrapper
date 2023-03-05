@@ -26,6 +26,8 @@
 
 #include "def.hpp"
 
+SerialIPC &serialipc = SerialIPC::getInstance();
+
 void HardwareSerial::begin(unsigned long baud, byte config) {
     void(0);
 }
@@ -36,40 +38,34 @@ void HardwareSerial::end() {
 
 // get number of available bytes for reading from the stdin pipe
 int HardwareSerial::available(void) {
-    SerialIPC *serial = SerialIPC::getInstance();
-    return serial->c_available();
+    return serialipc.c_available();
 }
 
 // peek at the next character in the stdin pipe
 int HardwareSerial::peek(void) {
-    SerialIPC *serial = SerialIPC::getInstance();
-    return serial->c_peek();
+    return serialipc.c_peek();
 }
 
 // reads character from stdin pipe
 int HardwareSerial::read(void) {
-    SerialIPC *serial = SerialIPC::getInstance();
-    return serial->c_read();
+    return serialipc.c_read();
 }
 
 // get number of available bytes for writing to stdout pipe without blocking
 int HardwareSerial::availableForWrite(void) {
-    SerialIPC *serial = SerialIPC::getInstance();
-    return serial->c_availableForWrite();
+    return serialipc.c_availableForWrite();
 }
 
 // waits for something to read all characters in stdout pipe
 void HardwareSerial::flush() {
-    SerialIPC *serial = SerialIPC::getInstance();
-    serial->c_flush();
+    serialipc.c_flush();
 }
 
 // write character to stdout pipe
 size_t HardwareSerial::write(uint8_t c) {
-    SerialIPC *serial = SerialIPC::getInstance();
     // need to wait for buffer to have space to write
-    serial->c_flush();
-    return serial->c_write(c);
+    serialipc.c_flush();
+    return serialipc.c_write(c);
 }
 
 HardwareSerial::HardwareSerial(uint8_t out) {
