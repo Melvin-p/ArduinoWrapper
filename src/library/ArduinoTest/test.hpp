@@ -9,3 +9,5 @@
 #include <def.hpp>
 #include <time.hpp>
 // END ArduinoWrapper Includes
+
+#include <LcdTest.hpp>
