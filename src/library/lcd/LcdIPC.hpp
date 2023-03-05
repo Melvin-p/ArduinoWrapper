@@ -256,19 +256,14 @@ class LcdIPC {
     struct boost_struct;
     boost_struct *boost_objs;
 
-   private:
-    static LcdIPC *instance;
-
    public:
     /**
      * @brief get an instance of the lcdIPC class
      *
      * @return LcdIPC*
      */
-    static LcdIPC *getInstance() {
-        if (instance == nullptr) {
-            instance = new LcdIPC();
-        }
+    static LcdIPC &getInstance() {
+        static LcdIPC instance;
         return instance;
     }
 };

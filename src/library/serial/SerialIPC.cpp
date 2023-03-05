@@ -47,8 +47,6 @@ using Buffers = Ring<uint8_t>;
 
 namespace bip = boost::interprocess;
 
-SerialIPC *SerialIPC::instance = nullptr;
-
 /**
  * @brief holds the transmit and receive buffers
  *

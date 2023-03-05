@@ -125,18 +125,13 @@ class SerialIPC {
     struct Data;
     Data *data;
 
-   private:
-    static SerialIPC *instance;
-
    public:
     /**
      * @brief get an instance of the SerialIPC class
      * @return SerialIPC*
      */
-    static SerialIPC *getInstance() {
-        if (instance == nullptr) {
-            instance = new SerialIPC();
-        }
+    static SerialIPC &getInstance() {
+        static SerialIPC instance;
         return instance;
     }
 };

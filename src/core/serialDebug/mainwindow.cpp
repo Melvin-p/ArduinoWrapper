@@ -63,8 +63,8 @@ void MainWindow::on_inputLine_returnPressed() {
 void MainWindow::read_serial() {
     std::stringstream ss;
     uint8_t counter = 0;
-    while ((serial->c_available() > 0) && (counter < 64)) {
-        unsigned char temp = serial->c_read();
+    while ((serial.c_available() > 0) && (counter < 64)) {
+        unsigned char temp = serial.c_read();
         ss << temp;
         counter++;
     }
@@ -79,8 +79,8 @@ void MainWindow::read_serial() {
 
 void MainWindow::write_serial() {
     uint8_t counter = 0;
-    while ((serial->c_availableForWrite() > 0) && (to_send.size() > 0) && (counter < 64)) {
-        serial->c_write(to_send.front());
+    while ((serial.c_availableForWrite() > 0) && (to_send.size() > 0) && (counter < 64)) {
+        serial.c_write(to_send.front());
         to_send.erase(to_send.begin());
         counter++;
     }
