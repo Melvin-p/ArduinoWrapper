@@ -30,8 +30,6 @@
 
 namespace bip = boost::interprocess;
 
-LcdIPC *LcdIPC::instance = nullptr;
-
 /**
  * @brief data structure for LCD \n
  * created in shared memory

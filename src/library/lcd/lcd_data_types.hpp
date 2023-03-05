@@ -34,7 +34,15 @@ typedef std::array<uint8_t, 8> charBitMap;
 /**
  * @brief a displayed lcd buffer \n
  * contains the displayed portion of the lcd \n
+ * top row first 16
+ * bottom row remaining 16
  */
 typedef std::array<charBitMap, 32> lcd;
+
+/**
+ * @brief lcd as a string
+ *
+ */
+typedef std::array<char, 32> lcd_str;
 
 #endif
