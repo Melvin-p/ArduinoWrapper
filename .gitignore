@@ -17,4 +17,5 @@ CMakeLists.txt.user
 #debug
 temp/
 src/core/arduinoCode/
+src/core/arduinoCodeTest/
 

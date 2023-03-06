@@ -27,6 +27,7 @@
 
 #ifdef ipc_serial
 #include <SerialIPC.hpp>
+SerialIPC &serialipc = SerialIPC::getInstance();
 #endif
 
 /*
@@ -50,8 +51,8 @@ void HardwareSerial::end() {
 // get number of available bytes for reading from the stdin pipe
 int HardwareSerial::available(void) {
 #ifdef ipc_serial
-    SerialIPC *serial = SerialIPC::getInstance();
-    return serial->available();
+
+    return serialipc.available();
 #else
     /*
     NOTES:
@@ -73,8 +74,8 @@ int HardwareSerial::available(void) {
 // peek at the next character in the stdin pipe
 int HardwareSerial::peek(void) {
 #ifdef ipc_serial
-    SerialIPC *serial = SerialIPC::getInstance();
-    return serial->peek();
+
+    return serialipc.peek();
 #else
     auto c = getchar();
     if (c < 0) {
@@ -89,8 +90,8 @@ int HardwareSerial::peek(void) {
 // reads character from stdin pipe
 int HardwareSerial::read(void) {
 #ifdef ipc_serial
-    SerialIPC *serial = SerialIPC::getInstance();
-    return serial->read();
+
+    return serialipc.read();
 #else
     auto c = getchar();
     if (c < 0) {
@@ -104,8 +105,8 @@ int HardwareSerial::read(void) {
 // get number of available bytes for writing to stdout pipe without blocking
 int HardwareSerial::availableForWrite(void) {
 #ifdef ipc_serial
-    SerialIPC *serial = SerialIPC::getInstance();
-    return serial->availableForWrite();
+
+    return serialipc.availableForWrite();
 #else
     /*
     stdout pipe is unlimited
@@ -119,8 +120,8 @@ int HardwareSerial::availableForWrite(void) {
 // waits for something to read all characters in stdout pipe
 void HardwareSerial::flush() {
 #ifdef ipc_serial
-    SerialIPC *serial = SerialIPC::getInstance();
-    serial->flush();
+
+    serialipc.flush();
 #else
     /*
     NOTES:
@@ -133,10 +134,10 @@ void HardwareSerial::flush() {
 // write character to stdout pipe
 size_t HardwareSerial::write(uint8_t c) {
 #ifdef ipc_serial
-    SerialIPC *serial = SerialIPC::getInstance();
+
     // need to wait for buffer to have space to write
-    serial->flush();
-    return serial->write(c);
+    serialipc.flush();
+    return serialipc.write(c);
 #else
     putchar(c);
     return 1;

@@ -47,8 +47,6 @@ using Buffers = Ring<uint8_t>;
 
 namespace bip = boost::interprocess;
 
-SerialIPC *SerialIPC::instance = nullptr;
-
 /**
  * @brief holds the transmit and receive buffers
  *
@@ -251,4 +249,10 @@ void SerialIPC::c_flush() {
             break;
         }
     }
+}
+
+int SerialIPC::c_peek() {
+    bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->t_mutex));
+    int temp = data->t_buffer->at(0);
+    return temp;
 }

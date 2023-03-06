@@ -25,6 +25,8 @@ elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     add_compile_definitions(LINUX)
     message(WARNING "Mac OS detected UNTESTED UNSUPPORTED")
+else()
+    message(WARNING "Unknown OS dectected")
 endif()
 
 if (NOT ((CMAKE_CXX_COMPILER_ID STREQUAL "Clang") OR (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")))
@@ -37,6 +39,7 @@ else()
     endif()
 endif()
 
+# enable link time optimisation if enabled and supported
 if(lto)
     include(CheckIPOSupported)
     check_ipo_supported(RESULT ipo_support OUTPUT output)

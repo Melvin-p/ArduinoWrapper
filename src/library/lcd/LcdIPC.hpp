@@ -20,7 +20,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#include "def.hpp"
+#include "lcd_data_types.hpp"
 
 #define BUTTON_UP 0x08      //!< Up button
 #define BUTTON_DOWN 0x04    //!< Down button
@@ -256,19 +256,14 @@ class LcdIPC {
     struct boost_struct;
     boost_struct *boost_objs;
 
-   private:
-    static LcdIPC *instance;
-
    public:
     /**
      * @brief get an instance of the lcdIPC class
      *
      * @return LcdIPC*
      */
-    static LcdIPC *getInstance() {
-        if (instance == nullptr) {
-            instance = new LcdIPC();
-        }
+    static LcdIPC &getInstance() {
+        static LcdIPC instance;
         return instance;
     }
 };
