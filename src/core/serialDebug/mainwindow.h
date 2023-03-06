@@ -45,7 +45,7 @@ class MainWindow : public QMainWindow {
 
    private:
     Ui::MainWindow *ui;
-    SerialIPC *serial;
+    SerialIPC &serial;
     QTimer *timer;
     std::string to_send;
 

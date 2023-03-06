@@ -18,3 +18,10 @@ endif()
 if(IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/arduinoCode")
     add_subdirectory(./arduinoCode)
 endif()
+
+# used only for debugging purposes
+# adds the arduino code test builder to the build system
+# testing framework only supported with serial over IPC
+if(IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/arduinoCodeTest" AND ipc_serial)
+    add_subdirectory(./arduinoCodeTest)
+endif()

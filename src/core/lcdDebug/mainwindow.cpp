@@ -97,8 +97,8 @@ void MainWindow::keyReleaseEvent(QKeyEvent *ev) {
 }
 
 void MainWindow::update() {
-    lcdipc->setButton(bt_status);
-    lcd value = lcdipc->getLcd();
+    lcdipc.setButton(bt_status);
+    lcd value = lcdipc.getLcd();
 
     ui->plainTextEdit->clear();
 
@@ -132,7 +132,7 @@ void MainWindow::update() {
         ui->plainTextEdit->appendPlainText("");
     }
 
-    auto colour = lcdipc->getBackLight();
+    auto colour = lcdipc.getBackLight();
 
     QPalette palette = ui->plainTextEdit->palette();
 
