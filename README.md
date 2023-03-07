@@ -4,6 +4,8 @@
 It is a wrapper/compatibility layer for Arduino code so that it can run on Linux. (Windows not supported)  
 It creates mock hardware devices such as serial so it is best described as a quasi-simulation.
 
+**This was created for a university project**
+
 ## Core Idea
 Arduino's are programmed in a language very similar to C++. It is possible to compile a ino file with very few tweaks on a  
 linux machine. The compiler needs definitions for functions such as `millis()` and `serial.println()`. Typically these are
@@ -18,10 +20,12 @@ after the arduino code is compiled.
 - On an arduino ints are 2 bytes but on x64 systems it is 4 bytes. So there are difference in the size of the fundamental types  
 - Behavior of functions may subtle vary from on a real Arduino  
 - floating point behavior may differ from arduino's because floats are emulated on an arduino  
+- assembly for the Arduino cannot be run
 
 ## Bugs and limitations to be rectified
 - the lcd debug utility is very jank  
-- only one arduinoCode executable can be run on a machine at one time this due to the same shared memory being used  
+- only one arduinoCode executable can be run on a machine at one time this due to the same shared memory being used 
+this to be fixed by passing in an env variable
 - poor documentation  
 
 ## Plans
