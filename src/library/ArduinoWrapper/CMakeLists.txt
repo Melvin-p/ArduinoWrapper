@@ -43,7 +43,7 @@ add_library(
 )
 
 if(lcd_enabled)
-    target_link_libraries(ArduinoWrapper PRIVATE LcdComProd)
+    target_link_libraries(ArduinoWrapper PRIVATE LcdProd)
     target_compile_definitions(ArduinoWrapper PUBLIC lcd_enabled)
 endif()
 

@@ -19,7 +19,7 @@ if (Qt6_FOUND)
         ${PROJECT_SOURCES}
     )
 
-    target_link_libraries(lcdDebug PRIVATE Qt6::Widgets LcdComCon)
+    target_link_libraries(lcdDebug PRIVATE Qt6::Widgets LcdCon)
 
     set_target_properties(lcdDebug PROPERTIES
         WIN32_EXECUTABLE TRUE
