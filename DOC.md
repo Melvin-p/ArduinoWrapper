@@ -1,5 +1,6 @@
 # instructions
 
+You first need to setup the dependencies see `BUILD.md`  
 The quickest way to compile a ino file is to copy the arduinoCode folder in the miscellaneous to sr/core/  
 Then in the newly created sample.cpp copy and paste in the code from the ino file. Then remove any include directives.  
 Now run the two CMake build commands again  

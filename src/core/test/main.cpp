@@ -23,10 +23,17 @@
 
 #include <adwr.hpp>
 
+/**
+ * another test file can be include by
+ * #include "example.hpp"
+ * example.hpp should only contain a TEST_SUITE and include only
+ * include adwr.hpp
+ */
+
 TEST_SUITE("String class") {
     /**
     Notes:
-    Testing has revealed the arduino has differnt max_int value
+    Testing has revealed the arduino has different max_int value
     int are 16bit
     longs are 32bit
     Using #define int short will compile however
