@@ -44,6 +44,7 @@ using Buffers = Ring<uint8_t>;
 
 #define T_BUFFER_SIZE 64
 #define R_BUFFER_SIZE 64
+#define shm_size 1048576
 
 namespace bip = boost::interprocess;
 
@@ -71,6 +72,7 @@ struct SerialIPC::boost_struct {
     bip::named_mutex r_mutex;
     bip::named_mutex t_mutex;
     bip::managed_shared_memory managed_shm;
+    std::string ard_ipc;
 
    public:
     /*
@@ -78,10 +80,18 @@ struct SerialIPC::boost_struct {
     open only for test library
     */
 #ifndef CONSUMER
-    boost_struct() : r_mutex(bip::create_only, "r_serial_mutex"), t_mutex(bip::create_only, "t_serial_mutex"), managed_shm{bip::create_only, "serial_sm", 1048576} {
+    boost_struct(std::string ard_ipc)
+        : r_mutex(bip::create_only, (ard_ipc + "r_serial_mutex").c_str()),
+          t_mutex(bip::create_only, (ard_ipc + "t_serial_mutex").c_str()),
+          managed_shm{bip::create_only, (ard_ipc + "serial_sm").c_str(), shm_size},
+          ard_ipc(ard_ipc) {
     }
 #else
-    boost_struct() : r_mutex(bip::open_only, "r_serial_mutex"), t_mutex(bip::open_only, "t_serial_mutex"), managed_shm(bip::open_only, "serial_sm") {
+    boost_struct(std::string ard_ipc)
+        : r_mutex(bip::open_only, (ard_ipc + "r_serial_mutex").c_str()),
+          t_mutex(bip::open_only, (ard_ipc + "t_serial_mutex").c_str()),
+          managed_shm{bip::open_only, (ard_ipc + "serial_sm").c_str()},
+          ard_ipc(ard_ipc) {
     }
 #endif
     ~boost_struct() {
@@ -90,23 +100,28 @@ struct SerialIPC::boost_struct {
         Removes boost objects required as shared memory and mutexes are persistent
         Only required by the ArduinoWrapper library not the test library
         */
-        bip::named_mutex::remove("r_serial_mutex");
-        bip::named_mutex::remove("t_serial_mutex");
-        bip::shared_memory_object::remove("serial_sm");
+        bip::named_mutex::remove((ard_ipc + "r_serial_mutex").c_str());
+        bip::named_mutex::remove((ard_ipc + "t_serial_mutex").c_str());
+        bip::shared_memory_object::remove((ard_ipc + "serial_sm").c_str());
 #endif
     }
 };
 
 SerialIPC::SerialIPC() {
+    std::string out = "";
+    auto value = getenv("ard_ipc");
+    if (value != nullptr) {
+        out.append(value);
+    }
 #ifndef CONSUMER
     // clears any existing shared memory and removes named r_mutex
-    bip::shared_memory_object::remove("serial_sm");
-    bip::named_mutex::remove("t_serial_mutex");
-    bip::named_mutex::remove("r_serial_mutex");
+    bip::shared_memory_object::remove((out + "serial_sm").c_str());
+    bip::named_mutex::remove((out + "t_serial_mutex").c_str());
+    bip::named_mutex::remove((out + "r_serial_mutex").c_str());
 #endif
 
     try {
-        this->boost_objs = new boost_struct();
+        this->boost_objs = new boost_struct(out);
     } catch (bip::interprocess_exception &e) {
         std::cerr << e.what() << "\n";
         std::cerr << "Cannot find shared memory or named r_mutex"
@@ -118,9 +133,10 @@ SerialIPC::SerialIPC() {
 
     try {
 #ifndef CONSUMER
-        data->t_buffer = this->boost_objs->managed_shm.construct<Buffers>("t_buffer_n")(T_BUFFER_SIZE, this->boost_objs->managed_shm.get_segment_manager());
+        data->t_buffer =
+            this->boost_objs->managed_shm.construct<Buffers>("t_buffer")(T_BUFFER_SIZE, this->boost_objs->managed_shm.get_segment_manager());
 #else
-        data->t_buffer = this->boost_objs->managed_shm.find<Buffers>("t_buffer_n").first;
+        data->t_buffer = this->boost_objs->managed_shm.find<Buffers>("t_buffer").first;
         if (data->t_buffer == nullptr) {
             throw bip::bad_alloc();
         }
@@ -133,9 +149,10 @@ SerialIPC::SerialIPC() {
     }
     try {
 #ifndef CONSUMER
-        data->r_buffer = this->boost_objs->managed_shm.construct<Buffers>("r_buffer_n")(R_BUFFER_SIZE, this->boost_objs->managed_shm.get_segment_manager());
+        data->r_buffer =
+            this->boost_objs->managed_shm.construct<Buffers>("r_buffer")(R_BUFFER_SIZE, this->boost_objs->managed_shm.get_segment_manager());
 #else
-        data->r_buffer = this->boost_objs->managed_shm.find<Buffers>("r_buffer_n").first;
+        data->r_buffer = this->boost_objs->managed_shm.find<Buffers>("r_buffer").first;
         if (data->r_buffer == nullptr) {
             throw bip::bad_alloc();
         }

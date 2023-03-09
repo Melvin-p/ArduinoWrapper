@@ -2,6 +2,6 @@ BasedOnStyle: Google
 IndentWidth: 4
 
 Language: Cpp
-ColumnLimit: 200
+ColumnLimit: 150
 AllowShortFunctionsOnASingleLine : None
 
