@@ -29,6 +29,7 @@
 #include <vector>
 
 namespace bip = boost::interprocess;
+#define shm_size 1048576
 
 /**
  * @brief data structure for LCD \n
@@ -391,6 +392,7 @@ struct LcdIPC::boost_struct {
     bip::named_mutex mutex;
     bip::managed_shared_memory managed_shm;
     bip::named_mutex bt_mutex;
+    std::string ard_ipc;
 
    public:
     /*
@@ -398,10 +400,18 @@ struct LcdIPC::boost_struct {
     open only for test library
     */
 #ifndef CONSUMER
-    boost_struct() : mutex(bip::create_only, "arduino_mutex"), managed_shm{bip::create_only, "arduino_sm", 1048576}, bt_mutex(bip::create_only, "bt_ard_mutex") {
+    boost_struct(std::string ard_ipc)
+        : mutex(bip::create_only, (ard_ipc + "lcd_mutex").c_str()),
+          managed_shm{bip::create_only, (ard_ipc + "lcd_sm").c_str(), shm_size},
+          bt_mutex(bip::create_only, (ard_ipc + "bt_mutex").c_str()),
+          ard_ipc(ard_ipc) {
     }
 #else
-    boost_struct() : mutex(bip::open_only, "arduino_mutex"), managed_shm(bip::open_only, "arduino_sm"), bt_mutex(bip::open_only, "bt_ard_mutex") {
+    boost_struct(std::string ard_ipc)
+        : mutex(bip::open_only, (ard_ipc + "lcd_mutex").c_str()),
+          managed_shm{bip::open_only, (ard_ipc + "lcd_sm").c_str()},
+          bt_mutex(bip::open_only, (ard_ipc + "bt_mutex").c_str()),
+          ard_ipc(ard_ipc) {
     }
 #endif
     ~boost_struct() {
@@ -410,23 +420,28 @@ struct LcdIPC::boost_struct {
         Removes boost objects required as shared memory and mutexes are persistent
         Only required by the ArduinoWrapper library not the test library
         */
-        bip::named_mutex::remove("arduino_mutex");
-        bip::shared_memory_object::remove("arduino_sm");
-        bip::named_mutex::remove("bt_ard_mutex");
+        bip::named_mutex::remove((ard_ipc + "lcd_mutex").c_str());
+        bip::shared_memory_object::remove((ard_ipc + "lcd_sm").c_str());
+        bip::named_mutex::remove((ard_ipc + "bt_mutex").c_str());
 #endif
     }
 };
 
 LcdIPC::LcdIPC() {
+    std::string out = "";
+    auto value = getenv("ard_ipc");
+    if (value != nullptr) {
+        out.append(value);
+    }
 #ifndef CONSUMER
     // clears any existing shared memory and removes named mutex
-    bip::shared_memory_object::remove("arduino_sm");
-    bip::named_mutex::remove("arduino_mutex");
-    bip::named_mutex::remove("bt_ard_mutex");
+    bip::shared_memory_object::remove((out + "lcd_sm").c_str());
+    bip::named_mutex::remove((out + "lcd_mutex").c_str());
+    bip::named_mutex::remove((out + "bt_mutex").c_str());
 #endif
 
     try {
-        this->boost_objs = new boost_struct();
+        this->boost_objs = new boost_struct(out);
     } catch (bip::interprocess_exception &e) {
         std::cerr << e.what() << "\n";
         std::cerr << "Cannot find shared memory or named mutex"
