@@ -9,5 +9,5 @@ add_library(
 )
 
 # link publicly so access to low level libraries are also possible
-target_link_libraries(ArduinoTest PUBLIC adwr_reuse SerialCon LcdComCon)
+target_link_libraries(ArduinoTest PUBLIC adwr_reuse SerialCon LcdCon)
 target_include_directories(ArduinoTest PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

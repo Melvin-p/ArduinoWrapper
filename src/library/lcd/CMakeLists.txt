@@ -1,28 +1,28 @@
 find_package(Boost COMPONENTS system REQUIRED)
 
 add_library(
-        LcdComProd
+        LcdProd
         STATIC
         LcdIPC.cpp
 )
 
-target_link_libraries(LcdComProd PRIVATE Boost::system)
-target_include_directories(LcdComProd PRIVATE ${Boost_INCLUDE_DIRS} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-set_target_properties(LcdComProd PROPERTIES
+target_link_libraries(LcdProd PRIVATE Boost::system)
+target_include_directories(LcdProd PRIVATE ${Boost_INCLUDE_DIRS} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+set_target_properties(LcdProd PROPERTIES
         POSITION_INDEPENDENT_CODE ON
         EXCLUDE_FROM_ALL ON)
 
 
 add_library(
-        LcdComCon
+        LcdCon
         STATIC
         LcdIPC.cpp
 )
 
-target_link_libraries(LcdComCon PRIVATE Boost::system)
-target_include_directories(LcdComCon PRIVATE ${Boost_INCLUDE_DIRS} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_compile_definitions(LcdComCon PRIVATE CONSUMER)
-set_target_properties(LcdComCon PROPERTIES
+target_link_libraries(LcdCon PRIVATE Boost::system)
+target_include_directories(LcdCon PRIVATE ${Boost_INCLUDE_DIRS} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_definitions(LcdCon PRIVATE CONSUMER)
+set_target_properties(LcdCon PROPERTIES
         POSITION_INDEPENDENT_CODE ON
         EXCLUDE_FROM_ALL ON)
 
