@@ -1,8 +1,7 @@
-
-#include <stdint.h>
-
 #ifndef DEF_H
 #define DEF_H
+
+#include <stdint.h>
 
 #define DEC 10
 #define HEX 16

@@ -22,10 +22,10 @@
     Modified 18 October 2022 by Melvin Pynadath
 */
 
-#include "Print.hpp"
-
 #ifndef STREAM_H
 #define STREAM_H
+
+#include "Print.hpp"
 
 // This enumeration provides the lookahead options for parseInt(), parseFloat()
 // The rules set out here are used until either the first valid character is found

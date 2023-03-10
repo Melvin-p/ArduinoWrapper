@@ -21,12 +21,12 @@
     Modified 18 October 2022 by Melvin Pynadath
  */
 
+#ifndef CHAR_H
+#define CHAR_H
+
 #include <ctype.h>
 
 #include "def.hpp"
-
-#ifndef CHAR_H
-#define CHAR_H
 
 inline boolean isAlphaNumeric(int c) {
     return (isalnum(c) == 0 ? false : true);

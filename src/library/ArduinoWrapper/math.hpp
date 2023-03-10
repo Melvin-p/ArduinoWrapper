@@ -21,10 +21,10 @@
     Modified 18 October 2022 by Melvin Pynadath
 */
 
-#include "def.hpp"
-
 #ifndef MATH_H
 #define MATH_H
+
+#include "def.hpp"
 
 #define min(a, b) ((a) < (b) ? (a) : (b))
 #define max(a, b) ((a) > (b) ? (a) : (b))

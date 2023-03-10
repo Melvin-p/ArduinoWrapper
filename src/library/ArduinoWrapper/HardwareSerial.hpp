@@ -24,12 +24,12 @@
     Modified 18 October 2022 by Melvin Pynadath
 */
 
+#ifndef SERIAL_H
+#define SERIAL_H
+
 #include <stdint.h>
 
 #include "Stream.hpp"
-
-#ifndef SERIAL_H
-#define SERIAL_H
 
 class HardwareSerial : public Stream {
    public:

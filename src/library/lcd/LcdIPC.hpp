@@ -17,6 +17,9 @@
     along with ArduinoWrapper.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+#ifndef LCD_IPC_H
+#define LCD_IPC_H
+
 #include <stddef.h>
 #include <stdint.h>
 
@@ -27,9 +30,6 @@
 #define BUTTON_LEFT 0x10    //!< Left button
 #define BUTTON_RIGHT 0x02   //!< Right button
 #define BUTTON_SELECT 0x01  //!< Select button
-
-#ifndef LCD_IPC_H
-#define LCD_IPC_H
 
 /**
  * @brief the LCD communication class \n
