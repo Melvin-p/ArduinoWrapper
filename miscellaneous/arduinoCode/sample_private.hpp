@@ -1,11 +1,13 @@
 #include <limits.h>
+#include <math.h>
 #include <signal.h>
+#include <stdint.h>
 #include <stdlib.h>
 
-#include "../../library/ArduinoWrapper/adwr.hpp"
+#include <adwr.hpp>
 
 #pragma GCC push_options
-#pragma GCC optimize ("O0")
+#pragma GCC optimize("O0")
 
 HardwareSerial Serial = HardwareSerial(12);
 

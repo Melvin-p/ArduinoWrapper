@@ -17,6 +17,9 @@
     along with ArduinoWrapper.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+#ifndef SERIAL_IPC_H
+#define SERIAL_IPC_H
+
 #include <cstdint>
 #include <cstdio>
 
@@ -135,3 +138,5 @@ class SerialIPC {
         return instance;
     }
 };
+
+#endif

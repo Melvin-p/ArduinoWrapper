@@ -30,7 +30,11 @@ else()
 endif()
 
 if (NOT ((CMAKE_CXX_COMPILER_ID STREQUAL "Clang") OR (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")))
-    message(WARNING "Unsupported compiler")
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+        message(WARNING "Unsupported compiler")
+    else()
+        message(FATAL_ERROR "Unsupported compiler")
+    endif()
 else()
     message(VERBOSE "compiler okay")
     # if compiler okay then warning flags can be added if they are turned on

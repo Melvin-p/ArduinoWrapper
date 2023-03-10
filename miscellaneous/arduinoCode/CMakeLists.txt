@@ -1,12 +1,10 @@
 set(PROJECT_SOURCES
         main.cpp
-        sample.hpp
 )
 
 add_library(
         inner
-        STATIC
-        sample_private.hpp
+        OBJECT
         sample.cpp
 )
 

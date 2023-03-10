@@ -21,7 +21,7 @@ set(adwr_reuse_sources
 
 add_library(
     adwr_reuse
-    STATIC
+    OBJECT
     ${adwr_reuse_sources}
 )
 

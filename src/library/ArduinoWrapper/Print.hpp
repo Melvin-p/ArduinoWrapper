@@ -21,6 +21,9 @@
     Modified 18 October 2022 by Melvin Pynadath
 */
 
+#ifndef CUS_PRINT_H
+#define CUS_PRINT_H
+
 #include <stdint.h>
 
 #include <cstring>
@@ -39,9 +42,6 @@ using String = std::string;
 #else
 #include "string.hpp"
 #endif
-
-#ifndef CUS_PRINT_H
-#define CUS_PRINT_H
 
 class Print {
    private:
