@@ -74,7 +74,7 @@ fi
 
 #remove includes
 
-cat "$OUT_DIR/$filename_noext.cpp" | sed -E "s|^(#\s*include\s+[<\"]\S*[>\"])\s*((//.*)?(/\**.*)?)$|\2|g" > "$OUT_DIR/${filename_noext}_processed.cpp"
+cat "$OUT_DIR/$filename_noext.cpp" | sed -E "s@([\t ]*)(#[\t ]*include[\t ]+)([<][^\r\n\t\f\v]*[>]|[\"][^\r\n\t\f\v]*[\"])@\1@" > "$OUT_DIR/${filename_noext}_processed.cpp"
 
 if [ $? -ne 0 ]; then
     exit 169;
