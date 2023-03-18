@@ -3,12 +3,15 @@
 The following instructions use Ubuntu and clang adapt as required.  
 Replace square brackets and their contents in commands as directed.  
 MSVC is not supported. Linux running on x64 with clang or gcc is required.  
-It is possible to install some dependencies using the system package manager however this has not been tested.
+Dependencies can be installed using your system package manager this is quicker 
+however in the longer run it is recommend you use vcpkg as things are less likely to break  
+The dependencies you need to install using your package manager should be called something along the line of qt6 devel and boost devel  
+[doctest](https://github.com/doctest/doctest) needs to be installed using vcpkg or `doctest_include_dire` CMake variable can be passed with directory of doctest. 
 
 ## Requirements
 - CMake 3.22.1 or greater
 - Clang 14 or greater (GCC 11 or greater can be used as well) 
-- VCPKG to manage dependencies. Find install instructions [here](https://github.com/microsoft/vcpkg)
+- VCPKG to manage dependencies. Find install instructions [here](https://github.com/microsoft/vcpkg) OR use your system package manager
 - Ubuntu (tested on 22.04)
 - ninja (other build systems can be used)
 

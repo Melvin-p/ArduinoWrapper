@@ -17,15 +17,13 @@ after the arduino code is compiled.
 - There maybe differences in how serial communication is handled.  
 - GPIO Pins are not supported. It should be possible to add this feature similarly to how lcd module was implemented.  
 - LCD is assumed to be 16 by 2 and each character to be 5 pixels across and 7 pixels down.  
-- On an arduino ints are 2 bytes but on x64 systems it is 4 bytes. So there are difference in the size of the fundamental types  
+- On an arduino ints are 2 bytes but on x64 systems it is 4 bytes. So there are difference in the size of some fundamental types  
 - Behavior of functions may subtle vary from on a real Arduino  
 - floating point behavior may differ from arduino's because floats are emulated on an arduino  
 - assembly for the Arduino cannot be run
 
 ## Bugs and limitations to be rectified
 - the lcd debug utility is very jank  
-- only one arduinoCode executable can be run on a machine at one time this due to the same shared memory being used 
-this to be fixed by passing in an env variable
 - poor documentation  
 
 ## Plans
@@ -42,7 +40,9 @@ in INTERNALS.md
 
 ## Development Environment
 This project has VScode setup and is using clang format and clangd  
-Please do note that clangd will only work once .cache folder is generated which is created during the build process. Also, the vcpkg directory is taken from ```vcpkg``` env variable
+Please do note that clangd will only work once .cache folder is generated which is after building.   
+Also, the vcpkg directory is taken from ```vcpkg``` env variable 
+and assumes your vcpkg is configured with the custom triplet as described in `BUILD.md`
 
 ## Acknowledgements
 A lot of code was ported/taken from the Arduino Library. [Arduino GitHub Cores](https://github.com/arduino)

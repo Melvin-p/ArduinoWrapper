@@ -7,9 +7,11 @@ set(PROJECT_SOURCES
 # vcpkg port for doctest does not have include dir for some reason
 # this method allows doctest_include_dire to passed in as a build option if required
 
-if(${VCPKG_TOOLCHAIN} AND NOT DEFINED doctest_include_dire)
-    find_package(doctest REQUIRED)
-    set(doctest_include_dire "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/include")
+if(DEFINED VCPKG_TOOLCHAIN)
+    if(NOT DEFINED doctest_include_dire)
+        find_package(doctest REQUIRED)
+        set(doctest_include_dire "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/include")
+    endif()
 endif()
 
 if(DEFINED doctest_include_dire)
