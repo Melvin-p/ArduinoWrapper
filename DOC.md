@@ -11,8 +11,8 @@ Then the executables lcdDebug and serialDebug can be run to see the lcd and seri
 The wasd for up down left right and c for select in lcdDebug
 
 
-if you wish to run multiple instances of arduino code you need to set `ard_ipc` to a different string for each instance  
-This will create a separate shared memory for each arduino code executable. This value will also need to be set for each instance of 
-serialDebug or lcdDebug.  
+if you wish to run multiple instances of arduino code you need to set the env variable `ard_ipc` to a different string for each instance  
+This will create a separate shared memory segment for each arduino code executable. It will also need to be set for each instance of 
+serialDebug or lcdDebug so they connect to the correct shared memory segment.  
 Note: **only use alpha numeric, _, -,** characters in `ard_ipc`  
 To do this in bash as an example `(export ard_ipc="YOUR_STRING"; ./[executable])` 
