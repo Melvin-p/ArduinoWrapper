@@ -35,7 +35,7 @@ void loop() {
     Serial.println(result_micros);
 
     // Testing Math Functions
-    uint8_t abs_value = 10;
+    int8_t abs_value = 10;
     auto abs_result = abs(abs_value);
     Serial.print("Result Abs: ");
     Serial.println(abs_result);
@@ -49,7 +49,7 @@ void loop() {
 
     uint8_t map_1 = 100;
     uint8_t map_2 = 0;
-    uint8_t map_3 = 1023;
+    uint16_t map_3 = 1023;
     uint8_t map_4 = 0;
     uint8_t map_5 = 255;
     auto map_result = map(map_1, map_2, map_3, map_4, map_5);
@@ -84,17 +84,17 @@ void loop() {
     Serial.print("Result Sqrt: ");
     Serial.println(sqrt_result);
 
-    uint8_t sin_1 = (PI);
+    float sin_1 = (PI);
     auto sin_result = sin(sin_1);
     Serial.print("Result Sin: ");
     Serial.println(sin_result);
 
-    uint8_t cos_1 = (PI);
+    float cos_1 = (PI);
     auto cos_result = sin(cos_1);
     Serial.print("Result Cos: ");
     Serial.println(cos_result);
 
-    uint8_t tan_1 = (HALF_PI);
+    float tan_1 = (HALF_PI);
     auto tan_result = sin(tan_1);
     Serial.print("Result Tan: ");
     Serial.println(tan_result);

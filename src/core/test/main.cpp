@@ -28,18 +28,16 @@
  * #include "example.hpp"
  * example.hpp should only contain a TEST_SUITE and include only
  * include adwr.hpp
+ * #include <doctest/doctest.h>
  */
 
 TEST_SUITE("String class") {
     /**
     Notes:
-    Testing has revealed the arduino has different max_int value
-    int are 16bit
-    longs are 32bit
-    Using #define int short will compile however
-    the c++ standard library forbids macroizing the keyword "int" also
-    the c++ standard states "The type of an integer literal is the first of the corresponding list in Table 7 in which its value can be represented"
-    Looking table 7 shows int is default
+    some fundamental types are different in size on an arduino
+    for example an int is 16bit on an arduino and a long is 32 bit
+    double offers no extra precision on an arduino
+    floating point numbers are emulated
     */
 
     TEST_CASE("String from char array") {

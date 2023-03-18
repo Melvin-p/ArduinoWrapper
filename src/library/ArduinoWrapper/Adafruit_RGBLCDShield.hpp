@@ -3,7 +3,7 @@
 */
 
 #ifndef LCD_H
-#define LCD_h
+#define LCD_H
 
 #define BUTTON_UP 0x08      //!< Up button
 #define BUTTON_DOWN 0x04    //!< Down button

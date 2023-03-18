@@ -77,3 +77,8 @@ like lcd. This should be located in src/library. You should make two different v
 will be consumed by ArduinoWrapper and another which will be consumed by a debugging utility or 
 the ArduinoTest. In ArduinoWrapper add your new library as a link library make sure to add a 
 feature flag. Use lcd and serial as an example.
+
+You can also add tests for your new component in src/core/tests  
+create a file called `[A SUITABLE NAME].hpp` in it include `<doctest/doctest.h>` and `<adwr.hpp>` 
+then include your `[A SUITABLE NAME].hpp` in main.cpp  
+your tests should be in one or modules
