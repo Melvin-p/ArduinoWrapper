@@ -80,7 +80,7 @@ if [ $? -ne 0 ]; then
     exit 169;
 fi
 
-# build exectuable
+# build executable
 
 c++ -DLINUX  -O3 -DNDEBUG -include "$SCRIPT_DIR/sample_private.hpp" -I "$SCRIPT_DIR/../../src/library/ArduinoWrapper/" -std=gnu++17 -o "$OUT_DIR/$filename_noext.o" -c "$OUT_DIR/${filename_noext}_processed.cpp" -D lcd_enabled
 
