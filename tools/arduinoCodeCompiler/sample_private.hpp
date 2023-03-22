@@ -1,5 +1,7 @@
 #include <limits.h>
+#include <math.h>
 #include <signal.h>
+#include <stdint.h>
 #include <stdlib.h>
 
 #include "adwr.hpp"
