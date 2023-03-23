@@ -30,6 +30,8 @@
 #include <boost/interprocess/sync/scoped_lock.hpp>
 #include <iostream>
 
+#include "SerialIPC.hpp"
+
 namespace bip = boost::interprocess;
 
 using Segment = bip::managed_shared_memory;
@@ -56,10 +58,12 @@ struct SerialIPC::Data {
    public:
     Buffers *t_buffer;
     Buffers *r_buffer;
+    bool block;
 
     Data() {
         t_buffer = nullptr;
         r_buffer = nullptr;
+        block = true;
     }
 };
 
@@ -71,6 +75,7 @@ struct SerialIPC::boost_struct {
    public:
     bip::named_mutex r_mutex;
     bip::named_mutex t_mutex;
+    bip::named_mutex b_mutex;
     bip::managed_shared_memory managed_shm;
     std::string ard_ipc;
 
@@ -83,6 +88,7 @@ struct SerialIPC::boost_struct {
     boost_struct(std::string ard_ipc)
         : r_mutex(bip::create_only, (ard_ipc + "r_serial_mutex").c_str()),
           t_mutex(bip::create_only, (ard_ipc + "t_serial_mutex").c_str()),
+          b_mutex(bip::create_only, (ard_ipc + "b_serial_mutex").c_str()),
           managed_shm{bip::create_only, (ard_ipc + "serial_sm").c_str(), shm_size},
           ard_ipc(ard_ipc) {
     }
@@ -90,6 +96,7 @@ struct SerialIPC::boost_struct {
     boost_struct(std::string ard_ipc)
         : r_mutex(bip::open_only, (ard_ipc + "r_serial_mutex").c_str()),
           t_mutex(bip::open_only, (ard_ipc + "t_serial_mutex").c_str()),
+          b_mutex(bip::open_only, (ard_ipc + "b_serial_mutex").c_str()),
           managed_shm{bip::open_only, (ard_ipc + "serial_sm").c_str()},
           ard_ipc(ard_ipc) {
     }
@@ -102,6 +109,7 @@ struct SerialIPC::boost_struct {
         */
         bip::named_mutex::remove((ard_ipc + "r_serial_mutex").c_str());
         bip::named_mutex::remove((ard_ipc + "t_serial_mutex").c_str());
+        bip::named_mutex::remove((ard_ipc + "b_serial_mutex").c_str());
         bip::shared_memory_object::remove((ard_ipc + "serial_sm").c_str());
 #endif
     }
@@ -118,6 +126,7 @@ SerialIPC::SerialIPC() {
     bip::shared_memory_object::remove((out + "serial_sm").c_str());
     bip::named_mutex::remove((out + "t_serial_mutex").c_str());
     bip::named_mutex::remove((out + "r_serial_mutex").c_str());
+    bip::named_mutex::remove((out + "b_serial_mutex").c_str());
 #endif
 
     try {
@@ -209,7 +218,7 @@ int SerialIPC::available() {
 
 void SerialIPC::flush() {
     // no scoped lock to avoid deadlock
-    while (true) {
+    while (true && getBlocked()) {
         unsigned int size = T_BUFFER_SIZE;
         bool is_locked = this->boost_objs->t_mutex.try_lock();
         if (is_locked) {
@@ -255,7 +264,7 @@ int SerialIPC::c_read() {
 }
 
 void SerialIPC::c_flush() {
-    while (true) {
+    while (true && getBlocked()) {
         unsigned int size = R_BUFFER_SIZE;
         bool is_locked = this->boost_objs->r_mutex.try_lock();
         if (is_locked) {
@@ -272,4 +281,14 @@ int SerialIPC::c_peek() {
     bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->t_mutex));
     int temp = data->t_buffer->at(0);
     return temp;
+}
+
+void SerialIPC::setBlocked(bool value) {
+    bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->b_mutex));
+    this->data->block = value;
+}
+
+bool SerialIPC::getBlocked() {
+    bip::scoped_lock<bip::named_mutex> lock((this->boost_objs->b_mutex));
+    return this->data->block;
 }

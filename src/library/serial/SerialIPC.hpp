@@ -122,6 +122,24 @@ class SerialIPC {
      */
     int c_peek();
 
+    // these two functions used by main
+
+    /**
+     * @brief Set the Blocked object
+     * For use in main in ArduinoCode
+     * @param value
+     */
+    void setBlocked(bool value);
+
+   private:
+    /**
+     * @brief Get the Blocked object
+     * for use in main in ArduinoCode
+     * @return true
+     * @return false
+     */
+    bool getBlocked();
+
    private:
     struct boost_struct;
     boost_struct *boost_objs;
