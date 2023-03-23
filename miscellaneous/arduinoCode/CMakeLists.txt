@@ -18,4 +18,5 @@ target_compile_options(inner PRIVATE
 )
 
 add_executable(arduinoCode ${PROJECT_SOURCES})
+target_link_libraries(arduinoCode PRIVATE SerialProd) 
 target_link_libraries(arduinoCode PRIVATE inner)

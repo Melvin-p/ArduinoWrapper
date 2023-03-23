@@ -26,3 +26,9 @@ target_compile_definitions(SerialCon PRIVATE CONSUMER BOOST_CB_DISABLE_DEBUG)
 set_target_properties(SerialCon PROPERTIES
         POSITION_INDEPENDENT_CODE ON
         EXCLUDE_FROM_ALL ON)
+
+add_custom_command(
+        TARGET SerialProd 
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy ${Boost_SYSTEM_LIBRARY} ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}
+)

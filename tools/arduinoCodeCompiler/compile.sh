@@ -94,13 +94,13 @@ if [ $? -ne 0 ]; then
     exit 171;
 fi
 
-c++ -DLINUX  -O3 -DNDEBUG -std=gnu++17 -o "$OUT_DIR/main.cpp.o" -c "$SCRIPT_DIR/main.cpp"
+c++ -DLINUX  -O3 -DNDEBUG -std=gnu++17 -o "$OUT_DIR/main.cpp.o" -I"$SCRIPT_DIR/../../src/library/serial/" -c "$SCRIPT_DIR/main.cpp"
 
 if [ $? -ne 0 ]; then
     exit 172;
 fi
 
-c++ -o "$OUT_DIR/$filename_noext.out" "$OUT_DIR/main.cpp.o" -l:"$filename_noext.a" -l:"libArduinoWrapper.so" -L"$SCRIPT_DIR/../../build/Release/output/" -L"$OUT_DIR"
+c++ -o "$OUT_DIR/$filename_noext.out" "$OUT_DIR/main.cpp.o" -l:"$filename_noext.a" -l"ArduinoWrapper" -l"SerialProd" -l"boost_system" -L"$SCRIPT_DIR/../../build/Release/output/" -L"$OUT_DIR" -Wl,-rpath=./
 
 if [ $? -ne 0 ]; then
     exit 173;
