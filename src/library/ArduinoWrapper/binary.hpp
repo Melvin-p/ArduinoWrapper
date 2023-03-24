@@ -32,6 +32,7 @@
 #define bitClear(value, bit) ((value) &= ~(1UL << (bit)))
 #define bitToggle(value, bit) ((value) ^= (1UL << (bit)))
 #define bitWrite(value, bit, bitvalue) ((bitvalue) ? bitSet(value, bit) : bitClear(value, bit))
+#define bit(b) (1UL << (b))
 
 unsigned int makeWord(unsigned int w);
 unsigned int makeWord(unsigned char h, unsigned char l);
