@@ -10,4 +10,12 @@
 #include <time.hpp>
 // END ArduinoWrapper Includes
 
+#ifdef lcd_enabled
 #include <LcdTest.hpp>
+#endif
+
+// these are needed for low level access
+#ifdef lcd_enabled
+#include <LcdIPC.hpp>
+#endif
+#include <SerialIPC.hpp>

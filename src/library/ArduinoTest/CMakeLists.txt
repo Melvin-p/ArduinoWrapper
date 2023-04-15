@@ -1,7 +1,10 @@
 set(PROJECT_SOURCES
     HardwareSerial.cpp
-    LcdTest.cpp
 )
+
+if(lcd_enabled)
+    list(APPEND PROJECT_SOURCES LcdTest.cpp)
+endif()
 
 add_library(
     ArduinoTest
