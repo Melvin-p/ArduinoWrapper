@@ -16,3 +16,7 @@
 #ifdef lcd_enabled
 #include "Adafruit_RGBLCDShield.hpp"
 #endif
+
+#ifdef eeprom_enabled
+#include "EEPROM.hpp"
+#endif

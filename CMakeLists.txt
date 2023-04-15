@@ -15,6 +15,7 @@ option(serialDebug "Build serial monitor" ON)
 option(ipc_serial "Build with support for serial over IPC" ON)
 option(pedantic "build with all warning" OFF)
 option(lto "build with link time optimisation" ON)
+option(eeprom_enabled "build eeprom support" ON)
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     add_compile_definitions(WIN)

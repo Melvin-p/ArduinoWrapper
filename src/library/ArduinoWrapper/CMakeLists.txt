@@ -34,7 +34,11 @@ target_compile_definitions(adwr_reuse PUBLIC use_std_str)
 target_include_directories(adwr_reuse PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 if(lcd_enabled)
-    list(APPEND PROJECT_SOURCES Adafruit_RGBLCDShield.hpp Adafruit_RGBLCDShield.cpp)
+    list(APPEND PROJECT_SOURCES Adafruit_RGBLCDShield.cpp)
+endif()
+
+if(eeprom_enabled)
+    list(APPEND PROJECT_SOURCES EEPROM.cpp)
 endif()
 
 add_library(
@@ -46,6 +50,11 @@ if(lcd_enabled)
     target_link_libraries(ArduinoWrapper PRIVATE LcdProd)
     target_compile_definitions(ArduinoWrapper PUBLIC lcd_enabled)
     target_compile_definitions(adwr_reuse PUBLIC lcd_enabled)
+endif()
+
+if(eeprom_enabled)
+    target_link_libraries(ArduinoWrapper PRIVATE eepromProd)
+    target_compile_definitions(ArduinoWrapper PUBLIC eeprom_enabled)
 endif()
 
 if(ipc_serial)
