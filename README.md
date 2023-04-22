@@ -4,13 +4,14 @@
 It is a wrapper/compatibility layer for Arduino code so that it can run on Linux. (Windows not supported)  
 It creates mock hardware devices such as serial so it is best described as a quasi-simulation.
 
-**This was created for a university project**
+**This was created for a university project**  
+The end goal of this project is automated testing of student's code for embedded systems.
 
 ## Core Idea
-Arduino's are programmed in a language very similar to C++. It is possible to compile a ino file with very few tweaks on a  
-linux machine. The compiler needs definitions for functions such as `millis()` and `serial.println()`. Typically these are
-found in the Arduino Core provided by the Arduino IDE. This project provides a library to which arduino code can be linked with
-after the arduino code is compiled.  
+Arduino's are programmed in a language very similar to C++. It is possible to compile an Arduino sketch (an ino file) 
+with very few tweaks on a  linux machine. The compiler needs definitions for functions such as `millis()` and `serial.println()`.  
+Typically these are found in the Arduino Core provided by the Arduino IDE. This project provides a library to which arduino code 
+can be linked with after the arduino code is compiled.  
 
 ## Limitations
 - Due to how this wrapper works the memory constraints of the Arduino cannot be replicated.  
@@ -21,13 +22,6 @@ after the arduino code is compiled.
 - Behavior of functions may subtle vary from on a real Arduino  
 - floating point behavior may differ from arduino's because floats are emulated on an arduino  
 - assembly for the Arduino cannot be run
-
-## Bugs and limitations to be rectified
-- the lcd debug utility is very jank  
-- poor documentation  
-
-## Plans
-- support EEPROM
 
 ## Build Instructions
 in BUILD.md
@@ -45,7 +39,7 @@ Also, the vcpkg directory is taken from ```vcpkg``` env variable
 and assumes your vcpkg is configured with the custom triplet as described in `BUILD.md`
 
 ## Acknowledgements
-A lot of code was ported/taken from the Arduino Library. [Arduino GitHub Cores](https://github.com/arduino)
+A lot of code was ported/taken from the Arduino cores. [Arduino GitHub Cores](https://github.com/arduino)
 
 ## License
 All code is licensed under GPLv3. Files not under this license will have their license stated in the license header for that particular file.

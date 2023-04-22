@@ -66,11 +66,11 @@ def full_path(path: str) -> str:
 parser = argparse.ArgumentParser(
     prog="automated-tester",
     description="""
-    This program performs automated testing on arduino code executables.
-    you pass in a folder containing folders which contain ino files and 
-    an arduinoCodeTest executable.
+    This program performs automated testing on arduino sketches.
+    Pass in a folder containing folders containing sketches and 
+    the folder containing the built binaries.
     Then this program will compile the ino files and run the test executable on them.
-    you will need arduino-cli on your path
+    You will need arduino-cli on your path
     """
 )
 
