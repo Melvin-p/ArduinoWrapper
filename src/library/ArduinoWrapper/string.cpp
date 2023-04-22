@@ -142,12 +142,16 @@ String::String(unsigned char value, unsigned char base) {
             std::snprintf(buf, 1 + 8 * sizeof(unsigned char), "%o", value);
             break;
         case BIN:
+#if defined __GLIBC__ && __GLIBC__ >= 2 && __GLIBC_MINOR__ > 34
+            std::snprintf(buf, 1 + 8 * sizeof(unsigned char), "%b", value);
+#else
             std::string temp = std::bitset<sizeof(value) * 8>(value).to_string();
             temp.erase(0, temp.find_first_not_of("0"));
             if (temp.length() == 0) {
                 temp.append("0");
             }
             std::snprintf(buf, 1 + 8 * sizeof(unsigned char), "%s", temp.c_str());
+#endif
     }
     *this = buf;
 }
@@ -166,6 +170,13 @@ String::String(int value, unsigned char base) {
             std::snprintf(buf, 2 + 8 * sizeof(int), "%o", value);
             break;
         case BIN:
+#if defined __GLIBC__ && __GLIBC__ >= 2 && __GLIBC_MINOR__ > 34
+            if (value < 0) {
+                std::snprintf(buf, 2 + 8 * sizeof(int), "%b", static_cast<uint16_t>(value));
+            } else {
+                std::snprintf(buf, 2 + 8 * sizeof(int), "%b", value);
+            }
+#else
             std::string temp;
             if (value < 0) {
                 uint16_t new_value = static_cast<uint16_t>(value);
@@ -178,6 +189,7 @@ String::String(int value, unsigned char base) {
                 temp.append("0");
             }
             std::snprintf(buf, 2 + 8 * sizeof(int), "%s", temp.c_str());
+#endif
     }
     *this = buf;
 }
@@ -196,12 +208,16 @@ String::String(unsigned int value, unsigned char base) {
             std::snprintf(buf, 1 + 8 * sizeof(unsigned int), "%o", value);
             break;
         case BIN:
+#if defined __GLIBC__ && __GLIBC__ >= 2 && __GLIBC_MINOR__ > 34
+            std::snprintf(buf, 1 + 8 * sizeof(unsigned int), "%b", value);
+#else
             std::string temp = std::bitset<8 * sizeof(unsigned int)>(value).to_string();
             temp.erase(0, temp.find_first_not_of("0"));
             if (temp.length() == 0) {
                 temp.append("0");
             }
             std::snprintf(buf, 1 + 8 * sizeof(unsigned int), "%s", temp.c_str());
+#endif
     }
     *this = buf;
 }
@@ -220,6 +236,13 @@ String::String(long value, unsigned char base) {
             std::snprintf(buf, 2 + 8 * sizeof(long), "%lo", value);
             break;
         case BIN:
+#if defined __GLIBC__ && __GLIBC__ >= 2 && __GLIBC_MINOR__ > 34
+            if (value < 0) {
+                std::snprintf(buf, 2 + 8 * sizeof(long), "%b", static_cast<uint32_t>(value));
+            } else {
+                std::snprintf(buf, 2 + 8 * sizeof(long), "%b", value);
+            }
+#else
             std::string temp;
             if (value < 0) {
                 uint32_t new_value = static_cast<uint32_t>(value);
@@ -232,6 +255,7 @@ String::String(long value, unsigned char base) {
                 temp.append("0");
             }
             std::snprintf(buf, 2 + 8 * sizeof(long), "%s", temp.c_str());
+#endif
     }
     *this = buf;
 }
@@ -250,12 +274,16 @@ String::String(unsigned long value, unsigned char base) {
             std::snprintf(buf, 1 + 8 * sizeof(unsigned long), "%lo", value);
             break;
         case BIN:
+#if defined __GLIBC__ && __GLIBC__ >= 2 && __GLIBC_MINOR__ > 34
+            std::snprintf(buf, 1 + 8 * sizeof(unsigned long), "%b", value);
+#else
             std::string temp = std::bitset<8 * sizeof(unsigned long)>(value).to_string();
             temp.erase(0, temp.find_first_not_of("0"));
             if (temp.length() == 0) {
                 temp.append("0");
             }
             std::snprintf(buf, 1 + 8 * sizeof(unsigned long), "%s", temp.c_str());
+#endif
     }
     *this = buf;
 }
