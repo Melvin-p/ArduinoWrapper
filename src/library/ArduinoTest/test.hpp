@@ -18,4 +18,7 @@
 #ifdef lcd_enabled
 #include <LcdIPC.hpp>
 #endif
+#ifdef eeprom_enabled
+#include <eepromIPC.hpp>
+#endif
 #include <SerialIPC.hpp>

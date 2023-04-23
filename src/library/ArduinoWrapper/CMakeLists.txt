@@ -49,7 +49,6 @@ add_library(
 if(lcd_enabled)
     target_link_libraries(ArduinoWrapper PRIVATE LcdProd)
     target_compile_definitions(ArduinoWrapper PUBLIC lcd_enabled)
-    target_compile_definitions(adwr_reuse PUBLIC lcd_enabled)
 endif()
 
 if(eeprom_enabled)

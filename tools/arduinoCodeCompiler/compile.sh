@@ -24,7 +24,7 @@ assuming sed supports -E flag
 COMMENT
 
 
-while getopts 'o:f:' options 
+while getopts 'o:f:b:' options 
 do
     case $options in
         o)
@@ -35,6 +35,10 @@ do
         IN_FILE=$OPTARG
         export IN_FILE
         ;;
+        b)
+        BIN_DIR=$OPTARG
+        export BIN_DIR
+        ;;
         *)
         exit 1
         ;;
@@ -43,6 +47,10 @@ done
 
 
 if [ -z "${OUT_DIR}" ] || [ -z "${IN_FILE}" ] ; then 
+    exit 1;
+fi
+
+if [ ! -d "$BIN_DIR" ] ; then
     exit 1;
 fi
 
@@ -100,7 +108,7 @@ if [ $? -ne 0 ]; then
     exit 172;
 fi
 
-c++ -o "$OUT_DIR/$filename_noext.out" "$OUT_DIR/main.cpp.o" -l:"$filename_noext.a" -l"ArduinoWrapper" -l"SerialProd" -l"boost_system" -L"$SCRIPT_DIR/../../build/Release/output/" -L"$OUT_DIR" -Wl,-rpath=./
+c++ -o "$OUT_DIR/$filename_noext.out" "$OUT_DIR/main.cpp.o" -l:"$filename_noext.a" -l"ArduinoWrapper" -l"SerialProd" -l"boost_system" -L"$BIN_DIR" -L"$OUT_DIR" -Wl,-rpath=./
 
 if [ $? -ne 0 ]; then
     exit 173;

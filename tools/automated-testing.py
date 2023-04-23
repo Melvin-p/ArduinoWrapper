@@ -217,7 +217,7 @@ def worker(job: tuple[str, str]) -> tuple[bool, str]:
     log.debug("Work Directory: " + work_dir)
     log.debug("Ino File: " + filename)
     log.debug("Output Directory: " + output_dir)
-    script_out = subprocess.run(["bash", compile_script_path, "-f" + job[0], "-o" + output_dir], capture_output=True)
+    script_out = subprocess.run(["bash", compile_script_path, "-f" + job[0], "-o" + output_dir, "-b" + bin_dir], capture_output=True)
     match script_out.returncode:
         case 0:
             log.info("file compiles for arduino")
