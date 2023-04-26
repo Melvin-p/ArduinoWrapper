@@ -66,11 +66,11 @@ def full_path(path: str) -> str:
 parser = argparse.ArgumentParser(
     prog="automated-tester",
     description="""
-    This program performs automated testing on arduino code executables.
-    you pass in a folder containing folders which contain ino files and 
-    an arduinoCodeTest executable.
+    This program performs automated testing on arduino sketches.
+    Pass in a folder containing folders containing sketches and 
+    the folder containing the built binaries.
     Then this program will compile the ino files and run the test executable on them.
-    you will need arduino-cli on your path
+    You will need arduino-cli on your path
     """
 )
 
@@ -217,7 +217,7 @@ def worker(job: tuple[str, str]) -> tuple[bool, str]:
     log.debug("Work Directory: " + work_dir)
     log.debug("Ino File: " + filename)
     log.debug("Output Directory: " + output_dir)
-    script_out = subprocess.run(["bash", compile_script_path, "-f" + job[0], "-o" + output_dir], capture_output=True)
+    script_out = subprocess.run(["bash", compile_script_path, "-f" + job[0], "-o" + output_dir, "-b" + bin_dir], capture_output=True)
     match script_out.returncode:
         case 0:
             log.info("file compiles for arduino")

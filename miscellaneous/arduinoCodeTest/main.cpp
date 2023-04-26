@@ -15,9 +15,12 @@
 #include <iostream>
 #include <test.hpp>  //contains all the necessary includes for the testing framework
 
-// these are needed for low level access
+/*
+these are needed for low level access
 #include <LcdIPC.hpp>
 #include <SerialIPC.hpp>
+#include <eepromIPC.hpp>
+*/
 
 bool run = true;
 
