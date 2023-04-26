@@ -26,7 +26,7 @@ project root
 └── .vscode                # vscode config
 ```
 
-![output](https://user-images.githubusercontent.com/70172420/223544693-05ad80b6-1380-42b9-8668-4e64ad1adbe1.svg)
+![output](https://user-images.githubusercontent.com/70172420/234536572-8febdc2f-30d4-4d71-b3a7-d3c085c850f9.svg)
 
 ## details
 
