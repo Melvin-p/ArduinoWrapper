@@ -50,6 +50,11 @@ Build options can be set when running the CMake commands
     Requires:  
     Dependencies:  
     builds with -Wpedantic -Wall -Wextra flags  
+- eeprom_enabled  
+    Default: ON  
+    Requires:  
+    Dependencies: boost  
+    turns on eeprom support  
 - lto  
     Default: ON  
     Requires:  
@@ -57,6 +62,7 @@ Build options can be set when running the CMake commands
     Builds with  link time optimisation on  
 
 ##  Dependencies
+**skip if using system package manager**  
 major version must match  
  - `boost-interprocess` 1.81
  - `boost-system` 1.81
@@ -82,14 +88,22 @@ Qt6 on VCPKG installs the default triplet alongside the the custom triplet even 
 ./vcpkg install qtbase[concurrent,core,dbus,doubleconversion,fontconfig,freetype,gui,harfbuzz,icu,pcre2,png,testlib,thread,widgets,xcb,xcb-xlib,xkb,xkbcommon-x11,xlib,xrender,zstd]:x64-linux-custom qtbase[concurrent,core,dbus,doubleconversion,fontconfig,freetype,gui,harfbuzz,icu,pcre2,png,testlib,thread,widgets,xcb,xcb-xlib,xkb,xkbcommon-x11,xlib,xrender,zstd]:x64-linux --overlay-triplets=[PATH TO custom-triplets folder]
 ```
 
-Now to build move to the project root and create a folder called build. Then run the following command (Ninja can be replace with another build system) to create the build system.
-Build options go in this command  
+## Build
+
+in the project root run
 ```
-cmake -DCMAKE_BUILD_TYPE:STRING=Release -DVCPKG_TARGET_TRIPLET:STRING=x64-linux-custom -DCMAKE_TOOLCHAIN_FILE=[Path To Your vcpkg.cmake] -DBUILD_SHARED_LIBS:BOOL=TRUE -G Ninja -B ./build/
+mkdir build/Release/ --parents
+```
+
+Then run the following command (Ninja can be replace with another build system) to create the build system.
+Build options go in this command. Remove `DCMAKE_TOOLCHAIN_FILE` if not using vcpkg.  
+
+```
+cmake -DCMAKE_BUILD_TYPE:STRING=Release -DVCPKG_TARGET_TRIPLET:STRING=x64-linux-custom -DCMAKE_TOOLCHAIN_FILE=[Path To Your vcpkg.cmake] -DBUILD_SHARED_LIBS:BOOL=TRUE -G Ninja -B ./build/Release/
 ```
 Then run to build
 ```
-cmake --build build/
+cmake --build build/Release
 ```
 
 Binaries produced will be in the output folder
